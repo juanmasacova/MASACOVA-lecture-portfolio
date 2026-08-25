@@ -1,4 +1,4 @@
-# MEGR 2157 – Design Portfolio
+# MEGR 2156 – Design Portfolio
 
 ![MEGR 2156-7 Title](MEGR2156title.png)
 
