@@ -56,10 +56,6 @@ As mentioned earlier I believe spacing is very important when trying to read lar
 
 
 ## Communicate
-**What does it mean to defend an engineering decision : and do you currently know how to do it?**
-
-I believe that to successfully defend your engineering decisions, they have to be backed by technical truth and user perspective. Technical truth would be the theory (physics, math, science) behind your solution, without this, it simply doesn't work as a solution. By user perspective I mean that the user of this solution, whether human or not, should understand the solution and agree that it is a positive way to fix the problem.
-
-I believe I know how to do it to an extent. I would be able to defend solutions regarding things I have a big interest for, or that I have worked on in the past. Each problem has it's nuances and before being able to defend a solution I should be able to understand these very well.
+Check about me section.
 
 I spent well over 5 hours on this assignment.
