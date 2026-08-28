@@ -6,9 +6,6 @@ Through Mechanical Engineering at UNC Charlotte, internships, robotics, and inde
 
 I am becoming an engineer focused on robotics, aerospace, and product development, particularly where mechanical design intersects with electronics, controls, and manufacturing. I want to work on systems where thoughtful mechanical design and practical problem-solving can make ideas into actually useful products.
 
-
-
-
 **What does it mean to defend an engineering decision : and do you currently know how to do it?**
 
 I believe that to successfully defend your engineering decisions, they have to be backed by technical truth and user perspective. Technical truth would be the theory (physics, math, science) behind your solution, without this, it simply doesn't work as a solution. By user perspective I mean that the user of this solution, whether human or not, should understand the solution and agree that it is a positive way to fix the problem.
