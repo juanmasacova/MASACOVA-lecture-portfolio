@@ -41,11 +41,17 @@ The patent number of this object is US581901A, invented by **WARREN W. COLE**. S
 
 
 ## Decide
-1. **Homepage Identity** I believe the first thing a visitor should know is "What are they visiting". It is organized in a way that the first thing a visitor sees is the answer to that specific question. Later as they go down in the home page they will be able to have more context about exactly what topics, projects, or tools I will be using to fill this portfolio. The standard I hold for this portfolio is that the spacing and size of the pages will be consistent and comfortable to read. I decided to limit the content of my homepage a lot because there is no need to overpopulate the home page with information that will be in other pages of the website, so it just gives a great overview of what you can find in the portfolio.
+1. **Homepage Identity**
 
-2. **One Intentional Customization** I decided to change the color scheme from red to green. I intentionally did this because this is a school portfolio, and as so it should reflect the branding of the institution. I believe this is important because I write almost as though this was a journal, and having the portfolio be the color scheme of the school serves as a reminder to stay formal and scholarly.
+I believe the first thing a visitor should know is "What are they visiting". It is organized in a way that the first thing a visitor sees is the answer to that specific question. Later as they go down in the home page they will be able to have more context about exactly what topics, projects, or tools I will be using to fill this portfolio. The standard I hold for this portfolio is that the spacing and size of the pages will be consistent and comfortable to read. I decided to limit the content of my homepage a lot because there is no need to overpopulate the home page with information that will be in other pages of the website, so it just gives a great overview of what you can find in the portfolio.
 
-3. **My Documentation Standard** As mentioned earlier I believe spacing is very important when trying to read large amounts of text, specially if it's technical, so I will hold myself to the standard of using 4 spaces after each section, 2 between tasks of the same section and a singular space from paragraph to paragraph. 
+3. **One Intentional Customization**
+
+I decided to change the color scheme from red to green. I intentionally did this because this is a school portfolio, and as so it should reflect the branding of the institution. I believe this is important because I write almost as though this was a journal, and having the portfolio be the color scheme of the school serves as a reminder to stay formal and scholarly.
+
+6. **My Documentation Standard**
+
+As mentioned earlier I believe spacing is very important when trying to read large amounts of text, specially if it's technical, so I will hold myself to the standard of using 4 spaces after each section, 2 between tasks of the same section and a singular space from paragraph to paragraph. 
 
 
 
