@@ -41,6 +41,30 @@ img {
   border-radius: 6px;
 }
 
+/*
+ * Shows only the middle 40% (vertically) of an image, cropping 30% off
+ * the top and 30% off the bottom without distorting the image.
+ * Usage: <div class="crop-middle" style="--crop-aspect: <img-width>/<img-height * 0.4>;">
+ *          <img src="..." alt="...">
+ *        </div>
+ * --crop-aspect must be the image's natural width divided by 40% of its
+ * natural height (e.g. a 3024x4032 photo -> 3024 / (4032 * 0.4) = 15/8).
+ */
+.crop-middle {
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: var(--crop-aspect, 16 / 9);
+  border-radius: 6px;
+}
+
+.crop-middle img {
+  position: absolute;
+  top: -75%;
+  left: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
 .layout {
   display: flex;
   min-height: 100vh;
