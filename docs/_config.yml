@@ -1,0 +1,10 @@
+title: MEGR 2157 – Design Portfolio
+description: Design portfolio documentation, built with the Analyze / Decide / Communicate framework
+baseurl: "/MASACOVA-lecture-portfolio"
+markdown: kramdown
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

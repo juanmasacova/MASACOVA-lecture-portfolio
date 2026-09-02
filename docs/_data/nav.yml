@@ -1,0 +1,33 @@
+- title: Home
+  url: /
+
+- title: About Me
+  url: /aboutme/
+
+- title: Portfolio Overview
+  url: /portfolio-overview.html
+
+- title: Assignments
+  children:
+    - title: A1
+      url: /assignments/A01/
+    - title: A2
+      url: /assignments/A02/
+    - title: A3
+      url: /assignments/A03/
+    - title: A4
+      url: /assignments/A04/
+    - title: A5
+      url: /assignments/A05/
+    - title: A6
+      url: /assignments/A06/
+    - title: A7
+      url: /assignments/A07/
+    - title: A8
+      url: /assignments/A08/
+    - title: A9
+      url: /assignments/A09/
+    - title: A10
+      url: /assignments/A10/
+    - title: A11
+      url: /assignments/A11/
