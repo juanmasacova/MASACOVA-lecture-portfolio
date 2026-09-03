@@ -4,10 +4,108 @@ title: "A2 – Truss Stress Analysis"
 <h1>A2 – Truss Stress Analysis</h1>
 
 <h2>Objective</h2>
+<p>The objective is to design and analyze a lightweight 6061-T6 aluminum planar truss, using FBDs, safety-factored area and pin sizing. Also use symbolic/numerical calculations to size members and pins, then validate the design by building a CAD model and comparing its weight against hand calculations.</p>
 
 <h2>Analyze</h2>
+<p>The first step is to figure out what information I know about the problem. The truss will be connected to A, B, C, D. Point A is a pin and point B is a roller. In the image below, the dimensions are a = 0.4m, b = 0.3m and P = 30kN.</p>
 
-<h2>Decide</h2>
-<p><em>Which geometry did you select, and why? This is your first open design choice in the course — defend it.</em></p>
+<img src="{{ '/assignments/A02/A2-1.png' | relative_url }}" alt="Truss support diagram showing points A, B, C, D with dimensions a, b and load P">
 
-<h2>Communicate</h2>
+<p>So I copied the image into Windows Paint and sketched a simple structure connecting the points, while restricting the angles of freedom that a roller and a pin support have. This way achieving a completely static structure. I made a triangle in the middle to further support the weight in C and D, which required adding point F (rigid connection). See picture below.</p>
+
+<img src="{{ '/assignments/A02/A2-2.png' | relative_url }}" alt="Sketch of the truss geometry with added point F and diagonal members drawn in blue">
+
+<p>Now below I will:</p>
+<ol>
+  <li>Sketch the truss and find the lengths of each bar.</li>
+  <li>Sketch a FBD of each joint in the truss.</li>
+  <li>Symbolically solve for internal forces.</li>
+  <li>Numerically solve for internal forces.</li>
+</ol>
+
+<img src="{{ '/assignments/A02/A2-3.jpg' | relative_url }}" alt="Handwritten free-body diagrams and force calculations for joints B, C, D, F, and A">
+
+<p>Now I'm instructed to use the largest internal force to calculate the required cross-sectional area of the bars using a safety factor of 3.5, and the yield strength. I will be calculating this using aluminum 6061-T6, with SolidWorks given values for the material. The work will be shown in the image below, following these steps:</p>
+<ol>
+  <li>A list of all the knowns and unknowns.</li>
+  <li>Symbolical solution for minimum cross-sectional area.</li>
+  <li>Numerical solution for the cross-sectional area.</li>
+  <li>The approximate weight of the truss.</li>
+</ol>
+
+<img src="{{ '/assignments/A02/A2-4.jpg' | relative_url }}" alt="Handwritten calculation of the minimum cross-sectional area and truss weight">
+
+<p>Now I have to determine the cross-sectional area of the connecting pins, which are made of hardened tool steel with a yield shear strength of 170 ksi and a density of 0.278 lb/in<sup>3</sup>. I am instructed to assume that elements that are in compression won't fail in buckling. I will paste my work below. The steps are the following:</p>
+<ol>
+  <li>A list of all the knowns, quantities and unknowns.</li>
+  <li>FBD of pin A, which is the pin with the largest reaction load.</li>
+  <li>Symbolical solution for minimum cross-sectional area.</li>
+  <li>Numerical solution for the cross-sectional area.</li>
+  <li>Determine the approximate combined weight of the pins.</li>
+</ol>
+
+<img src="{{ '/assignments/A02/A2-5.jpg' | relative_url }}" alt="Handwritten free-body diagram and calculation for pin A and the pin cross-sectional area and weight">
+
+<p>Now is finally time to 3D model the truss and pins. I will use SolidWorks student edition. I will start by designing the truss as a single part and then the pins as another part, assigning the correct material to each. Then I will make an assembly with the truss and the 5 pins and get a weight estimate with the weight evaluation tool in SolidWorks.</p>
+
+<p>First I open a sketch and using the front plane I add and fully constraint points A, B, C, D and F, using F as the origin. They are constrained by dimensions and horizontal constraints for B, F, A and for C, D.</p>
+
+<img src="{{ '/assignments/A02/A2-6.png' | relative_url }}" alt="SolidWorks sketch with points A, B, C, D, F placed and dimensioned">
+
+<p>Then I drew construction lines connecting the points…</p>
+
+<img src="{{ '/assignments/A02/A2-7.png' | relative_url }}" alt="SolidWorks sketch with construction lines connecting the truss points">
+
+<p>I calculated earlier that the bars should be 25.23mm X 25.23mm. I used the offset entities option, selected all construction lines, toggled bi-directional so that the offset is equal on both sides of the construction line, and made the offset dimension 25.23mm/2.</p>
+
+<img src="{{ '/assignments/A02/A2-8.png' | relative_url }}" alt="SolidWorks offset entities dialog showing the bar outlines offset from the construction lines">
+
+<p>Then trimmed any overlapping lines so that I could get the bar closed geometry.</p>
+
+<img src="{{ '/assignments/A02/A2-9.png' | relative_url }}" alt="SolidWorks sketch of the closed truss bar geometry highlighted before extrusion">
+
+<p>I saved the sketch. Then I clicked on the sketch and then clicked extrude. I extruded it 25.23mm so that all the bars are now 25.23mm X 25.23mm.</p>
+
+<img src="{{ '/assignments/A02/A2-10.png' | relative_url }}" alt="SolidWorks Boss-Extrude dialog with the truss profile highlighted in yellow">
+
+<p>I finally have the truss!!! This is taking forever…</p>
+
+<img src="{{ '/assignments/A02/A2-11.png' | relative_url }}" alt="Rendered 3D truss part without pin holes">
+
+<p>Now I have to make space for the pins. I calculated their diameter at 11.42mm. Here I could sketch the pin holes over the truss and cut the sketch, but I think it will be easier to edit the initial sketch since I already have the points sketched. So that's what I'll do. I'll draw circles at each previously marked point, dimension 1 of them to 11.42mm and then constraint all the other circles to equal size. It looks like this.</p>
+
+<img src="{{ '/assignments/A02/A2-12.png' | relative_url }}" alt="Rendered 3D truss part with pin holes at each joint">
+
+<p>Now it's time to design the pins, this should be easy. They are just cylinders with a diameter of 11.42mm and I'll extrude them to a length of 35.23mm so that they come out of the truss 5mm each side. I'll start by opening a new part on SolidWorks, then clicking the sketch and selecting the front plane again (so when I make the assembly it's already at the right angle). I'll make a 11.42mm circle using the center as the origin.</p>
+
+<img src="{{ '/assignments/A02/A2-13.png' | relative_url }}" alt="SolidWorks sketch of the pin circle with an 11.42 mm diameter">
+
+<p>Then exit the sketch and click extrude. Here I will extrude it to 35.23mm as I said earlier.</p>
+
+<img src="{{ '/assignments/A02/A2-14.png' | relative_url }}" alt="SolidWorks Boss-Extrude dialog showing the pin cylinder">
+
+<p>And the final product looks something like this.</p>
+
+<img src="{{ '/assignments/A02/A2-15.png' | relative_url }}" alt="Rendered 3D pin part">
+
+<p>Now I will put them together in an assembly and figure out the weight. I start by going back to the truss and then going to file→Make drawing from part. A new tab opened asking where I want to put the truss, I clicked the green tick mark so that it is placed at the origin. Once placed, I went to the "Basic Assembly Tools" tab and clicked on "Insert Components". I browsed my files for the pin and opened it in the assembly, then placed it somewhere random for now. I clicked the pin and copy-pasted it 4 times so that I have 5 pins floating around.</p>
+
+<img src="{{ '/assignments/A02/A2-16.png' | relative_url }}" alt="SolidWorks assembly with the truss and five pins placed nearby before mating">
+
+<p>Then I clicked "Mate" and selected the wall of one of the pins and the inside of one of the pin holes, and mated them using a concentric mate. Then I clicked one of the ends of that same pin and the wall of the truss and added a distance mate of 5mm. I will repeat this process for all 5 pins. It looks like this.</p>
+
+<img src="{{ '/assignments/A02/A2-17.png' | relative_url }}" alt="SolidWorks assembly with all five pins mated into the truss">
+
+<p>I was about to evaluate weight but I remembered that I didn't add any material to the parts, so I will do that right now. First I'll open the truss part and on the reference tree I will right click on material, then edit material, and on the menu that popped up I searched for 6061-T6 aluminum and clicked it, then hit "apply" and exit the menu.</p>
+
+<img src="{{ '/assignments/A02/A2-18.png' | relative_url }}" alt="SolidWorks material dialog assigning 6061-T6 aluminum to the truss">
+
+<p>Now I will do the same for the pin. I open the part, right click material, edit material, then search for hardened tool steel. I couldn't find a tool steel that had the exact properties I used to calculate the weight earlier, but I found something similar although a bit more dense called AISI Type A2 Tool Steel. It doesn't bother me because the weight of the pins is so small compared to the whole system that I don't think is going to make much of a difference. So I selected it and hit apply.</p>
+
+<img src="{{ '/assignments/A02/A2-19.png' | relative_url }}" alt="SolidWorks material dialog assigning AISI Type A2 Tool Steel to the pins">
+
+<p>Now I go back to the assembly and it is finally time to evaluate weight. Lets remember I calculated earlier that the truss weighs 5.71kg and the pins a combined weight of 0.045kg which adds up to 5.76kg. To evaluate the weight of my design in SolidWorks I go to the "Evaluate" tab and click "Mass Properties". Here I see that SolidWorks calculated my assembly weight at 5.70kg. Not bad, off by about 60g or 1.05%.</p>
+
+<img src="{{ '/assignments/A02/A2-20.png' | relative_url }}" alt="SolidWorks Mass Properties dialog showing an assembly mass of 5.70 kilograms">
+
+<p>One lesson learned from this project is that for an axially loaded member, cross-sectional shape does not affect the strength calculation, since stress is force divided by area regardless of geometry, which is why a square, round, or tubular cross-section of equal area all do the same. Shape only becomes relevant when buckling of a compression member is considered, which in this case, wasn't.</p>
