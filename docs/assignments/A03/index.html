@@ -1,12 +1,80 @@
 ---
-title: "A3 – [Topic]"
+title: "A3 – Parametric Design and FEA"
 ---
-<h1>A3 – [Topic]</h1>
+<h1>A3 – Parametric Design and FEA</h1>
 
 <h2>Objective</h2>
+<p>The objective is to design an aluminum bar under direct tension by linking its length to the load, material stiffness, and an allowable deflection through a parametric equation, instead of just picking a length by guessing. The applied load can be anywhere between 300 lbf and 500 lbf, and the material's Young's Modulus can be anywhere between 8.5x10^6 and 11.5x10^6 psi, but the max axial deflection has to stay under 0.009 in no matter where in those ranges the actual values land. After sizing the bar by hand, I will build it in SolidWorks with the length driven by that equation, then run a finite element analysis on it to check the deflection and von Mises stress against the hand calculation.</p>
 
-<h2>Analyze</h2>
+<h2>Analyze &amp; Parametric Design</h2>
+<p>The load is given as a range instead of a single number, so I decided to size the bar for the worst case inside that range: the highest load, 500 lbf. Once I pulled up the actual 6061-T6 material properties in SolidWorks I had a real Young's Modulus for this specific alloy (10,007,604 psi) instead of the generic 8.5–11.5x10^6 psi range, so I used that real value instead of guessing at a worst-case modulus. If the bar meets the 0.009 in deflection limit at 500 lbf, it will meet it for every lower load in the allowed range too.</p>
 
-<h2>Decide</h2>
+<p>I chose a circular cross section with a diameter of 0.5 in, which gives a cross-sectional area of 0.19635 in^2. Then I used the direct tension elongation equation from the Machinery's Handbook, δ = FL/(AE), and solved it for length using the worst-case load and the actual modulus. That gave me a required length of 35.37 in.</p>
 
-<h2>Communicate</h2>
+<p>I also checked the stress in the bar and it came out to about 2,546.6 psi, which against the SolidWorks yield strength of 39,885.38 psi for 6061-T6 (essentially the 40 ksi the assignment references) gives a safety factor of roughly 15.66. That told me this design is governed by deflection, not by strength, since the bar could handle a lot more stress than it will ever see. Using the SolidWorks density of 0.0975436609 lb/in^3, the weight of the bar works out to about 0.677 lb.</p>
+
+<img src="{{ '/assignments/A03/GeneralWork.png' | relative_url }}" alt="Hand calculations for the given values, cross-sectional area, required length from the elongation equation, stress check, safety factor, and weight">
+
+<h2>Decide: Parametric CAD Model</h2>
+<p>In SolidWorks I set up global variables for the load, the modulus, the allowable deflection, and the diameter, then linked the length as a driven equation using the same elongation formula from the hand calculation. That way, if any of the inputs change, the bar's length updates automatically instead of me having to redo the math and re-model it by hand.</p>
+
+<img src="{{ '/assignments/A03/GlobalVariablesMenu.png' | relative_url }}" alt="SolidWorks Equations, Global Variables, and Dimensions menu showing d, E, F, delta_max, A, and L linked by formula, with L evaluating to 35.37 in">
+
+<p>The area A is driven by the diameter through A = (pi*d^2)/4, and the length L is driven by L = (delta_max*A*E)/F, so both update automatically if I change the diameter or any of the load case values.</p>
+
+<p>I used the variable d to represent the diameter of the circle, so the sketch dimension below is tied directly to that global variable instead of being a fixed number.</p>
+
+<img src="{{ '/assignments/A03/CrossSectionSketch.png' | relative_url }}" alt="Sketch of the circular cross section with a 0.50 in diameter dimension driven by the global variable d">
+
+<p>I extruded that circle with the depth set to the global variable L instead of a typed number, so the bar's length is fully driven by the equation.</p>
+
+<img src="{{ '/assignments/A03/LengthExtrusion.png' | relative_url }}" alt="Boss-Extrude dialog showing the extrusion depth set to the equation variable L">
+
+<p>Then I assigned the actual 6061-T6 aluminum material from the SolidWorks library, which is where the real Young's Modulus, yield strength, and density values used throughout this design came from.</p>
+
+<img src="{{ '/assignments/A03/MaterialSelection.png' | relative_url }}" alt="SolidWorks material dialog assigning 6061-T6 aluminum with Elastic Modulus 10007604 psi, Yield Strength 39885.37799 psi, and Mass Density 0.0975436609 lb/in^3">
+
+<p>Here is the finished bar, 35.37 in long and 0.5 in in diameter.</p>
+
+<img src="{{ '/assignments/A03/FinishedBar.png' | relative_url }}" alt="Isometric view of the finished parametric aluminum bar">
+
+<h2>FEA Results</h2>
+<p>To verify the hand calculation, I ran a static study on the bar with one end fixed and a 500 lbf tensile load applied to the opposite face, matching the worst-case loading used in the parametric design. Since the bar has a uniform circular cross section with no stress concentrations, the default mesh was fine without any refinement.</p>
+
+<img src="{{ '/assignments/A03/FixingOneEnd.png' | relative_url }}" alt="Fixed geometry restraint applied to one end face of the bar">
+
+<img src="{{ '/assignments/A03/OppositeEndAxialForce.png' | relative_url }}" alt="500 lbf axial force applied normal to the opposite end face of the bar">
+
+<p>The displacement plot below shows a maximum resultant displacement (URES) of 9.005e-03 in at the free end, right in line with the 0.009 in target from the hand calculation.</p>
+
+<img src="{{ '/assignments/A03/DisplacementPlot.png' | relative_url }}" alt="URES displacement plot showing a maximum displacement of 9.005e-03 in at the free end of the bar">
+
+<p>The von Mises stress plot below shows a maximum stress of 2,756 psi. SolidWorks also marks the yield strength on the plot at 3.989e+04 psi (about 39,890 psi), matching the material's yield strength almost exactly. Comparing that to the max stress gives a safety factor of about 14.47.</p>
+
+<img src="{{ '/assignments/A03/VonMissesPlot.png' | relative_url }}" alt="Von Mises stress plot in psi showing a maximum stress of 2,756 psi with the yield strength marker at 3.989e+04 psi">
+
+<h2>Design Reflection</h2>
+<p>The hand calc was built to land right at 0.009 in of deflection, and the FEA came back with 0.009005 in. The percent difference is just:</p>
+
+<p>% error = |FEA value − hand calc value| / hand calc value × 100<br>
+% error = |0.009005 − 0.009| / 0.009 × 100 ≈ 0.06%</p>
+
+<p>That is basically nothing, and it's probably just rounding piling up along the way, like carrying the length as 35.37 in instead of the full decimal, plus the mesh breaking the bar into small chunks instead of one continuous piece.</p>
+
+<p>The stress numbers are a bit further apart: 2,546.6 psi by hand versus 2,756 psi from the FEA, about 8.2% higher. That gap isn't rounding, it's Saint-Venant's principle, meaning the stress right next to the fixed end and the loaded face doesn't spread out evenly the way the hand calc assumes. I'd trust the FEA stress more here since it's picking up on something real the hand calc can't see, but I'd trust the deflection numbers from either method about equally, since they matched so closely.</p>
+
+<p>For the pin hole, I imagined a 0.15 in diameter hole on the left side of the bar, treated as a flat bar for the chart lookup. That gives a hole diameter to width ratio of d/W = 0.15/0.5 = 0.3, which on a Peterson's chart for a hole in a flat bar under tension gives a stress concentration factor of about Kt = 2.1. Using the nominal stress away from the hole (2,546.6 psi), the peak stress at the hole comes out to Kt times that, about 5,347.9 psi. Comparing that against the yield strength gives a safety factor of about 7.46, so even with a fairly substantial hole, the bar would still hold up with a solid margin left over.</p>
+
+<img src="{{ '/assignments/A03/PinHoleWork.png' | relative_url }}" alt="Hand calculation of the pin hole stress concentration factor Kt, peak stress at the hole, and resulting safety factor">
+
+<h2>Lessons Learned</h2>
+<p>Going in, I figured I'd just use the Young's Modulus range straight from the assignment and pick the worst-case end of it. But once I actually got into SolidWorks and pulled up the 6061-T6 material, it had its own specific modulus, yield strength, and density baked in, which was different from the generic range the assignment gave. That meant redoing my hand calc with the real number instead of the one I originally planned on, which was a good reminder to check the actual material data before locking in a hand calc.</p>
+
+<p>I also almost rounded the length down by hand before modeling it, the way I would for a normal one-off calculation. But since the whole point of this assignment is a parametric model, I caught myself and just let the CAD equation carry the full decimal value instead, which ended up mattering later since it's part of why the hand calc and the FEA deflection lined up so closely.</p>
+
+<p>The stress concentration part threw me off a bit too, since the bar itself is round but the Kt chart I needed was for a hole in a flat bar. I had to just treat the round bar's diameter as if it were the bar's width to get a d/W ratio, which felt a little off at first, but it's the standard way to approximate it when you don't have a chart made specifically for round stock.</p>
+
+<p>It took about three hours from start to finish.</p>
+
+<h2>CAD Files</h2>
+<p><em>[Link to the .SLDPRT file to be added once it is uploaded]</em></p>
