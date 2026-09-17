@@ -1,12 +1,178 @@
 ---
-title: "A4 – [Topic]"
+title: "A4 – Motor Mount Design"
 ---
-<h1>A4 – [Topic]</h1>
+<h1>A4 – Motor Mount Design</h1>
 
 <h2>Objective</h2>
+<p>The objective is to design an L-shaped motor mount that holds a Brushed 24V DC Gear Motor to a rigid wall A. The motor shaft takes a load of P = 300 N at its tip, normal to the axis of rotation. The mount is split into two features: Feature 1 is the plate the motor bolts to, and Feature 2 is the plate that bolts to the wall. Each feature gets sized twice, first for yield strength with a safety factor of 3, and then for a max deflection of 0.30 mm at the free end. Whichever answer is bigger wins. After that I'll sketch the mount by hand and build it as a parametric model in SolidWorks.</p>
 
-<h2>Analyze</h2>
+<h2>Knowns and Assumptions</h2>
+<p>The first thing I did was figure out what I actually know. The load is P = 300 N and it acts 16 mm from the motor face, so the moment it puts on the mount is M = P × a = 300 N × 16 mm = 4,800 N·mm. From the motor drawing in Appendix A, the motor body is Ø28 mm, the boss on the front face is Ø18 mm and 2 mm long, the shaft is Ø6 mm, and the four M3 mounting holes sit on a Ø22 mm bolt circle.</p>
 
-<h2>Decide</h2>
+<p>For the material I went with ABS, since it's one of the three allowed options and it's what I'd most likely print with. I pulled the properties straight from the SolidWorks material library. SolidWorks shows them in kgf/cm², so I converted them to MPa (1 kgf/cm² = 0.0980665 MPa):</p>
 
-<h2>Communicate</h2>
+<p>E = 20,394.2 kgf/cm² × 0.0980665 = 2,000 MPa</p>
+
+<img src="{{ '/assignments/A04/SolidWorksABSmaterialMenu.png' | relative_url }}" alt="SolidWorks material dialog for ABS showing an elastic modulus of 20394.2 kgf/cm^2, tensile strength of 305.913 kgf/cm^2, and a blank yield strength field">
+
+<p>The yield strength field is blank for ABS in SolidWorks, so instead of guessing I looked up a published number. Jaycon's ABS material data lists a tensile yield strength of about 40 MPa for standard ABS (see Appendix). With the safety factor of 3, the allowable stress is:</p>
+
+<p>σ<sub>allow</sub> = S<sub>y</sub> / n = 40 MPa / 3 = 13.33 MPa</p>
+
+<p>To keep the analysis simple I followed Appendix B and made these assumptions:</p>
+<ul>
+  <li>Each feature is treated as a cantilever beam with a rectangular cross section of width b and thickness h.</li>
+  <li>The fixed end of each feature has zero deflection and zero slope.</li>
+  <li>The load on each feature is the end moment M = P × a.</li>
+  <li>The weight of the motor is neglected.</li>
+  <li>The safety factor of 3 covers the stress concentrations from the shaft hole and the screw holes, so I don't calculate those separately.</li>
+  <li>Both features use the same width, b = 40 mm, which gives the Ø28 mm motor 6 mm of plate on each side.</li>
+</ul>
+
+<p>Since the width is fixed, the unknown for both features is the thickness h.</p>
+
+<img src="{{ '/assignments/A04/KnownsAndUnknowns.jpeg' | relative_url }}" alt="Handwritten list of knowns P, a, M, Sy, n, E, delta max, b, L1, L2, and the unknowns h1 and h2">
+
+<h2>Feature 1</h2>
+<p>Feature 1 is the plate the motor bolts to. The moment from the shaft load lands on it right at the motor, and it's held by the bend where it meets Feature 2. So it acts like a cantilever with the fixed end at the bend and the moment PL at the free end.</p>
+
+<h3>Knowns and Unknowns</h3>
+<ul>
+  <li>P = 300 N</li>
+  <li>a = 16 mm (distance from the motor face to the load on the shaft)</li>
+  <li>M = P × a = 4,800 N·mm</li>
+  <li>S<sub>y</sub> = 40 MPa</li>
+  <li>n = 3</li>
+  <li>E = 2,000 MPa</li>
+  <li>δ<sub>max</sub> = 0.30 mm</li>
+  <li>b = 40 mm</li>
+  <li>L<sub>1</sub> = 25 mm (distance from the shaft center to the inside face of Feature 2). I picked this so the Ø28 mm motor body clears Feature 2 by 11 mm.</li>
+  <li>Unknown: thickness h<sub>1</sub></li>
+</ul>
+
+<h3>Free Body Diagram</h3>
+<p>The FBD shows Feature 1 as a beam of length L<sub>1</sub>, fixed at the bend, with the moment M = PL at the free end where the motor is. At the fixed end there's a reaction moment equal and opposite to M. The 300 N force also runs along the length of this plate, but that only makes a small axial stress of about 0.8 MPa, so I left it out.</p>
+
+<img src="{{ '/assignments/A04/FeatureOneMath.jpeg' | relative_url }}" alt="Handwritten FBD, symbolic solution, and numeric solution for Feature 1, solving for h1 under stress and deflection">
+
+<p>Deflection controls, so h<sub>1</sub> = 9.09 mm.</p>
+
+<h2>Feature 2</h2>
+<p>Feature 2 is the plate that bolts to wall A. The bolts hold it tight to the wall, so the part that can actually bend is the short section between the bend and the first row of bolts. That section acts like a cantilever fixed at the bolts, with the same moment PL coming in from Feature 1 at the bend.</p>
+
+<h3>Knowns and Unknowns</h3>
+<ul>
+  <li>P = 300 N</li>
+  <li>a = 16 mm</li>
+  <li>M = P × a = 4,800 N·mm</li>
+  <li>S<sub>y</sub> = 40 MPa</li>
+  <li>n = 3</li>
+  <li>E = 2,000 MPa</li>
+  <li>δ<sub>max</sub> = 0.30 mm</li>
+  <li>b = 40 mm</li>
+  <li>L<sub>2</sub> = 15 mm (free length from the inside face of Feature 1 to the first row of wall bolts). I picked this to leave room for the bend fillet and the bolt heads.</li>
+  <li>Unknown: thickness h<sub>2</sub></li>
+</ul>
+
+<h3>Free Body Diagram</h3>
+<p>The FBD shows the free section of Feature 2 as a beam of length L<sub>2</sub>, fixed at the first bolt row, with the moment M = PL at the bend end. At the bolts there's a reaction moment equal and opposite to M.</p>
+
+<img src="{{ '/assignments/A04/FeatureTwoMath.jpeg' | relative_url }}" alt="Handwritten FBD and numeric solution for Feature 2, solving for h2 under stress and deflection">
+
+<p>Stress controls, so h<sub>2</sub> = 7.35 mm.</p>
+
+<h2>Sketch</h2>
+<p>With both thicknesses figured out, I sketched the mount by hand: a side view showing the L-profile and the FBD moments, a top view of Feature 1 with the motor holes, a front view of Feature 2 with the wall holes, and an isometric view of the whole part.</p>
+
+<img src="{{ '/assignments/A04/DimensionedSketches.jpeg' | relative_url }}" alt="Handwritten side, top, front, and isometric sketches of the motor mount with all dimensions called out">
+
+<h2>CAD Model (Parametric)</h2>
+<p>Before modeling anything, I set up global variables in the Equations menu so the two thicknesses come from the same formulas as the hand calc instead of being typed in as fixed numbers.</p>
+
+<img src="{{ '/assignments/A04/GlobalVarialblesAndEquations.png' | relative_url }}" alt="SolidWorks Equations, Global Variables, and Dimensions menu showing P, a, M, Sy, n, E, delta, b, L1, L2, h1s, h1d, h1, h2s, h2d, and h2, with h1 evaluating to 9.09 and h2 evaluating to 7.35">
+
+<p>With those in place, h1 solves to 9.09 mm and h2 to 7.35 mm automatically, so every extrude below just points at the variable instead of a typed value. If I ever change the load, the material, or the deflection limit, both thicknesses update on their own.</p>
+
+<p>I built Feature 1 first, then Feature 2, cutting each set of holes right after the base that needed them.</p>
+
+<p>Sketched a 40 × 45 mm rectangle on the top plane for Feature 1's base, centered on the origin with construction lines.</p>
+
+<img src="{{ '/assignments/A04/1-Feature1Base.png' | relative_url }}" alt="Sketch of a 40mm by 45mm rectangle centered on the origin with construction lines">
+
+<p>Boss-Extrude menu: set Direction 1 to Blind, depth linked to the global variable h1 (9.09 mm), hit the green check.</p>
+
+<img src="{{ '/assignments/A04/2-Feature1Extrude.png' | relative_url }}" alt="Boss-Extrude property manager set to Blind, 9.09mm depth">
+
+<p>On the top face, added horizontal and vertical center lines to find the middle, sketched a 22 mm construction circle, then put one circle at each point where a center line crosses that circle. Selected all four and added an equal relation, then dimensioned one to 3 mm.</p>
+
+<img src="{{ '/assignments/A04/3-MotorMountHoleSketch.png' | relative_url }}" alt="Sketch of four equal 3mm circles on a 22mm bolt circle construction, centered on the base">
+
+<p>Cut-Extrude menu: set Direction 1 to Through All, hit the green check.</p>
+
+<img src="{{ '/assignments/A04/4-MotorMountHoleCut.png' | relative_url }}" alt="Cut-Extrude property manager set to Through All for the four motor screw holes">
+
+<p>Sketched center lines again on the top face and drew a circle for the motor boss pocket. My sketch originally called for 19 mm, but that touches the wall of the mounting screw holes and leaves zero-thickness material there, so I dropped it to 18.5 mm instead. That still clears the motor's 18 mm lip fine.</p>
+
+<img src="{{ '/assignments/A04/5-MotorPocketSketch.png' | relative_url }}" alt="Sketch of an 18.5mm circle for the motor boss pocket, centered with the four screw holes visible around it">
+
+<p>Cut-Extrude menu: Blind, depth 2.5 mm.</p>
+
+<img src="{{ '/assignments/A04/6-MotorPocketCut.png' | relative_url }}" alt="Cut-Extrude property manager set to Blind, 2.5mm depth, cutting the motor boss pocket">
+
+<p>Sketched an 8 mm circle at the origin, on the floor of the pocket, for the shaft.</p>
+
+<img src="{{ '/assignments/A04/7-ShaftHoleSketch.png' | relative_url }}" alt="Sketch of an 8mm circle centered in the motor boss pocket for the shaft">
+
+<p>Cut-Extrude menu: Through All.</p>
+
+<img src="{{ '/assignments/A04/8-ShaftHoleCut.png' | relative_url }}" alt="Cut-Extrude property manager set to Through All for the shaft hole">
+
+<p>For Feature 2, sketched a rectangle on one of the 40 mm side faces of Feature 1, starting from its bottom-left corner, and added a collinear relation between the sketch's right edge and Feature 1's face. It's just a rough size at this point, not dimensioned yet.</p>
+
+<img src="{{ '/assignments/A04/9-feature2baseNonConstrainedOrDimensioned.png' | relative_url }}" alt="Undimensioned sketch of the Feature 2 rectangle on the side face of Feature 1, with a collinear relation to Feature 1's edge">
+
+<p>Dimensioned the sketch's height to 59.09 mm, which is the 50 mm free length plus Feature 1's 9.09 mm thickness so Feature 2 lines up right at the top of Feature 1.</p>
+
+<img src="{{ '/assignments/A04/10-Feature2BaseConstrainedSketch.png' | relative_url }}" alt="Feature 2 sketch dimensioned to 59.09mm total height">
+
+<p>Boss-Extrude menu: Blind, depth linked to the global variable h2 (7.35 mm), extruded away from Feature 1.</p>
+
+<img src="{{ '/assignments/A04/11-Feature2Extruded.png' | relative_url }}" alt="Boss-Extrude property manager set to Blind, 7.35mm, extruding Feature 2 upward">
+
+<p>On the inside face of Feature 2, added two horizontal construction lines (15 mm and 40 mm above Feature 1) and two vertical ones (10 mm in from each side). Put a circle at each of the four crossing points, ctrl-selected all four and made them equal, then dimensioned one to 3.4 mm.</p>
+
+<img src="{{ '/assignments/A04/12-Feature2HolesSketch.png' | relative_url }}" alt="Sketch of four equal 3.4mm wall bolt holes on Feature 2, located by 10mm, 15mm, and 40mm construction lines">
+
+<p>Cut-Extrude menu: Through All.</p>
+
+<img src="{{ '/assignments/A04/13-Feature2HolesCut.png' | relative_url }}" alt="Cut-Extrude property manager set to Through All for the four wall bolt holes">
+
+<p>Last, added a 4 mm fillet on the inside edge where Feature 1 and Feature 2 meet, to spread the bend out and cut down on stress and deflection right at the corner.</p>
+
+<img src="{{ '/assignments/A04/14-InsideCornerFillet.png' | relative_url }}" alt="Fillet property manager showing a 4mm symmetric fillet applied to the inside edge between Feature 1 and Feature 2">
+
+<p>Here's the finished mount.</p>
+
+<img src="{{ '/assignments/A04/FinalCADMotorMount.png' | relative_url }}" alt="Isometric view of the finished motor mount with all holes, the boss pocket, and the inside fillet">
+
+<h2>Lessons Learned</h2>
+<p>Stress and deflection didn't always point to the same feature. Feature 1 needed more thickness for deflection, Feature 2 needed more for stress, even though they carry the same moment. Length is what tips it one way or the other.</p>
+
+<p>The pocket size taught me something too, just not the way I expected. I didn't catch the zero-thickness problem by eye, SolidWorks simply refused the cut when I tried it at 19 mm. It was a good reminder that the software will stop you from cutting into nothing, but it won't warn you ahead of time, so it's still worth leaving real margin between features instead of finding out the hard way.</p>
+
+<p>It took about 4 hours from start to finish.</p>
+
+<h2>CAD Files</h2>
+<ul>
+  <li><a href="{{ '/assignments/A04/MotorMount.SLDPRT' | relative_url }}" download>MotorMount.SLDPRT</a></li>
+</ul>
+
+<h2>Motor Mount Research / Sources</h2>
+<p>Looking at the Pololu brackets confirmed the basic L-shape and hole pattern I went with, and the Printables bracket is what gave me the idea to stiffen the bend, which is part of why I added the fillet there.</p>
+<ul>
+  <li><a href="https://www.pololu.com/product/1084">Pololu Stamped Aluminum L-Bracket Pair for 37D mm Metal Gearmotors</a>: a simple L-bracket with basically the same layout as this assignment, with seven M3 holes along each edge</li>
+  <li><a href="https://www.pololu.com/product/1995">Pololu Machined Aluminum Bracket for 37D mm Metal Gearmotors</a>: a machined bracket for the same motors</li>
+  <li><a href="https://www.printables.com/model/476229-775-motor-mounting-brackets">775 Motor Mounting Brackets on Printables</a>: a 3D printed bracket that comes in a simple version and a reinforced version with gussets</li>
+  <li><a href="https://nfpshop.com/product/28mm-planetary-gear-motor-model-nfp-28-385">28mm Planetary Gear Motor (NFP-GA28Y-385)</a>: a motor with the same Ø28 mm body and Ø6 mm shaft, useful for comparing mounting patterns</li>
+  <li><a href="https://www.jaycon.com/mechanical-thermal-uv-performance-of-abs-plastic/">Jaycon – ABS Plastic: Mechanical, Thermal and UV Data</a>: source for the ABS tensile yield strength of ~40 MPa used in the calculations, since SolidWorks left that field blank</li>
+</ul>
