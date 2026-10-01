@@ -1,12 +1,43 @@
 ---
-title: "A5 – [Topic]"
+title: "A05 - Bracket Design"
 ---
-<h1>A5 – [Topic]</h1>
+<h1>A05 - Bracket Design</h1>
 
 <h2>Objective</h2>
+<p>The objective is to detail design a bracket that holds a polyester strap and hangs from a rigid T-beam. The bracket has five features: Feature A is the cylinder the strap wraps around, Feature B is the plate that connects the cylinder to the block, and Features C, D and E are the dimensions of the T-slot in the block. Each feature was sized twice, once for strength (safety factor 4) and once for a 0.005 in deflection limit, and the reaction from each feature became the load on the next, starting at A.</p>
 
-<h2>Analyze</h2>
+<h2>Note on Submission</h2>
+<p>I missed the deadline for this assignment. The full mathematical work (knowns, unknowns, assumptions, free body diagrams, algebraic models, and numerical solutions for all five features, both stress and stiffness) is in the PDF below rather than typed out on this page.</p>
 
-<h2>Decide</h2>
+<h2>Mathematical Work</h2>
+<p>Handwritten knowns, unknowns, free body diagrams, algebraic models, and numerical solutions for each feature, both stress and stiffness. The full PDF is also available below.</p>
 
-<h2>Communicate</h2>
+<img src="{{ '/assignments/A05/math-pages/page-01.png' | relative_url }}" alt="Handwritten knowns, FBD, stress and stiffness solution for Feature A, the cylinder">
+<img src="{{ '/assignments/A05/math-pages/page-02.png' | relative_url }}" alt="Handwritten knowns, FBD, stress and stiffness solution for Feature B, the connecting plate">
+<img src="{{ '/assignments/A05/math-pages/page-03.png' | relative_url }}" alt="Handwritten knowns, FBD, stress and stiffness solution for Feature C, the bottom wall of the T-slot">
+<img src="{{ '/assignments/A05/math-pages/page-04.png' | relative_url }}" alt="Handwritten knowns, FBD, stress and stiffness solution for Feature D, the height of the T-slot">
+<img src="{{ '/assignments/A05/math-pages/page-05.png' | relative_url }}" alt="Handwritten knowns, FBD, stress and stiffness solution for Feature E, the overhang of the T-slot">
+
+<ul>
+  <li><a href="{{ '/assignments/A05/A05.pdf' | relative_url }}" download>A05.pdf</a></li>
+</ul>
+
+<h2>Material</h2>
+<p>Aluminum 6061-T6, from the SolidWorks material library: E = 10,007,604 psi, S<sub>y</sub> = 39,885 psi.</p>
+<img src="{{ '/assignments/A05/MaterialPropertiesTableAndMaterialSecelction.png' | relative_url }}" alt="SolidWorks material dialog for 6061-T6 aluminum showing elastic modulus, yield strength, and other mechanical properties">
+
+<h2>Winning Dimensions</h2>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Model</th><th>Stress result</th><th>Stiffness result</th><th>Governing dimension</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>A - Cylinder</td><td>Cantilever, uniform load</td><td>r = 0.4675 in</td><td>r = 0.2671 in</td><td>d = 0.935 in</td></tr>
+    <tr><td>B - Plate</td><td>Axial bar</td><td>t = 0.172 in</td><td>t = 0.051 in (L = 1.5 in)</td><td>t = 0.172 in</td></tr>
+    <tr><td>C - Bottom wall</td><td>Simply supported, center load</td><td>t = 0.621 in</td><td>t = 0.307 in</td><td>t = 0.621 in</td></tr>
+    <tr><td>D - Slot height</td><td>Axial bar</td><td>t = 0.086 in</td><td>t = 0.017 in</td><td>t = 0.086 in</td></tr>
+    <tr><td>E - Overhang</td><td>Cantilever, tip load</td><td>t = 0.507 in</td><td>t = 0.204 in</td><td>t = 0.507 in</td></tr>
+  </tbody>
+</table>
+
+<p>Stress is the driver for every dimension on this part; the stiffness requirement of 0.005 in never governs any feature.</p>
