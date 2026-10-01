@@ -1,0 +1,7 @@
+*.pdf -text
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.SLDPRT -text
+*.SLDDRW -text
+*.SLDASM -text

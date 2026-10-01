@@ -1,12 +1,68 @@
 ---
-title: "A6 – [Topic]"
+title: "A06 - Parametric Bracket and Drawing"
 ---
-<h1>A6 – [Topic]</h1>
+<h1>A06 - Parametric Bracket and Drawing</h1>
 
 <h2>Objective</h2>
+<p>The objective is to take the five hand-calculated dimensions from A05 (the bracket that holds the strap and hangs off the T-beam) and rebuild them as a fully parametric SolidWorks model. Every dimension on every feature is tied to a global variable instead of a typed number, so the whole part updates on its own if the load, the material, or the T-beam's fit tolerances ever change. After the model, I laid out a fully dimensioned multiview drawing with the fit tolerances from the T-beam called out on the mating dimensions.</p>
 
-<h2>Analyze</h2>
+<h2>Global Variables and Equations</h2>
+<p>Before modeling anything, I set up every load, material property, and feature dimension as a global variable in the Equations manager. The load and material values feed the strength equation for each feature, which feeds the dimension, so nothing downstream is a typed-in number.</p>
 
-<h2>Decide</h2>
+<img src="{{ '/assignments/A06/globalvariables.png' | relative_url }}" alt="SolidWorks Equations, Global Variables, and Dimensions menu showing F, P, n, Sy, Emod, dmax, and every feature variable from A through E evaluating automatically">
 
-<h2>Communicate</h2>
+<p>A correction partway through: I had originally mapped the T-beam's fit dimensions onto the T-slot wrong, which gave the slot's chamber a width of 1.5 in. Going back to the T-beam drawing, the chamber actually has to clear the full flange width, 2(0.9992) + 0.498 &asymp; 2.5 in, so <code>C</code> moved from 1.5 in to 2.5 in. That one change rippled through <code>M_C</code>, <code>Z_C</code>, and <code>t_C</code> on its own, and through <code>E_len</code>, <code>M_E</code>, <code>Z_E</code>, and <code>t_E</code> too, since E is sized off of C. I didn't have to touch any of those by hand.</p>
+
+<h2>Building the Model</h2>
+<p>I built the five features in load-path order, A through E, same as the hand calculations, so each feature's cross section ties back to the cylinder's diameter.</p>
+
+<img src="{{ '/assignments/A06/1-sketchfeatureA.png' | relative_url }}" alt="Sketch of the 0.93 in diameter circle for Feature A">
+<p>Sketching the 0.93 in circle for the cylinder.</p>
+
+<img src="{{ '/assignments/A06/2-extrudefeatureA.png' | relative_url }}" alt="Boss-Extrude dialog extruding the circle 1.00 in to form the cylinder">
+<p>Extruding the cylinder 1.00 in.</p>
+
+<img src="{{ '/assignments/A06/3-sketchfeatureB.png' | relative_url }}" alt="Sketch of a 0.93 in by 1.50 in rectangle for Feature B on the end of the cylinder">
+<p>Sketching the plate on the cylinder's end face.</p>
+
+<img src="{{ '/assignments/A06/4-extrudefeatureB.png' | relative_url }}" alt="Boss-Extrude dialog extruding the plate 0.17 in thick">
+<p>Extruding the plate 0.17 in thick.</p>
+
+<img src="{{ '/assignments/A06/5-sketchfeatureC.png' | relative_url }}" alt="Sketch of the rectangle for Feature C, the T-slot's bottom wall">
+<p>Sketching the T-slot's bottom wall on top of the plate.</p>
+
+<img src="{{ '/assignments/A06/6-extrudefeatureC.png' | relative_url }}" alt="Boss-Extrude dialog extruding the bottom wall of the T-slot">
+<p>Extruding the bottom wall.</p>
+
+<img src="{{ '/assignments/A06/7-sketchfeatured.png' | relative_url }}" alt="Sketch of the rectangle for Feature D, the T-slot's side wall">
+<p>Sketching the T-slot's side wall above the bottom wall.</p>
+
+<img src="{{ '/assignments/A06/8-extrudefeatured.png' | relative_url }}" alt="Boss-Extrude dialog extruding the side wall 0.09 in thick">
+<p>Extruding the side wall 0.09 in thick.</p>
+
+<img src="{{ '/assignments/A06/9-sketchfeaturee.png' | relative_url }}" alt="Sketch of two 1.09 in rectangles for Feature E, the overhangs that close the T-slot">
+<p>Sketching the two overhangs that wrap around the T-beam's flange.</p>
+
+<img src="{{ '/assignments/A06/10-extrudefeaturee.png' | relative_url }}" alt="Boss-Extrude dialog extruding both overhangs to finish the T-slot">
+<p>Extruding both overhangs, closing the T-slot.</p>
+
+<h2>Finished Part</h2>
+<img src="{{ '/assignments/A06/FINISHEDPART.png' | relative_url }}" alt="Isometric view of the finished bracket, showing the cylinder, the connecting plate, and the T-slot formed by Features C, D, and E">
+
+<h2>Engineering Drawing</h2>
+<p>The drawing is laid out in third angle projection with a tolerance block (X.X &plusmn; .02, X.XX &plusmn; .01, X.XXX &plusmn; .005) and the three mating dimensions toleranced to match the T-beam's RC fit classes from A05.</p>
+
+<img src="{{ '/assignments/A06/BRACKETENGINEERINGDRAWING.png' | relative_url }}" alt="Fully dimensioned multiview drawing of the bracket with a tolerance block and the T-slot fit tolerances called out">
+
+<h2>Downloadable Files</h2>
+<ul>
+  <li><a href="{{ '/assignments/A06/bracket.SLDPRT' | relative_url }}" download>bracket.SLDPRT</a></li>
+  <li><a href="{{ '/assignments/A06/bracket.SLDDRW' | relative_url }}" download>bracket.SLDDRW</a></li>
+</ul>
+
+<h2>Lessons Learned</h2>
+<p>Time spent: 3 hours.</p>
+
+<p>The equation that drove the most important dimension was the strength equation on Feature C, the T-slot's bottom wall. <code>t_C</code> comes from <code>t_C = (6 &middot; Z_C / w) ^ (1/2)</code>, where <code>Z_C = n &middot; M_C / Sy</code> and <code>M_C = P &middot; C / 4</code>. I tied all three of those into the Equations manager as expressions, not as a number I calculated by hand and typed into the extrude. That decision mattered once I caught the mapping error on the T-slot's chamber width: when I corrected <code>C</code> from 1.5 in to 2.5 in, <code>M_C</code>, <code>Z_C</code>, and <code>t_C</code> all recalculated by themselves, and so did <code>E_len</code>, <code>M_E</code>, <code>Z_E</code>, and <code>t_E</code> downstream of it. If I had typed <code>t_C</code> in as a plain 0.621 in instead of an equation, I would have had to redo that calculation by hand and re-enter the extrude depth myself, and I likely would have missed updating Feature E's numbers since they depend on C two steps removed.</p>
+
+<p>For tolerances, I put the tightest class on the 1.0000 in dimension that mates with the T-beam's b fit (+0.0010/&minus;0.0008 in), since that's a sliding interface where too much clearance lets the bracket wobble on the beam and too little stops it from sliding on at all. I used the loosest class, the default two-place &plusmn;.01, on the 2.67 in overall length, since that dimension doesn't touch another part and only affects how the bracket looks sitting on the shelf. If I'd put the tightest tolerance on every dimension instead of just the mating ones, every cut on this part would need a tighter process than a mill with a standard end mill can hold economically, which raises cost for no functional reason on surfaces nothing else touches.</p>
