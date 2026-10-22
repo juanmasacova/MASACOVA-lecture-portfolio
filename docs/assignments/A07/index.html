@@ -90,7 +90,11 @@ title: "A07 - Bracket FEA"
 <!-- TODO: confirm resulting plate thickness (expected 0.37 in) and whether the block depth also changed -->
 
 <h3>Setup</h3>
-<!-- TODO -->
+<p>Same fixed constraints on the T-slot faces and the same 1,600 lbf load on the cylinder as Design I, with 6061-T6 assigned to the part. Attempt 1 used the default (medium) mesh density.</p>
+<img src="{{ '/assignments/A07/D2-mesh-attempt1.png' | relative_url }}" alt="Meshed Design II bracket for attempt 1 with the T-slot constraints and cylinder load">
+<img src="{{ '/assignments/A07/D2-mesh-details-attempt1.png' | relative_url }}" alt="Mesh details for Design II attempt 1: 10,912 elements, 17,597 nodes, maximum element size 0.181 in, maximum aspect ratio 3.55">
+<p>Mass properties: 5.91 in<sup>3</sup> and 0.58 lb at a density of 0.0975 lb/in<sup>3</sup>, which is 24% more volume than Design I (4.75 in<sup>3</sup>).</p>
+<img src="{{ '/assignments/A07/D2-mass-properties.png' | relative_url }}" alt="SolidWorks mass properties for the Design II bracket, volume 5.91 cubic inches, mass 0.58 pounds">
 
 <h3>Inner Loop - Mesh Convergence</h3>
 <table>
@@ -98,14 +102,18 @@ title: "A07 - Bracket FEA"
     <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>-</td></tr>
+    <tr><td>1</td><td>10,912</td><td>81,860</td><td>0.05811</td><td>0.4873</td><td>-</td></tr>
     <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
     <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
   </tbody>
 </table>
 
 <h3>Results</h3>
-<!-- TODO -->
+<p>Attempt 1 (10,912 elements):</p>
+<img src="{{ '/assignments/A07/D2-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for Design II attempt 1, maximum 81,860 psi where the plate meets the cylinder">
+<img src="{{ '/assignments/A07/D2-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for Design II attempt 1, maximum 0.05811 in at the cylinder">
+<img src="{{ '/assignments/A07/D2-fos-attempt1.png' | relative_url }}" alt="Factor of safety plot for Design II attempt 1, minimum 0.4873">
+<p>Compared with Design I, the maximum stress dropped from 216,000 psi to 81,860 psi (62% lower) and the maximum displacement from 0.4645 in to 0.0581 in (87% lower). The safety factor rose from 0.185 to 0.487, which is still below 1, so the plate still yields where it meets the cylinder.</p>
 
 <h3>Design Change</h3>
 <p>TODO</p>
