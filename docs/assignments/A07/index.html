@@ -7,9 +7,12 @@ title: "A07 - Bracket FEA"
 <p>The objective is to use finite element analysis to improve the bracket from A05 and A06 so it is stiffer, stronger, and lighter than the original. The workflow has an outer loop and an inner loop. The inner loop validates each result: set up a static stress study, solve, read the maximum stress, maximum displacement, and safety factor, then refine the mesh until the results agree within 7% (or stop after the third attempt and keep the finest mesh). The outer loop uses the validated results to change the geometry, adding material where the part is weak and removing it where it carries little load, and it runs three times. The material stays Aluminum 6061 throughout.</p>
 
 <h2>Material and Load Case</h2>
-<p>Aluminum 6061, unchanged from A05/A06 (6061-T6 in the SolidWorks library: E = 10,007,604 psi, S<sub>y</sub> = 39,885 psi).</p>
-<!-- TODO: add load (P), where it is applied, and why -->
-<!-- TODO: add fixed constraint location (T-slot faces that bear on the T-beam) and why -->
+<p>Aluminum 6061, unchanged from A05 and A06 (6061-T6 (SS) in the SolidWorks library: E = 10,007,604 psi, S<sub>y</sub> = 39,885 psi, density 0.0975 lb/in<sup>3</sup>).</p>
+<img src="{{ '/assignments/A07/D1-material.png' | relative_url }}" alt="SolidWorks material dialog with 6061-T6 (SS) selected, showing elastic modulus, yield strength, and density">
+
+<p><strong>Load.</strong> 1,600 lbf total, applied downward on the cylinder's lower surface. This is the same W = 2F from A05, where each side of the strap carries F = 800 lbf.</p>
+<p><strong>Constraint.</strong> Fixed geometry on the interior faces of the T-slot, which is where the bracket hangs from the T-beam.</p>
+<!-- TODO: confirm with Juan which T-slot faces are fixed and any reason beyond "this is where the T-beam holds the bracket" -->
 
 <h2>Results Summary</h2>
 <p>Each column is the final, converged result of one pass through the outer loop.</p>
@@ -18,40 +21,73 @@ title: "A07 - Bracket FEA"
     <tr><th></th><th>Design I</th><th>Design II</th><th>Design III</th></tr>
   </thead>
   <tbody>
-    <tr><td>Max stress and location</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Max deflection and location</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Mass</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Safety factor</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Number of elements</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Mass</td><td>TODO (waiting on the corrected value, about 0.46 lb)</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Safety factor</td><td>0.185</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Number of elements</td><td>17,841</td><td>TODO</td><td>TODO</td></tr>
   </tbody>
 </table>
 
 <h2>Design I - Baseline (Outer Loop 1)</h2>
-<p>The unmodified bracket from A06.</p>
+<p>Design I is the unmodified bracket from A06.</p>
 
 <h3>Setup</h3>
-<!-- TODO: constraints, loading, and mesh screenshots -->
-<!-- <img src="{{ '/assignments/A07/D1-constraints.png' | relative_url }}" alt="..."> -->
+<p>Fixed constraints (green) on the T-slot faces and the 1,600 lbf load (purple) on the cylinder.</p>
+<img src="{{ '/assignments/A07/D1-constraints-loads.png' | relative_url }}" alt="Bracket with fixed constraints on the T-slot faces and downward force arrows on the cylinder">
+
+<p>Mesh settings for attempt 1 (default density) and the resulting mesh.</p>
+<img src="{{ '/assignments/A07/D1-mesh-settings.png' | relative_url }}" alt="SolidWorks Mesh menu with the density slider at its default position">
+<img src="{{ '/assignments/A07/D1-mesh.png' | relative_url }}" alt="Meshed bracket for attempt 1">
+<img src="{{ '/assignments/A07/D1-mesh-details-attempt1.png' | relative_url }}" alt="Mesh details for attempt 1: 9,084 elements, 14,978 nodes, maximum element size 0.168 in, maximum aspect ratio 6.11">
 
 <h3>Inner Loop - Mesh Convergence</h3>
+<p>Attempt 2 used a finer mesh: 17,841 elements, 28,315 nodes, maximum element size 0.132 in, maximum aspect ratio 7.25.</p>
+<img src="{{ '/assignments/A07/D1-mesh-settings-attempt2.png' | relative_url }}" alt="Mesh menu with the density slider moved toward fine for attempt 2">
+<img src="{{ '/assignments/A07/D1-mesh-attempt2.png' | relative_url }}" alt="Meshed bracket for attempt 2">
+<img src="{{ '/assignments/A07/D1-mesh-details-attempt2.png' | relative_url }}" alt="Mesh details for attempt 2: 17,841 elements, 28,315 nodes, maximum element size 0.132 in, maximum aspect ratio 7.25">
+
 <table>
   <thead>
-    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
+    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th></tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>-</td></tr>
-    <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>1</td><td>9,084</td><td>217,400</td><td>0.4599</td><td>0.1835</td></tr>
+    <tr><td>2</td><td>17,841</td><td>216,000</td><td>0.4645</td><td>0.1847</td></tr>
+    <tr><td>% difference</td><td></td><td>0.64%</td><td>1.00%</td><td>0.65%</td></tr>
   </tbody>
 </table>
+<p>All three results changed by less than 7% between attempts, so Design I converged on the second attempt and I used the 17,841-element results. Percent difference is |attempt 2 &minus; attempt 1| / attempt 1.</p>
+<p>When I ran the study, SolidWorks warned about excessive displacement, since the deflection is large for a linear study. I clicked No to finish solving. This means the exact stress value is not reliable at this deflection, but the location and the trend are, and that is what drives the redesign.</p>
+<img src="{{ '/assignments/A07/D1-excessive-displacement-popup.png' | relative_url }}" alt="SolidWorks Simulation warning: excessive displacements detected">
 
 <h3>Results</h3>
-<!-- TODO: von Mises plot, displacement plot, factor of safety plot -->
+<p>Attempt 1 (9,084 elements):</p>
+<img src="{{ '/assignments/A07/D1-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for attempt 1, maximum 217,400 psi, concentrated in the connecting plate">
+<img src="{{ '/assignments/A07/D1-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for attempt 1, maximum 0.4599 in at the cylinder">
+<img src="{{ '/assignments/A07/D1-fos-attempt1.png' | relative_url }}" alt="Factor of safety plot for attempt 1, minimum 0.1835">
+
+<p>Attempt 2 (17,841 elements, used for the results table):</p>
+<img src="{{ '/assignments/A07/D1-vonmises-attempt2.png' | relative_url }}" alt="von Mises stress plot for attempt 2, maximum 216,000 psi, concentrated in the connecting plate">
+<img src="{{ '/assignments/A07/D1-displacement-attempt2.png' | relative_url }}" alt="Displacement plot for attempt 2, maximum 0.4645 in at the cylinder">
+<img src="{{ '/assignments/A07/D1-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for attempt 2, minimum 0.1847">
+
+<p>Mass properties:</p>
+<img src="{{ '/assignments/A07/D1-mass-properties.png' | relative_url }}" alt="SolidWorks mass properties for the Design I bracket, volume 4.75 cubic inches">
+<!-- TODO: replace with a new mass properties screenshot once 6061-T6 is assigned to the part (the screenshot above shows the 1 g/cm^3 default density, 0.04 lb/in^3). Corrected mass is about 4.75 in^3 x 0.0975 lb/in^3 = 0.46 lb. -->
 
 <h3>Design Change</h3>
-<p>TODO: where material was added or removed, and the result that justified it.</p>
+<p>Design I fails by a wide margin, with a safety factor of 0.18 against a target of 4. Almost all of the stress sits in the connecting plate (Feature B), while the block around the T-slot stays nearly unstressed. The A05 hand calculations treated the plate as an axial bar. In the model, the cylinder hangs to one side of the plate, so the 1,600 lbf load acts offset from the plate and bends it, which the axial model did not include. The 0.17 in thick plate carries that bending, and it deflects about 0.46 in at the cylinder.</p>
+<p>For Design II I added material where the stress is: I thickened the plate with a 0.2 in extrude and added 0.1 in fillets at the junctions of Features A and B and of Features B and C, to reduce the stress concentration where the plate meets the cylinder and the block. The unstressed block is the place to remove material, which I plan to do for Design III.</p>
 
 <h2>Design II (Outer Loop 2)</h2>
+
+<h3>Geometry</h3>
+<p>Plate thickened with a 0.2 in extrude (sketch of the back profile), and 0.1 in fillets at the A-B and B-C junctions.</p>
+<img src="{{ '/assignments/A07/D2-backside-extrude.png' | relative_url }}" alt="Preview of the 0.2 in extrude added to the back of the bracket">
+<img src="{{ '/assignments/A07/D2-fillets.png' | relative_url }}" alt="0.1 in fillet being applied at the junction of the plate and the cylinder and the plate and the block">
+<img src="{{ '/assignments/A07/D2-modified-part.png' | relative_url }}" alt="Modified Design II bracket">
+<!-- TODO: confirm resulting plate thickness (expected 0.37 in) and whether the block depth also changed -->
 
 <h3>Setup</h3>
 <!-- TODO -->
@@ -76,6 +112,9 @@ title: "A07 - Bracket FEA"
 
 <h2>Design III (Outer Loop 3)</h2>
 
+<h3>Geometry</h3>
+<!-- TODO -->
+
 <h3>Setup</h3>
 <!-- TODO -->
 
@@ -95,7 +134,11 @@ title: "A07 - Bracket FEA"
 <!-- TODO -->
 
 <h2>Mistakes</h2>
-<p>TODO: every mistake made along the way and how it was caught.</p>
+<ul>
+  <li><strong>Mass reported with no material assigned.</strong> The first Mass Properties reading for Design I gave 0.17 lb at a density of 0.04 lb/in<sup>3</sup>. 6061-T6 is 0.0975 lb/in<sup>3</sup>, so the part had no material assigned in SolidWorks and fell back to the default density of 1 g/cm<sup>3</sup>. The study had the correct material, so the stress, displacement, and safety factor results were not affected. Assigning 6061-T6 to the part fixes the mass.</li>
+  <li><strong>Unreadable factor of safety plot.</strong> The default legend ran up to 10<sup>16</sup>, which turned the whole part red and hid where the part actually fails. Limiting the plot to areas below a factor of safety of 1 makes the failing region visible.</li>
+</ul>
+<!-- TODO: add any further mistakes as they happen -->
 
 <h2>Downloadable Files</h2>
 <ul>
@@ -103,8 +146,8 @@ title: "A07 - Bracket FEA"
   <li><a href="{{ '/assignments/A07/bracket-design-II.SLDPRT' | relative_url }}" download>bracket-design-II.SLDPRT</a></li>
   <li><a href="{{ '/assignments/A07/bracket-design-III.SLDPRT' | relative_url }}" download>bracket-design-III.SLDPRT</a></li>
 </ul>
-<!-- TODO: rename links to match the real filenames once the files are copied into this folder -->
+<!-- TODO: files must be copied into docs/assignments/A07/ with these exact names or the links break (15% deduction if the CAD link is missing) -->
 
 <h2>Reflections</h2>
-<p>Time spent: TODO (from first read of the assignment to submission).</p>
+<p>Time spent: TODO (from first read of the assignment on Oct 21 to submission).</p>
 <p>TODO: specific engineering lessons. Avoid "good" and "bad"; state what changed and by how much.</p>
