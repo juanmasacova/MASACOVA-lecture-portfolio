@@ -23,7 +23,7 @@ title: "A07 - Bracket FEA"
   <tbody>
     <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>78,740 psi, in the plate where it meets the cylinder</td><td>TODO</td></tr>
     <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>0.05816 in, at the cylinder</td><td>TODO</td></tr>
-    <tr><td>Mass</td><td>0.46 lb</td><td>0.58 lb</td><td>TODO</td></tr>
+    <tr><td>Mass</td><td>0.46 lb</td><td>0.58 lb</td><td>0.46 lb</td></tr>
     <tr><td>Safety factor</td><td>0.185</td><td>0.507</td><td>TODO</td></tr>
     <tr><td>Number of elements</td><td>17,841</td><td>20,770</td><td>TODO</td></tr>
   </tbody>
@@ -134,7 +134,12 @@ title: "A07 - Bracket FEA"
 <!-- TODO: dimensions of the block corner cuts (size and type, chamfer or cut) and whether the plate thickness changed -->
 
 <h3>Setup</h3>
-<!-- TODO -->
+<p>Same fixed constraints on the T-slot faces and the same 1,600 lbf load on the cylinder, with 6061-T6 assigned. Attempt 1 used the default (medium) mesh density.</p>
+<img src="{{ '/assignments/A07/D3-mesh-settings-attempt1.png' | relative_url }}" alt="Mesh menu with the density slider at the default position for Design III attempt 1">
+<img src="{{ '/assignments/A07/D3-mesh-attempt1.png' | relative_url }}" alt="Meshed Design III bracket for attempt 1 with the T-slot constraints and cylinder load">
+<img src="{{ '/assignments/A07/D3-mesh-details-attempt1.png' | relative_url }}" alt="Mesh details for Design III attempt 1: 10,869 elements, 17,641 nodes, maximum element size 0.168 in, maximum aspect ratio 3.53">
+<p>Mass properties: 4.74 in<sup>3</sup> and 0.46 lb, which is 20% less volume than Design II (5.91 in<sup>3</sup>, 0.58 lb) and about the same as the original Design I (4.75 in<sup>3</sup>, 0.46 lb).</p>
+<img src="{{ '/assignments/A07/D3-mass-properties.png' | relative_url }}" alt="SolidWorks mass properties for the Design III bracket, volume 4.74 cubic inches, mass 0.46 pounds">
 
 <h3>Inner Loop - Mesh Convergence</h3>
 <table>
@@ -142,14 +147,17 @@ title: "A07 - Bracket FEA"
     <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>-</td></tr>
+    <tr><td>1</td><td>10,869</td><td>86,010</td><td>0.05607</td><td>0.4637</td><td>-</td></tr>
     <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
     <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
   </tbody>
 </table>
 
 <h3>Results</h3>
-<!-- TODO -->
+<p>Attempt 1 (10,869 elements):</p>
+<img src="{{ '/assignments/A07/D3-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for Design III attempt 1, maximum 86,010 psi in the plate above the cylinder">
+<img src="{{ '/assignments/A07/D3-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for Design III attempt 1, maximum 0.05607 in at the cylinder">
+<img src="{{ '/assignments/A07/D3-fos-attempt1.png' | relative_url }}" alt="Factor of safety plot for Design III attempt 1, minimum 0.4637">
 
 <h2>Mistakes</h2>
 <ul>
