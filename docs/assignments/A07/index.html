@@ -21,11 +21,11 @@ title: "A07 - Bracket FEA"
     <tr><th></th><th>Design I</th><th>Design II</th><th>Design III</th></tr>
   </thead>
   <tbody>
-    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Mass</td><td>TODO (waiting on the corrected value, about 0.46 lb)</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Safety factor</td><td>0.185</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>Number of elements</td><td>17,841</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>78,740 psi, in the plate where it meets the cylinder</td><td>TODO</td></tr>
+    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>0.05816 in, at the cylinder</td><td>TODO</td></tr>
+    <tr><td>Mass</td><td>0.46 lb</td><td>0.58 lb</td><td>TODO</td></tr>
+    <tr><td>Safety factor</td><td>0.185</td><td>0.507</td><td>TODO</td></tr>
+    <tr><td>Number of elements</td><td>17,841</td><td>20,770</td><td>TODO</td></tr>
   </tbody>
 </table>
 
@@ -73,8 +73,8 @@ title: "A07 - Bracket FEA"
 <img src="{{ '/assignments/A07/D1-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for attempt 2, minimum 0.1847">
 
 <p>Mass properties:</p>
-<img src="{{ '/assignments/A07/D1-mass-properties.png' | relative_url }}" alt="SolidWorks mass properties for the Design I bracket, volume 4.75 cubic inches">
-<!-- TODO: replace with a new mass properties screenshot once 6061-T6 is assigned to the part (the screenshot above shows the 1 g/cm^3 default density, 0.04 lb/in^3). Corrected mass is about 4.75 in^3 x 0.0975 lb/in^3 = 0.46 lb. -->
+<img src="{{ '/assignments/A07/D1-mass-properties-6061.png' | relative_url }}" alt="SolidWorks mass properties for the Design I bracket with 6061-T6 assigned: density 0.10 lb per cubic inch, volume 4.75 cubic inches, mass 0.46 pounds">
+<p>Mass: 0.46 lb (volume 4.75 in<sup>3</sup>). My first reading was 0.17 lb because the part had no material assigned (see Mistakes).</p>
 
 <h3>Design Change</h3>
 <p>Design I fails by a wide margin, with a safety factor of 0.18 against a target of 4. Almost all of the stress sits in the connecting plate (Feature B), while the block around the T-slot stays nearly unstressed. The A05 hand calculations treated the plate as an axial bar. In the model, the cylinder hangs to one side of the plate, so the 1,600 lbf load acts offset from the plate and bends it, which the axial model did not include. The 0.17 in thick plate carries that bending, and it deflects about 0.46 in at the cylinder.</p>
@@ -103,10 +103,13 @@ title: "A07 - Bracket FEA"
   </thead>
   <tbody>
     <tr><td>1</td><td>10,912</td><td>81,860</td><td>0.05811</td><td>0.4873</td><td>-</td></tr>
-    <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>2</td><td>20,770</td><td>78,740</td><td>0.05816</td><td>0.5066</td><td>stress 3.81%, displacement 0.09%, safety factor 3.96%</td></tr>
   </tbody>
 </table>
+<p>All three results changed by less than 7%, so Design II converged on the second attempt and I used the 20,770-element results. Attempt 2 used a finer mesh: 20,770 elements, 32,380 nodes, maximum element size 0.142 in, maximum aspect ratio 3.99.</p>
+<img src="{{ '/assignments/A07/D2-mesh-settings-attempt2.png' | relative_url }}" alt="Mesh menu with the density slider moved toward fine for Design II attempt 2">
+<img src="{{ '/assignments/A07/D2-mesh-attempt2.png' | relative_url }}" alt="Meshed Design II bracket for attempt 2">
+<img src="{{ '/assignments/A07/D2-mesh-details-attempt2.png' | relative_url }}" alt="Mesh details for Design II attempt 2: 20,770 elements, 32,380 nodes, maximum element size 0.142 in, maximum aspect ratio 3.99">
 
 <h3>Results</h3>
 <p>Attempt 1 (10,912 elements):</p>
@@ -115,8 +118,13 @@ title: "A07 - Bracket FEA"
 <img src="{{ '/assignments/A07/D2-fos-attempt1.png' | relative_url }}" alt="Factor of safety plot for Design II attempt 1, minimum 0.4873">
 <p>Compared with Design I, the maximum stress dropped from 216,000 psi to 81,860 psi (62% lower) and the maximum displacement from 0.4645 in to 0.0581 in (87% lower). The safety factor rose from 0.185 to 0.487, which is still below 1, so the plate still yields where it meets the cylinder.</p>
 
+<p>Attempt 2 (20,770 elements, used for the results table):</p>
+<img src="{{ '/assignments/A07/D2-vonmises-attempt2.png' | relative_url }}" alt="von Mises stress plot for Design II attempt 2, maximum 78,740 psi where the plate meets the cylinder">
+<img src="{{ '/assignments/A07/D2-displacement-attempt2.png' | relative_url }}" alt="Displacement plot for Design II attempt 2, maximum 0.05816 in at the cylinder">
+<img src="{{ '/assignments/A07/D2-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for Design II attempt 2, minimum 0.51">
+
 <h3>Design Change</h3>
-<p>TODO</p>
+<p>TODO: Design III changes (in progress).</p>
 
 <h2>Design III (Outer Loop 3)</h2>
 
