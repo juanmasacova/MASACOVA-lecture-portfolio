@@ -1,12 +1,110 @@
 ---
-title: "A7 – [Topic]"
+title: "A07 - Bracket FEA"
 ---
-<h1>A7 – [Topic]</h1>
+<h1>A07 - Bracket FEA</h1>
 
 <h2>Objective</h2>
+<p>The objective is to use finite element analysis to improve the bracket from A05 and A06 so it is stiffer, stronger, and lighter than the original. The workflow has an outer loop and an inner loop. The inner loop validates each result: set up a static stress study, solve, read the maximum stress, maximum displacement, and safety factor, then refine the mesh until the results agree within 7% (or stop after the third attempt and keep the finest mesh). The outer loop uses the validated results to change the geometry, adding material where the part is weak and removing it where it carries little load, and it runs three times. The material stays Aluminum 6061 throughout.</p>
 
-<h2>Analyze</h2>
+<h2>Material and Load Case</h2>
+<p>Aluminum 6061, unchanged from A05/A06 (6061-T6 in the SolidWorks library: E = 10,007,604 psi, S<sub>y</sub> = 39,885 psi).</p>
+<!-- TODO: add load (P), where it is applied, and why -->
+<!-- TODO: add fixed constraint location (T-slot faces that bear on the T-beam) and why -->
 
-<h2>Decide</h2>
+<h2>Results Summary</h2>
+<p>Each column is the final, converged result of one pass through the outer loop.</p>
+<table>
+  <thead>
+    <tr><th></th><th>Design I</th><th>Design II</th><th>Design III</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Max stress and location</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Max deflection and location</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Mass</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Safety factor</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>Number of elements</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+  </tbody>
+</table>
 
-<h2>Communicate</h2>
+<h2>Design I - Baseline (Outer Loop 1)</h2>
+<p>The unmodified bracket from A06.</p>
+
+<h3>Setup</h3>
+<!-- TODO: constraints, loading, and mesh screenshots -->
+<!-- <img src="{{ '/assignments/A07/D1-constraints.png' | relative_url }}" alt="..."> -->
+
+<h3>Inner Loop - Mesh Convergence</h3>
+<table>
+  <thead>
+    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>-</td></tr>
+    <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+  </tbody>
+</table>
+
+<h3>Results</h3>
+<!-- TODO: von Mises plot, displacement plot, factor of safety plot -->
+
+<h3>Design Change</h3>
+<p>TODO: where material was added or removed, and the result that justified it.</p>
+
+<h2>Design II (Outer Loop 2)</h2>
+
+<h3>Setup</h3>
+<!-- TODO -->
+
+<h3>Inner Loop - Mesh Convergence</h3>
+<table>
+  <thead>
+    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>-</td></tr>
+    <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+  </tbody>
+</table>
+
+<h3>Results</h3>
+<!-- TODO -->
+
+<h3>Design Change</h3>
+<p>TODO</p>
+
+<h2>Design III (Outer Loop 3)</h2>
+
+<h3>Setup</h3>
+<!-- TODO -->
+
+<h3>Inner Loop - Mesh Convergence</h3>
+<table>
+  <thead>
+    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>-</td></tr>
+    <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+  </tbody>
+</table>
+
+<h3>Results</h3>
+<!-- TODO -->
+
+<h2>Mistakes</h2>
+<p>TODO: every mistake made along the way and how it was caught.</p>
+
+<h2>Downloadable Files</h2>
+<ul>
+  <li><a href="{{ '/assignments/A07/bracket-design-I.SLDPRT' | relative_url }}" download>bracket-design-I.SLDPRT</a></li>
+  <li><a href="{{ '/assignments/A07/bracket-design-II.SLDPRT' | relative_url }}" download>bracket-design-II.SLDPRT</a></li>
+  <li><a href="{{ '/assignments/A07/bracket-design-III.SLDPRT' | relative_url }}" download>bracket-design-III.SLDPRT</a></li>
+</ul>
+<!-- TODO: rename links to match the real filenames once the files are copied into this folder -->
+
+<h2>Reflections</h2>
+<p>Time spent: TODO (from first read of the assignment to submission).</p>
+<p>TODO: specific engineering lessons. Avoid "good" and "bad"; state what changed and by how much.</p>
