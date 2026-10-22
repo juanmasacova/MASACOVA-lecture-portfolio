@@ -21,11 +21,11 @@ title: "A07 - Bracket FEA"
     <tr><th></th><th>Design I</th><th>Design II</th><th>Design III</th></tr>
   </thead>
   <tbody>
-    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>78,740 psi, in the plate where it meets the cylinder</td><td>TODO</td></tr>
-    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>0.05816 in, at the cylinder</td><td>TODO</td></tr>
+    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>78,740 psi, in the plate where it meets the cylinder</td><td>88,720 psi, in the plate above the cylinder</td></tr>
+    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>0.05816 in, at the cylinder</td><td>0.05612 in, at the cylinder</td></tr>
     <tr><td>Mass</td><td>0.46 lb</td><td>0.58 lb</td><td>0.46 lb</td></tr>
-    <tr><td>Safety factor</td><td>0.185</td><td>0.507</td><td>TODO</td></tr>
-    <tr><td>Number of elements</td><td>17,841</td><td>20,770</td><td>TODO</td></tr>
+    <tr><td>Safety factor</td><td>0.185</td><td>0.507</td><td>0.450</td></tr>
+    <tr><td>Number of elements</td><td>17,841</td><td>20,770</td><td>18,971</td></tr>
   </tbody>
 </table>
 
@@ -148,16 +148,25 @@ title: "A07 - Bracket FEA"
   </thead>
   <tbody>
     <tr><td>1</td><td>10,869</td><td>86,010</td><td>0.05607</td><td>0.4637</td><td>-</td></tr>
-    <tr><td>2</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
-    <tr><td>3 (if needed)</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    <tr><td>2</td><td>18,971</td><td>88,720</td><td>0.05612</td><td>0.4496</td><td>stress 3.15%, displacement 0.09%, safety factor 3.04%</td></tr>
   </tbody>
 </table>
+<p>All three results changed by less than 7%, so Design III converged on the second attempt and I used the 18,971-element results. Attempt 2 used a finer mesh: 18,971 elements, 29,993 nodes, maximum element size 0.134 in, maximum aspect ratio 3.58.</p>
+<img src="{{ '/assignments/A07/D3-mesh-settings-attempt2.png' | relative_url }}" alt="Mesh menu with the density slider moved toward fine for Design III attempt 2">
+<img src="{{ '/assignments/A07/D3-mesh-attempt2.png' | relative_url }}" alt="Meshed Design III bracket for attempt 2">
+<img src="{{ '/assignments/A07/D3-mesh-details-attempt2.png' | relative_url }}" alt="Mesh details for Design III attempt 2: 18,971 elements, 29,993 nodes, maximum element size 0.134 in, maximum aspect ratio 3.58">
 
 <h3>Results</h3>
 <p>Attempt 1 (10,869 elements):</p>
 <img src="{{ '/assignments/A07/D3-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for Design III attempt 1, maximum 86,010 psi in the plate above the cylinder">
 <img src="{{ '/assignments/A07/D3-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for Design III attempt 1, maximum 0.05607 in at the cylinder">
 <img src="{{ '/assignments/A07/D3-fos-attempt1.png' | relative_url }}" alt="Factor of safety plot for Design III attempt 1, minimum 0.4637">
+
+<p>Attempt 2 (18,971 elements, used for the results table):</p>
+<img src="{{ '/assignments/A07/D3-vonmises-attempt2.png' | relative_url }}" alt="von Mises stress plot for Design III attempt 2, maximum 88,720 psi in the plate above the cylinder">
+<img src="{{ '/assignments/A07/D3-displacement-attempt2.png' | relative_url }}" alt="Displacement plot for Design III attempt 2, maximum 0.05612 in at the cylinder">
+<img src="{{ '/assignments/A07/D3-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for Design III attempt 2, minimum 0.4496">
+<p>Compared with Design II, Design III is 20% lighter by volume (4.74 vs 5.91 in<sup>3</sup>) and 3.5% stiffer (0.05612 vs 0.05816 in), but its maximum stress is 13% higher (88,720 vs 78,740 psi) and its safety factor is lower (0.450 vs 0.507). The lightened block cost no stiffness, since the block was nearly unstressed, and the larger fillet on Features A and B did not reduce the peak stress. The stress is set by bending of the plate above the cylinder, and neither change touched that.</p>
 
 <h2>Mistakes</h2>
 <ul>
