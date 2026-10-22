@@ -4,44 +4,31 @@ title: "A07 - Bracket FEA"
 <h1>A07 - Bracket FEA</h1>
 
 <h2>Objective</h2>
-<p>The objective is to use finite element analysis to improve the bracket from A05 and A06 so it is stiffer, stronger, and lighter than the original. The workflow has an outer loop and an inner loop. The inner loop validates each result: set up a static stress study, solve, read the maximum stress, maximum displacement, and safety factor, then refine the mesh until the results agree within 7% (or stop after the third attempt and keep the finest mesh). The outer loop uses the validated results to change the geometry, adding material where the part is weak and removing it where it carries little load, and it runs three times. The material stays Aluminum 6061 throughout.</p>
+<p>The objective is to use finite element analysis to improve the bracket from A05 and A06 so it is stiffer, stronger, and lighter. The workflow has an outer loop and an inner loop. The inner loop validates each result: set up a static stress study with constraints, loading, and a mesh, solve, read the maximum stress, maximum displacement, and safety factor, then refine the mesh until the results agree within 7% (or stop after the third attempt and keep the finest mesh). The outer loop uses the validated results to change the geometry, adding material where the part is weak and removing it where it carries little load, and it runs at least three times. The material stays Aluminum 6061 throughout.</p>
 
-<h2>Material and Load Case</h2>
+<h2>Analyze</h2>
+
+<h3>Material and Load Case</h3>
 <p>Aluminum 6061, unchanged from A05 and A06 (6061-T6 (SS) in the SolidWorks library: E = 10,007,604 psi, S<sub>y</sub> = 39,885 psi, density 0.0975 lb/in<sup>3</sup>).</p>
 <img src="{{ '/assignments/A07/D1-material.png' | relative_url }}" alt="SolidWorks material dialog with 6061-T6 (SS) selected, showing elastic modulus, yield strength, and density">
 
 <p><strong>Load.</strong> 1,600 lbf total, applied downward on the cylinder's lower surface. This is the same W = 2F from A05, where each side of the strap carries F = 800 lbf.</p>
 <p><strong>Constraint.</strong> Fixed geometry on the interior faces of the T-slot, which is where the bracket hangs from the T-beam.</p>
-<!-- TODO: confirm with Juan which T-slot faces are fixed and any reason beyond "this is where the T-beam holds the bracket" -->
+<p><strong>Study type.</strong> Static stress analysis with a solid, blended curvature-based mesh. For each design I solved with a default (medium) mesh, then with a finer mesh, and compared the two.</p>
 
-<h2>Results Summary</h2>
-<p>Each column is the final, converged result of one pass through the outer loop.</p>
-<table>
-  <thead>
-    <tr><th></th><th>Design I</th><th>Design II</th><th>Design III</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>78,740 psi, in the plate where it meets the cylinder</td><td>88,720 psi, in the plate above the cylinder</td></tr>
-    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>0.05816 in, at the cylinder</td><td>0.05612 in, at the cylinder</td></tr>
-    <tr><td>Mass</td><td>0.46 lb</td><td>0.58 lb</td><td>0.46 lb</td></tr>
-    <tr><td>Safety factor</td><td>0.185</td><td>0.507</td><td>0.450</td></tr>
-    <tr><td>Number of elements</td><td>17,841</td><td>20,770</td><td>18,971</td></tr>
-  </tbody>
-</table>
-
-<h2>Design I - Baseline (Outer Loop 1)</h2>
+<h3>Design I - Baseline (Outer Loop 1)</h3>
 <p>Design I is the unmodified bracket from A06.</p>
 
-<h3>Setup</h3>
+<h4>Setup</h4>
 <p>Fixed constraints (green) on the T-slot faces and the 1,600 lbf load (purple) on the cylinder.</p>
 <img src="{{ '/assignments/A07/D1-constraints-loads.png' | relative_url }}" alt="Bracket with fixed constraints on the T-slot faces and downward force arrows on the cylinder">
 
-<p>Mesh settings for attempt 1 (default density) and the resulting mesh.</p>
+<p>Mesh settings for attempt 1 (default density) and the resulting mesh: 9,084 elements, 14,978 nodes, maximum element size 0.168 in, maximum aspect ratio 6.11.</p>
 <img src="{{ '/assignments/A07/D1-mesh-settings.png' | relative_url }}" alt="SolidWorks Mesh menu with the density slider at its default position">
 <img src="{{ '/assignments/A07/D1-mesh.png' | relative_url }}" alt="Meshed bracket for attempt 1">
 <img src="{{ '/assignments/A07/D1-mesh-details-attempt1.png' | relative_url }}" alt="Mesh details for attempt 1: 9,084 elements, 14,978 nodes, maximum element size 0.168 in, maximum aspect ratio 6.11">
 
-<h3>Inner Loop - Mesh Convergence</h3>
+<h4>Inner Loop - Mesh Convergence</h4>
 <p>Attempt 2 used a finer mesh: 17,841 elements, 28,315 nodes, maximum element size 0.132 in, maximum aspect ratio 7.25.</p>
 <img src="{{ '/assignments/A07/D1-mesh-settings-attempt2.png' | relative_url }}" alt="Mesh menu with the density slider moved toward fine for attempt 2">
 <img src="{{ '/assignments/A07/D1-mesh-attempt2.png' | relative_url }}" alt="Meshed bracket for attempt 2">
@@ -61,7 +48,8 @@ title: "A07 - Bracket FEA"
 <p>When I ran the study, SolidWorks warned about excessive displacement, since the deflection is large for a linear study. I clicked No to finish solving. This means the exact stress value is not reliable at this deflection, but the location and the trend are, and that is what drives the redesign.</p>
 <img src="{{ '/assignments/A07/D1-excessive-displacement-popup.png' | relative_url }}" alt="SolidWorks Simulation warning: excessive displacements detected">
 
-<h3>Results</h3>
+<h4>Results</h4>
+<p>The factor of safety plots are red everywhere because SolidWorks scaled the default legend up to 10<sup>16</sup>. The number that matters on those plots is the minimum at the bottom of the legend. The von Mises plots show where the part is overstressed.</p>
 <p>Attempt 1 (9,084 elements):</p>
 <img src="{{ '/assignments/A07/D1-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for attempt 1, maximum 217,400 psi, concentrated in the connecting plate">
 <img src="{{ '/assignments/A07/D1-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for attempt 1, maximum 0.4599 in at the cylinder">
@@ -72,91 +60,84 @@ title: "A07 - Bracket FEA"
 <img src="{{ '/assignments/A07/D1-displacement-attempt2.png' | relative_url }}" alt="Displacement plot for attempt 2, maximum 0.4645 in at the cylinder">
 <img src="{{ '/assignments/A07/D1-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for attempt 2, minimum 0.1847">
 
-<p>Mass properties:</p>
+<p>Mass properties with 6061-T6 assigned: 0.46 lb, volume 4.75 in<sup>3</sup>.</p>
 <img src="{{ '/assignments/A07/D1-mass-properties-6061.png' | relative_url }}" alt="SolidWorks mass properties for the Design I bracket with 6061-T6 assigned: density 0.10 lb per cubic inch, volume 4.75 cubic inches, mass 0.46 pounds">
-<p>Mass: 0.46 lb (volume 4.75 in<sup>3</sup>). My first reading was 0.17 lb because the part had no material assigned (see Mistakes).</p>
 
-<h3>Design Change</h3>
-<p>Design I fails by a wide margin, with a safety factor of 0.18 against a target of 4. Almost all of the stress sits in the connecting plate (Feature B), while the block around the T-slot stays nearly unstressed. The A05 hand calculations treated the plate as an axial bar. In the model, the cylinder hangs to one side of the plate, so the 1,600 lbf load acts offset from the plate and bends it, which the axial model did not include. The 0.17 in thick plate carries that bending, and it deflects about 0.46 in at the cylinder.</p>
-<p>For Design II I added material where the stress is: I thickened the plate with a 0.2 in extrude and added 0.1 in fillets at the junctions of Features A and B and of Features B and C, to reduce the stress concentration where the plate meets the cylinder and the block. The unstressed block is the place to remove material, which I plan to do for Design III.</p>
+<h3>Design II (Outer Loop 2)</h3>
 
-<h2>Design II (Outer Loop 2)</h2>
-
-<h3>Geometry</h3>
-<p>Plate thickened with a 0.2 in extrude (sketch of the back profile), and 0.1 in fillets at the A-B and B-C junctions.</p>
+<h4>Geometry</h4>
+<p>Design I fails by a wide margin, with a safety factor of 0.18 against a target of 4. Almost all of the stress sits in the connecting plate (Feature B), while the block around the T-slot stays nearly unstressed. For Design II I sketched the whole back profile of the bracket and extruded it 0.2 in, which thickened the plate, and I added 0.1 in fillets at the A-B and B-C junctions to reduce the stress concentration where the plate meets the cylinder and the block.</p>
 <img src="{{ '/assignments/A07/D2-backside-extrude.png' | relative_url }}" alt="Preview of the 0.2 in extrude added to the back of the bracket">
 <img src="{{ '/assignments/A07/D2-fillets.png' | relative_url }}" alt="0.1 in fillet being applied at the junction of the plate and the cylinder and the plate and the block">
 <img src="{{ '/assignments/A07/D2-modified-part.png' | relative_url }}" alt="Modified Design II bracket">
-<!-- TODO: confirm resulting plate thickness (expected 0.37 in) and whether the block depth also changed -->
 
-<h3>Setup</h3>
-<p>Same fixed constraints on the T-slot faces and the same 1,600 lbf load on the cylinder as Design I, with 6061-T6 assigned to the part. Attempt 1 used the default (medium) mesh density.</p>
+<h4>Setup</h4>
+<p>Same fixed constraints on the T-slot faces and the same 1,600 lbf load on the cylinder as Design I, with 6061-T6 assigned to the part. Attempt 1 used the default (medium) mesh density: 10,912 elements, 17,597 nodes, maximum element size 0.181 in, maximum aspect ratio 3.55.</p>
 <img src="{{ '/assignments/A07/D2-mesh-attempt1.png' | relative_url }}" alt="Meshed Design II bracket for attempt 1 with the T-slot constraints and cylinder load">
 <img src="{{ '/assignments/A07/D2-mesh-details-attempt1.png' | relative_url }}" alt="Mesh details for Design II attempt 1: 10,912 elements, 17,597 nodes, maximum element size 0.181 in, maximum aspect ratio 3.55">
-<p>Mass properties: 5.91 in<sup>3</sup> and 0.58 lb at a density of 0.0975 lb/in<sup>3</sup>, which is 24% more volume than Design I (4.75 in<sup>3</sup>).</p>
+<p>Mass properties: 5.91 in<sup>3</sup> and 0.58 lb, which is 24% more volume than Design I (4.75 in<sup>3</sup>). The back-profile extrude covered the block as well as the plate, so some of this added material sits in the lightly stressed block.</p>
 <img src="{{ '/assignments/A07/D2-mass-properties.png' | relative_url }}" alt="SolidWorks mass properties for the Design II bracket, volume 5.91 cubic inches, mass 0.58 pounds">
 
-<h3>Inner Loop - Mesh Convergence</h3>
-<table>
-  <thead>
-    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td>10,912</td><td>81,860</td><td>0.05811</td><td>0.4873</td><td>-</td></tr>
-    <tr><td>2</td><td>20,770</td><td>78,740</td><td>0.05816</td><td>0.5066</td><td>stress 3.81%, displacement 0.09%, safety factor 3.96%</td></tr>
-  </tbody>
-</table>
-<p>All three results changed by less than 7%, so Design II converged on the second attempt and I used the 20,770-element results. Attempt 2 used a finer mesh: 20,770 elements, 32,380 nodes, maximum element size 0.142 in, maximum aspect ratio 3.99.</p>
+<h4>Inner Loop - Mesh Convergence</h4>
+<p>Attempt 2 used a finer mesh: 20,770 elements, 32,380 nodes, maximum element size 0.142 in, maximum aspect ratio 3.99.</p>
 <img src="{{ '/assignments/A07/D2-mesh-settings-attempt2.png' | relative_url }}" alt="Mesh menu with the density slider moved toward fine for Design II attempt 2">
 <img src="{{ '/assignments/A07/D2-mesh-attempt2.png' | relative_url }}" alt="Meshed Design II bracket for attempt 2">
 <img src="{{ '/assignments/A07/D2-mesh-details-attempt2.png' | relative_url }}" alt="Mesh details for Design II attempt 2: 20,770 elements, 32,380 nodes, maximum element size 0.142 in, maximum aspect ratio 3.99">
+<table>
+  <thead>
+    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>10,912</td><td>81,860</td><td>0.05811</td><td>0.4873</td></tr>
+    <tr><td>2</td><td>20,770</td><td>78,740</td><td>0.05816</td><td>0.5066</td></tr>
+    <tr><td>% difference</td><td></td><td>3.81%</td><td>0.09%</td><td>3.96%</td></tr>
+  </tbody>
+</table>
+<p>All three results changed by less than 7%, so Design II converged on the second attempt and I used the 20,770-element results.</p>
 
-<h3>Results</h3>
+<h4>Results</h4>
 <p>Attempt 1 (10,912 elements):</p>
 <img src="{{ '/assignments/A07/D2-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for Design II attempt 1, maximum 81,860 psi where the plate meets the cylinder">
 <img src="{{ '/assignments/A07/D2-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for Design II attempt 1, maximum 0.05811 in at the cylinder">
 <img src="{{ '/assignments/A07/D2-fos-attempt1.png' | relative_url }}" alt="Factor of safety plot for Design II attempt 1, minimum 0.4873">
-<p>Compared with Design I, the maximum stress dropped from 216,000 psi to 81,860 psi (62% lower) and the maximum displacement from 0.4645 in to 0.0581 in (87% lower). The safety factor rose from 0.185 to 0.487, which is still below 1, so the plate still yields where it meets the cylinder.</p>
 
 <p>Attempt 2 (20,770 elements, used for the results table):</p>
 <img src="{{ '/assignments/A07/D2-vonmises-attempt2.png' | relative_url }}" alt="von Mises stress plot for Design II attempt 2, maximum 78,740 psi where the plate meets the cylinder">
 <img src="{{ '/assignments/A07/D2-displacement-attempt2.png' | relative_url }}" alt="Displacement plot for Design II attempt 2, maximum 0.05816 in at the cylinder">
 <img src="{{ '/assignments/A07/D2-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for Design II attempt 2, minimum 0.51">
 
-<h3>Design Change</h3>
-<p>Design II raised the safety factor from 0.185 to 0.507, but it is still below 1, and the stress is still concentrated where the plate meets the cylinder. The block around the T-slot is still almost unstressed. For Design III I increased the fillet at the junction of Features A and B from 0.1 in to 0.25 in, to spread the stress concentration over a larger area, and removed the corners of the block, where the stress plots show the material carries almost no load.</p>
+<h3>Design III (Outer Loop 3)</h3>
 
-<h2>Design III (Outer Loop 3)</h2>
-
-<h3>Geometry</h3>
-<p>The fillet at the junction of Features A and B is now 0.25 in (it was 0.1 in), and the corners of the block are removed.</p>
+<h4>Geometry</h4>
+<p>Design II raised the safety factor from 0.185 to 0.507, but it is still below 1, the stress is still concentrated where the plate meets the cylinder, and the block is still almost unstressed. For Design III I increased the fillet at the junction of Features A and B from 0.1 in to 0.25 in, to spread the stress concentration over a larger area, and removed the corners of the block, where the stress plots show the material carries almost no load.</p>
 <img src="{{ '/assignments/A07/D3-modified-part.png' | relative_url }}" alt="Modified Design III bracket with the block corners removed and a larger fillet where the plate meets the cylinder">
-<!-- TODO: dimensions of the block corner cuts (size and type, chamfer or cut) and whether the plate thickness changed -->
 
-<h3>Setup</h3>
-<p>Same fixed constraints on the T-slot faces and the same 1,600 lbf load on the cylinder, with 6061-T6 assigned. Attempt 1 used the default (medium) mesh density.</p>
+<h4>Setup</h4>
+<p>Same fixed constraints on the T-slot faces and the same 1,600 lbf load on the cylinder, with 6061-T6 assigned. Attempt 1 used the default (medium) mesh density: 10,869 elements, 17,641 nodes, maximum element size 0.168 in, maximum aspect ratio 3.53.</p>
 <img src="{{ '/assignments/A07/D3-mesh-settings-attempt1.png' | relative_url }}" alt="Mesh menu with the density slider at the default position for Design III attempt 1">
 <img src="{{ '/assignments/A07/D3-mesh-attempt1.png' | relative_url }}" alt="Meshed Design III bracket for attempt 1 with the T-slot constraints and cylinder load">
 <img src="{{ '/assignments/A07/D3-mesh-details-attempt1.png' | relative_url }}" alt="Mesh details for Design III attempt 1: 10,869 elements, 17,641 nodes, maximum element size 0.168 in, maximum aspect ratio 3.53">
 <p>Mass properties: 4.74 in<sup>3</sup> and 0.46 lb, which is 20% less volume than Design II (5.91 in<sup>3</sup>, 0.58 lb) and about the same as the original Design I (4.75 in<sup>3</sup>, 0.46 lb).</p>
 <img src="{{ '/assignments/A07/D3-mass-properties.png' | relative_url }}" alt="SolidWorks mass properties for the Design III bracket, volume 4.74 cubic inches, mass 0.46 pounds">
 
-<h3>Inner Loop - Mesh Convergence</h3>
-<table>
-  <thead>
-    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th><th>% difference from previous</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td>10,869</td><td>86,010</td><td>0.05607</td><td>0.4637</td><td>-</td></tr>
-    <tr><td>2</td><td>18,971</td><td>88,720</td><td>0.05612</td><td>0.4496</td><td>stress 3.15%, displacement 0.09%, safety factor 3.04%</td></tr>
-  </tbody>
-</table>
-<p>All three results changed by less than 7%, so Design III converged on the second attempt and I used the 18,971-element results. Attempt 2 used a finer mesh: 18,971 elements, 29,993 nodes, maximum element size 0.134 in, maximum aspect ratio 3.58.</p>
+<h4>Inner Loop - Mesh Convergence</h4>
+<p>Attempt 2 used a finer mesh: 18,971 elements, 29,993 nodes, maximum element size 0.134 in, maximum aspect ratio 3.58.</p>
 <img src="{{ '/assignments/A07/D3-mesh-settings-attempt2.png' | relative_url }}" alt="Mesh menu with the density slider moved toward fine for Design III attempt 2">
 <img src="{{ '/assignments/A07/D3-mesh-attempt2.png' | relative_url }}" alt="Meshed Design III bracket for attempt 2">
 <img src="{{ '/assignments/A07/D3-mesh-details-attempt2.png' | relative_url }}" alt="Mesh details for Design III attempt 2: 18,971 elements, 29,993 nodes, maximum element size 0.134 in, maximum aspect ratio 3.58">
+<table>
+  <thead>
+    <tr><th>Attempt</th><th>Elements</th><th>Max stress (psi)</th><th>Max displacement (in)</th><th>Safety factor</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>10,869</td><td>86,010</td><td>0.05607</td><td>0.4637</td></tr>
+    <tr><td>2</td><td>18,971</td><td>88,720</td><td>0.05612</td><td>0.4496</td></tr>
+    <tr><td>% difference</td><td></td><td>3.15%</td><td>0.09%</td><td>3.04%</td></tr>
+  </tbody>
+</table>
+<p>All three results changed by less than 7%, so Design III converged on the second attempt and I used the 18,971-element results.</p>
 
-<h3>Results</h3>
+<h4>Results</h4>
 <p>Attempt 1 (10,869 elements):</p>
 <img src="{{ '/assignments/A07/D3-vonmises-attempt1.png' | relative_url }}" alt="von Mises stress plot for Design III attempt 1, maximum 86,010 psi in the plate above the cylinder">
 <img src="{{ '/assignments/A07/D3-displacement-attempt1.png' | relative_url }}" alt="Displacement plot for Design III attempt 1, maximum 0.05607 in at the cylinder">
@@ -166,23 +147,71 @@ title: "A07 - Bracket FEA"
 <img src="{{ '/assignments/A07/D3-vonmises-attempt2.png' | relative_url }}" alt="von Mises stress plot for Design III attempt 2, maximum 88,720 psi in the plate above the cylinder">
 <img src="{{ '/assignments/A07/D3-displacement-attempt2.png' | relative_url }}" alt="Displacement plot for Design III attempt 2, maximum 0.05612 in at the cylinder">
 <img src="{{ '/assignments/A07/D3-fos-attempt2.png' | relative_url }}" alt="Factor of safety plot for Design III attempt 2, minimum 0.4496">
-<p>Compared with Design II, Design III is 20% lighter by volume (4.74 vs 5.91 in<sup>3</sup>) and 3.5% stiffer (0.05612 vs 0.05816 in), but its maximum stress is 13% higher (88,720 vs 78,740 psi) and its safety factor is lower (0.450 vs 0.507). The lightened block cost no stiffness, since the block was nearly unstressed, and the larger fillet on Features A and B did not reduce the peak stress. The stress is set by bending of the plate above the cylinder, and neither change touched that.</p>
 
-<h2>Mistakes</h2>
-<ul>
-  <li><strong>Mass reported with no material assigned.</strong> The first Mass Properties reading for Design I gave 0.17 lb at a density of 0.04 lb/in<sup>3</sup>. 6061-T6 is 0.0975 lb/in<sup>3</sup>, so the part had no material assigned in SolidWorks and fell back to the default density of 1 g/cm<sup>3</sup>. The study had the correct material, so the stress, displacement, and safety factor results were not affected. Assigning 6061-T6 to the part fixes the mass.</li>
-  <li><strong>Unreadable factor of safety plot.</strong> The default legend ran up to 10<sup>16</sup>, which turned the whole part red and hid where the part actually fails. Limiting the plot to areas below a factor of safety of 1 makes the failing region visible.</li>
-</ul>
-<!-- TODO: add any further mistakes as they happen -->
+<h2>Decide</h2>
 
-<h2>Downloadable Files</h2>
+<h3>Results Summary</h3>
+<p>Each column is the final, converged result of one pass through the outer loop.</p>
+<table>
+  <thead>
+    <tr><th></th><th>Design I</th><th>Design II</th><th>Design III</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Max stress and location</td><td>216,000 psi, in the connecting plate (Feature B)</td><td>78,740 psi, in the plate where it meets the cylinder</td><td>88,720 psi, in the plate above the cylinder</td></tr>
+    <tr><td>Max deflection and location</td><td>0.4645 in, at the cylinder (Feature A)</td><td>0.05816 in, at the cylinder</td><td>0.05612 in, at the cylinder</td></tr>
+    <tr><td>Mass</td><td>0.46 lb</td><td>0.58 lb</td><td>0.46 lb</td></tr>
+    <tr><td>Safety factor</td><td>0.185</td><td>0.507</td><td>0.450</td></tr>
+    <tr><td>Number of elements</td><td>17,841</td><td>20,770</td><td>18,971</td></tr>
+  </tbody>
+</table>
+
+<h3>What Each Change Did</h3>
+<table>
+  <thead>
+    <tr><th></th><th>Max stress</th><th>Max displacement</th><th>Safety factor</th><th>Volume</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Design I to II</td><td>64% lower</td><td>87% lower</td><td>2.7 times higher</td><td>24% higher</td></tr>
+    <tr><td>Design II to III</td><td>13% higher</td><td>3.5% lower</td><td>11% lower</td><td>20% lower</td></tr>
+    <tr><td>Design I to III</td><td>59% lower</td><td>88% lower</td><td>2.4 times higher</td><td>0.2% lower</td></tr>
+  </tbody>
+</table>
+
+<h3>Design Decisions</h3>
+<p><strong>Design I to Design II.</strong> The A05 hand calculations treated the plate as an axial bar. In the model, the cylinder hangs to one side of the plate, so the 1,600 lbf load acts offset from the plate and bends it, which the axial model did not include. The 0.17 in thick plate carried that bending and deflected about 0.46 in at the cylinder. Thickening the plate was the change that mattered: stress fell 64% and displacement fell 87%, for 24% more volume.</p>
+<p><strong>Design II to Design III.</strong> The block was nearly unstressed in every plot, so Design III removed its corners, which took the volume back to 4.74 in<sup>3</sup>, and enlarged the A-B fillet to 0.25 in. Together the two changes cost no stiffness (displacement 3.5% lower), but the larger fillet did not lower the peak stress: it went up 13%, and the peak sits on the plate face above the cylinder, not at the junction. The stress there is set by bending of the plate, and neither change touched that.</p>
+<p><strong>Final design.</strong> Design III is the one I would carry forward. It is as light as the original, its deflection is 88% lower than Design I, and its safety factor is within 11% of the strongest design, Design II. Design II is the strongest of the three but costs 26% more mass for that. None of the three reaches a safety factor of 1, let alone the target of 4 from A05, so the bracket is not safe at 1,600 lbf yet. Getting from 88,720 psi to the allowable 9,971 psi (S<sub>y</sub> / 4) needs about 8.9 times less stress. If plate bending governs, bending stress falls with the square of thickness, so that points to a plate about 3 times thicker, or to moving the load path so the cylinder is centered on the plate and the bending moment disappears. Either would be the next outer loop.</p>
+
+<h2>Communicate</h2>
+
+<h3>Downloadable Files</h3>
 <ul>
   <li><a href="{{ '/assignments/A07/bracket-design-I.SLDPRT' | relative_url }}" download>bracket-design-I.SLDPRT</a></li>
   <li><a href="{{ '/assignments/A07/bracket-design-II.SLDPRT' | relative_url }}" download>bracket-design-II.SLDPRT</a></li>
   <li><a href="{{ '/assignments/A07/bracket-design-III.SLDPRT' | relative_url }}" download>bracket-design-III.SLDPRT</a></li>
+  <li><a href="{{ '/assignments/A07/A07.pdf' | relative_url }}" download>A07.pdf</a></li>
 </ul>
-<!-- TODO: files must be copied into docs/assignments/A07/ with these exact names or the links break (15% deduction if the CAD link is missing) -->
 
-<h2>Reflections</h2>
-<p>Time spent: TODO (from first read of the assignment on Oct 21 to submission).</p>
-<p>TODO: specific engineering lessons. Avoid "good" and "bad"; state what changed and by how much.</p>
+<h3>Mistakes</h3>
+<ul>
+  <li><strong>Mass reported with no material assigned.</strong> The first Mass Properties reading for Design I gave 0.17 lb at a density of 0.04 lb/in<sup>3</sup>. 6061-T6 is 0.0975 lb/in<sup>3</sup>, so the part had no material assigned in SolidWorks and fell back to the default density of 1 g/cm<sup>3</sup>. The study had the correct material, so the stress, displacement, and safety factor results were not affected, but the mass was wrong, and comparing it with Design II (0.58 lb, correct density) would have shown a mass increase of 3.4 times instead of 26%. I caught it from the density line, assigned 6061-T6 to the part, and re-read the mass as 0.46 lb.</li>
+</ul>
+<img src="{{ '/assignments/A07/D1-mass-properties.png' | relative_url }}" alt="Design I mass properties before the material was assigned: density 0.04 lb per cubic inch, mass 0.17 pounds">
+<ul>
+  <li><strong>Could not find the element count or the factor of safety plot at first.</strong> The element count is not in the Mesh menu; it is under right-click Mesh, Details. The factor of safety plot is not created by default; it comes from right-click Results, Define Factor of Safety Plot.</li>
+  <li><strong>Unreadable factor of safety legends.</strong> The default legend scale runs to 10<sup>16</sup>, which turns the whole part red and hides where the part fails. I did not rerun the plots with the "areas below factor of safety" setting, so I read the minimum safety factor from the legend and used the von Mises plots to find the failing region.</li>
+  <li><strong>Material added where it was not needed.</strong> The Design II back-profile extrude covered the block as well as the plate, so about 1.16 in<sup>3</sup> of new material went in, part of it into the region that carries almost no stress. Design III then removed block material to recover the mass.</li>
+</ul>
+
+<h3>Reflections</h3>
+<p><strong>Time spent:</strong> 5.5 hours of work in total, from reading the assignment on Oct 21 to finishing the page on Oct 22: 4 hours for the design and the studies in SolidWorks, and 1.5 hours writing the portfolio page.</p>
+
+<p><strong>Engineering lessons:</strong></p>
+<ul>
+  <li><strong>FEA checked an assumption that the hand calculations could not.</strong> In A05 each feature was sized in isolation, with the plate modeled as an axial bar. The 3D model showed the load path is offset, so the plate also bends, and the safety factor came out at 0.185 where the hand calculation promised 4. The error was in the model of the load path, not in the arithmetic.</li>
+  <li><strong>Refining the mesh once was enough for every design.</strong> Going from roughly 9,000-11,000 elements to 18,000-21,000 elements changed the stress by 0.6% to 3.8%, the displacement by 0.1% to 1.0%, and the safety factor by 0.7% to 4.0%, all inside the 7% limit. Displacement moved the least in Designs II and III (0.09%), which fits the fact that it depends on the stiffness of the whole part, while stress depends on the local mesh at the hot spot. Every mesh took 1 to 3 seconds to build, so on a part this small the cost of a finer mesh was negligible. I expect that to change for larger parts, where element count drives solve time.</li>
+  <li><strong>A linear static study has a range where it is valid.</strong> Design I deflected 0.46 in and SolidWorks flagged excessive displacement. At that point the 216,000 psi is an indication of where and how badly the plate is overstressed, not a number to design to. After the plate was thickened the deflection fell to 0.058 in, an 87% drop.</li>
+  <li><strong>A fillet only helps if the peak sits at the corner.</strong> Raising the A-B fillet from 0.1 in to 0.25 in did not lower the peak stress, because the peak was on the plate face above the cylinder, where bending governs. The stress plot, not the shape of the part, shows where to put the material.</li>
+  <li><strong>Mass has to be checked from the part, not the study.</strong> The simulation material and the part material are separate settings in SolidWorks. The study ran correctly with 6061-T6 while the part had no material, which gave a mass off by a factor of 2.7.</li>
+  <li><strong>Strength, stiffness, and mass pulled against each other.</strong> Design II bought a 64% stress drop for 26% more mass, and Design III gave the mass back at the cost of a 13% stress increase. None of the three met the safety factor, which shows the limit comes from the load path and the plate, not from the amount of material in the block.</li>
+</ul>
