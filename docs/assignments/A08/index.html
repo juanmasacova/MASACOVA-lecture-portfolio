@@ -4,9 +4,358 @@ title: "A8 – Gears"
 <h1>A8 – Gears</h1>
 
 <h2>Objective</h2>
+<p>The objective is to design a gearbox that can be assembled and disassembled around a pair of meshed spur gears: size the input and output shafts for strength, design and select the journal bearings that carry the shafts, sketch a two-component housing and decide how its halves fasten together, and build the result as a parametric CAD model with the McMaster-Carr parts downloaded into it.</p>
 
-<h2>Analyze</h2>
+<h2>Given Data and Assumptions</h2>
+<p>Spur gear ratio 24:9, with the pinion (7880K19) on the input shaft and the gear (7880K24) on the output shaft. The output gear torque and speed are 1.25 in&middot;lb<sub>f</sub> and 1100 rpm. The input (pinion, power-transmission) shaft is 0.125 in in diameter and the output (gear, short) shaft is 0.25 in in diameter, both 1 in long. Equations for the shafts come from Machinery's Handbook (empirical units) and the lecture.</p>
+<ul>
+  <li>The shafts are strong enough to be checked with the Machinery's Handbook equations.</li>
+  <li>The gear train is ideal (no losses).</li>
+  <li>The moment of the radial force from the gear train is small enough to ignore, so the shafts carry torsion only.</li>
+  <li>The shafts are press fit through the hubs of the gears.</li>
+  <li>There is enough clearance between the gears and the gearbox.</li>
+  <li>The shaft holes use a running sliding fit.</li>
+</ul>
 
-<h2>Decide</h2>
+<h2>1. Design of the Shafts</h2>
 
-<h2>Communicate</h2>
+<h3>Gear Train Setup: Speeds, Torques, and Power</h3>
+<p>Both shaft checks and the bearing loads need the speed, torque, and power of each shaft, so I worked these out first. The pinion is the small gear, so it turns faster than the gear and carries less torque.</p>
+<ul>
+  <li><strong>Input speed:</strong> N<sub>1</sub>/N<sub>2</sub> = 24/9, so N<sub>1</sub> = 1100(24/9) = <strong>2933.3 rpm</strong>.</li>
+  <li><strong>Input torque:</strong> for an ideal train, power in equals power out, so T<sub>1</sub>N<sub>1</sub> = T<sub>2</sub>N<sub>2</sub> and T<sub>1</sub> = 1.25(9/24) = <strong>0.46875 in&middot;lb<sub>f</sub></strong>.</li>
+  <li><strong>Power:</strong> P = T&omega; = T(2&pi;N/60) = 1.25(2&pi;(1100)/60) = 143.99 in&middot;lb<sub>f</sub>/s. With 1 hp = 6600 in&middot;lb<sub>f</sub>/s this is <strong>0.021817 hp</strong>, the same on both shafts. The Handbook equations use horsepower, so P = TN/63025 with T in in&middot;lb<sub>f</sub> and N in rpm.</li>
+</ul>
+<img src="{{ '/assignments/A08/handcalc-1-gear-train.jpg' | relative_url }}" alt="Handwritten calculation of the input speed 2933.3 rpm, input torque 0.46875 inch-pounds, and power 0.021817 horsepower">
+<p>Gear train setup: N<sub>1</sub> = 2933.3 rpm, T<sub>1</sub> = 0.46875 in&middot;lb<sub>f</sub>, P = 0.021817 hp.</p>
+
+<h3>1a. Input Shaft (Power-Transmission), D = 0.125 in</h3>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: T<sub>1</sub> = 0.46875 in&middot;lb<sub>f</sub>, N<sub>1</sub> = 2933.3 rpm, P = 0.021817 hp, D<sub>1</sub> = 0.125 in, L = 1 in. Unknowns: shear stress &tau;, allowable power P<sub>allow</sub>, minimum diameter D<sub>min</sub>, allowable stress &tau;<sub>allow</sub>.</p>
+<p><strong>ii. Free body diagram.</strong> Three sketches. The whole shaft has the drive torque T<sub>1</sub> at the input end and the equal and opposite reaction at the pinion, where the mesh pushes back. Cutting the shaft anywhere along its length and summing moments about the axis gives an internal torque T = T<sub>1</sub>, constant along the shaft, with no shear force or bending moment because the radial force is ignored. On the cross-section the shear stress is zero at the center and reaches its maximum at the surface (c = D/2 = 0.0625 in), growing linearly with radius.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li>Torsion: &tau; = Tc/J with c = D/2 and J = &pi;D<sup>4</sup>/32, so <strong>&tau; = 16T/(&pi;D<sup>3</sup>)</strong>.</li>
+  <li>Machinery's Handbook Eq. 4a for a main power-transmitting shaft: <strong>P<sub>allow</sub> = D<sup>3</sup>N/80</strong>, and solved for the diameter (Eq. 4b) <strong>D<sub>min</sub> = &#8731;(80P/N)</strong>.</li>
+  <li>To connect Eq. 4a to stress, set P = P<sub>allow</sub> and use T = 63025P/N. This gives T = 63025D<sup>3</sup>/80, so <strong>&tau;<sub>allow</sub> = 16(63025)/(80&pi;)</strong>. D cancels, which shows that Eq. 4a is built on a fixed allowable shear stress.</li>
+  <li>The shaft is sufficient if P &le; P<sub>allow</sub>, D &ge; D<sub>min</sub>, and &tau; &le; &tau;<sub>allow</sub>.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>&tau;</td><td>16(0.46875)/(&pi;(0.125)<sup>3</sup>)</td><td>1222 psi</td></tr>
+    <tr><td>P<sub>allow</sub></td><td>(0.125)<sup>3</sup>(2933.3)/80</td><td>0.0716 hp</td></tr>
+    <tr><td>D<sub>min</sub></td><td>&#8731;(80(0.021817)/2933.3)</td><td>0.0841 in</td></tr>
+    <tr><td>&tau;<sub>allow</sub></td><td>16(63025)/(80&pi;)</td><td>4012.3 psi</td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> The input shaft is <strong>sufficient</strong>. The power P = 0.0218 hp is below P<sub>allow</sub> = 0.0716 hp, the diameter D<sub>1</sub> = 0.125 in is above D<sub>min</sub> = 0.0841 in, and &tau; = 1222 psi is below &tau;<sub>allow</sub> = 4012 psi, a safety factor of 3.28 (4012.3/1222.3, which equals P<sub>allow</sub>/P).</p>
+<img src="{{ '/assignments/A08/handcalc-2-input-shaft.jpg' | relative_url }}" alt="Handwritten input shaft calculation with free body diagrams, torsion stress 1222 psi, allowable power 0.0716 horsepower, minimum diameter 0.0841 inches, and allowable stress 4012.3 psi">
+<p>Input shaft: knowns and unknowns, free body diagrams, and calculations. The N<sub>1</sub> in the Knowns line is 2933.3 rpm (the handwritten 3 reads like a 9); every calculation used 2933.3.</p>
+
+<h3>1b. Output Shaft (Short Shaft), D = 0.25 in</h3>
+<p>Same method, with the Handbook equations for small, short shafts and the output speed N<sub>2</sub> = 1100 rpm.</p>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: T<sub>2</sub> = 1.25 in&middot;lb<sub>f</sub>, N<sub>2</sub> = 1100 rpm, P = 0.021817 hp, D<sub>2</sub> = 0.25 in, L = 1 in. Unknowns: &tau;, P<sub>allow</sub>, D<sub>min</sub>, &tau;<sub>allow</sub>.</p>
+<p><strong>ii. Free body diagram.</strong> The gear, press fit on the shaft, is at one end. The mesh applies T<sub>2</sub> at the gear, and the equal and opposite output load acts at the other end. The cut gives T = T<sub>2</sub> with no shear or bending, and the cross-section has &tau; = 0 at the center and &tau;<sub>max</sub> at c = D/2 = 0.125 in.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li><strong>&tau; = 16T/(&pi;D<sup>3</sup>)</strong>, as before.</li>
+  <li>Handbook Eq. 6a for small, short shafts: <strong>P<sub>allow</sub> = D<sup>3</sup>N/38</strong>, and <strong>D<sub>min</sub> = &#8731;(38P/N)</strong> (Eq. 6b).</li>
+  <li>With T = 63025P/N at P = P<sub>allow</sub>: <strong>&tau;<sub>allow</sub> = 16(63025)/(38&pi;)</strong>, and D again cancels.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>&tau;</td><td>16(1.25)/(&pi;(0.25)<sup>3</sup>)</td><td>407.4 psi</td></tr>
+    <tr><td>P<sub>allow</sub></td><td>(0.25)<sup>3</sup>(1100)/38</td><td>0.4523 hp</td></tr>
+    <tr><td>D<sub>min</sub></td><td>&#8731;(38(0.021817)/1100)</td><td>0.0910 in</td></tr>
+    <tr><td>&tau;<sub>allow</sub></td><td>16(63025)/(38&pi;)</td><td>8446.9 psi</td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> The output shaft is <strong>sufficient</strong>. P = 0.0218 hp is below P<sub>allow</sub> = 0.4523 hp, D<sub>2</sub> = 0.25 in is above D<sub>min</sub> = 0.0910 in, and &tau; = 407.4 psi is below &tau;<sub>allow</sub> = 8446.9 psi, a safety factor of 20.7.</p>
+<img src="{{ '/assignments/A08/handcalc-3-output-shaft.jpg' | relative_url }}" alt="Handwritten output shaft calculation with free body diagrams, torsion stress 407.4 psi, allowable power 0.4523 horsepower, minimum diameter 0.0910 inches, and allowable stress 8446.9 psi">
+<p>Output shaft: knowns and unknowns, free body diagrams, and calculations.</p>
+
+<h2>2. Journal Bearings</h2>
+
+<h3>2a. Size, Pressure, Velocity, and PV</h3>
+<p>The bearing loads come from the gear forces, so I needed the real gear geometry from the McMaster-Carr drawings.</p>
+<table>
+  <thead>
+    <tr><th></th><th>Pinion 7880K19</th><th>Gear 7880K24</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Teeth N</td><td>18</td><td>48</td></tr>
+    <tr><td>Diametral pitch</td><td>48</td><td>48</td></tr>
+    <tr><td>Pitch diameter d = N/DP</td><td>0.375 in</td><td>1.000 in</td></tr>
+    <tr><td>Pressure angle</td><td>20&deg;</td><td>20&deg;</td></tr>
+    <tr><td>Bore</td><td>0.125 in</td><td>0.250 in</td></tr>
+    <tr><td>Face width</td><td>0.125 in</td><td>0.125 in</td></tr>
+    <tr><td>Total width (face and hub)</td><td>0.315 in</td><td>0.375 in</td></tr>
+  </tbody>
+</table>
+<p>The tooth counts give 48/18 = 24/9, which matches the required gear ratio, and the bores match the 0.125 in and 0.25 in shaft diameters.</p>
+<img src="{{ '/assignments/A08/mcmaster-7880K19-pinion-drawing.png' | relative_url }}" alt="McMaster-Carr drawing of the pinion 7880K19: 18 teeth, 48 pitch, 0.375 inch pitch diameter, 20 degree pressure angle, 0.125 inch bore">
+<p>McMaster-Carr drawing of the pinion, 7880K19.</p>
+<img src="{{ '/assignments/A08/mcmaster-7880K24-gear-drawing.png' | relative_url }}" alt="McMaster-Carr drawing of the gear 7880K24: 48 teeth, 48 pitch, 1.000 inch pitch diameter, 20 degree pressure angle, 0.250 inch bore">
+<p>McMaster-Carr drawing of the gear, 7880K24.</p>
+
+<p><strong>i. Knowns and unknowns.</strong> Knowns: T<sub>1</sub> = 0.46875 in&middot;lb<sub>f</sub>, T<sub>2</sub> = 1.25 in&middot;lb<sub>f</sub>, N<sub>1</sub> = 2933.3 rpm, N<sub>2</sub> = 1100 rpm, d<sub>1</sub> = 0.375 in, d<sub>2</sub> = 1 in, &alpha; = 20&deg;, D<sub>1</sub> = 0.125 in, D<sub>2</sub> = 0.25 in, and the application limits table. Unknowns: F<sub>t</sub>, F<sub>r</sub>, bearing load F<sub>b</sub>, bearing length L<sub>b</sub>, pressure P, velocity V, PV.</p>
+<p><strong>Bearing size.</strong> The bearing inside diameter equals the shaft diameter (0.125 in for the pinion shaft, 0.25 in for the gear shaft), and each shaft has two bearings, one at each end, with the gear between them, so by symmetry each bearing carries half the load. I chose a bearing length L<sub>b</sub> = 0.25 in. It has to fit with the gear on the 1 in shaft: pinion 0.315 + 2(0.25) = 0.815 in and gear 0.375 + 2(0.25) = 0.875 in, both under 1 in.</p>
+<p><strong>ii. Free body diagram.</strong> End view: the shaft pushes down on the bearing bore with F<sub>b</sub>, the pressure acts on the loaded half of the bore, and the housing reacts with an equal and opposite force R = F<sub>b</sub>. Side view: the bearing length L<sub>b</sub> and the shaft diameter D define the projected area A = D&middot;L<sub>b</sub>.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li>Tangential force (lecture): <strong>F<sub>t</sub> = 2T/d</strong>. Computed from the pinion and from the gear, it must agree.</li>
+  <li>Radial force (lecture): <strong>F<sub>r</sub> = F<sub>t</sub> tan &alpha;</strong>.</li>
+  <li>Load per bearing: <strong>F<sub>b</sub> = F<sub>r</sub>/2</strong>.</li>
+  <li>Pressure on the projected area: <strong>P = F<sub>b</sub>/(D&middot;L<sub>b</sub>)</strong>.</li>
+  <li>Surface speed: <strong>V = &pi;DN/12</strong> in ft/min, with D in inches and N in rpm.</li>
+  <li><strong>PV = P&middot;V</strong>, in psi&middot;ft/min.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong> F<sub>t</sub> = 2(0.46875)/0.375 = 2(1.25)/1 = 2.500 lb<sub>f</sub> from both gears, so the two agree. F<sub>r</sub> = 2.5 tan 20&deg; = 0.910 lb<sub>f</sub>, and F<sub>b</sub> = 0.910/2 = 0.455 lb<sub>f</sub>. The resultant tooth force W = F<sub>t</sub>/cos &alpha; = 2.66 lb<sub>f</sub> is shown on the scan for reference; the sizing follows the lecture and uses the radial force.</p>
+<table>
+  <thead>
+    <tr><th></th><th>Pinion shaft (D = 0.125 in)</th><th>Gear shaft (D = 0.25 in)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>P = F<sub>b</sub>/(D&middot;L<sub>b</sub>)</td><td>0.455/(0.125(0.25)) = 14.6 psi</td><td>0.455/(0.25(0.25)) = 7.28 psi</td></tr>
+    <tr><td>V = &pi;DN/12</td><td>&pi;(0.125)(2933.3)/12 = 96 ft/min</td><td>&pi;(0.25)(1100)/12 = 72 ft/min</td></tr>
+    <tr><td>PV</td><td>14.6(96) = 1398 psi&middot;ft/min</td><td>7.28(72) = 524 psi&middot;ft/min</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A08/handcalc-4-bearing-sizing.jpg' | relative_url }}" alt="Handwritten journal bearing sizing: gear forces, bearing size, free body diagram, and pressure, velocity, and PV for the pinion and gear shafts">
+<p>Journal bearing sizing: gear forces, bearing length, free body diagram, pressure, velocity, and PV.</p>
+
+<p><strong>v. Material selection.</strong> I compared every material in the lecture table (Table 6) against the pinion-shaft values, which are the worse case: P = 14.6 psi, V = 96 ft/min, PV = 1398. Crossed-out rows were rejected for the reasons below; only Virgin Teflon actually fails a limit, and the others pass but leave less margin or have a practical drawback.</p>
+<img src="{{ '/assignments/A08/table6-material-selection.png' | relative_url }}" alt="Application limits table for sintered metal and nonmetallic bearings with every material crossed out except porous bronze">
+<p>Table 6 with the rejected materials crossed out. Porous bronze is the selection.</p>
+<table>
+  <thead>
+    <tr><th>Material</th><th>Reason rejected</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Acetal</td><td>Passes, but the PV margin is only 2.1 times (3000 against 1398), and its 180&deg;F ceiling is the lowest of the plastics.</td></tr>
+    <tr><td>Graphite (dry)</td><td>Passes, but the PV margin is 10.7 times against 35.8 times for porous bronze, and graphite is brittle.</td></tr>
+    <tr><td>Graphite (lubricated)</td><td>Highest PV limit, but it needs an external lubricant supply and the gearbox has no provision for one.</td></tr>
+    <tr><td>Nylon, polycarbonate</td><td>Same as acetal: a PV margin of 2.1 times and a 200&deg;F ceiling.</td></tr>
+    <tr><td>Nylon composite</td><td>Load capacity and maximum speed are not listed, so two of the three limits cannot be checked.</td></tr>
+    <tr><td>Phenolics</td><td>Passes, but the PV margin is 10.7 times against 35.8 times for porous bronze.</td></tr>
+    <tr><td>Porous iron</td><td>Same 50,000 PV limit as bronze, but the speed limit is 800 ft/min against 1500, an 8.3 times margin against 15.6 times.</td></tr>
+    <tr><td>Porous metals</td><td>A generic category rather than a specific orderable material, with the lowest temperature limit (150&deg;F) of the porous group.</td></tr>
+    <tr><td>Virgin Teflon (TFE)</td><td><strong>Fails:</strong> the speed limit is 50 ft/min, below both 96 and 72 ft/min, and the PV limit of 1000 is below 1398 on the pinion shaft.</td></tr>
+    <tr><td>Reinforced Teflon</td><td>Passes, but the PV margin is only 7.2 to 10.7 times (10,000 to 15,000).</td></tr>
+    <tr><td>TFE fabric</td><td>Passes, but the speed limit is 150 ft/min against 96, a margin of only 1.6 times.</td></tr>
+    <tr><td>Rubber</td><td>Passes, but the load margin is only 3.4 times (50 psi against 14.6 psi), and it is soft and deforms under load.</td></tr>
+    <tr><td>Maple and lignum vitae</td><td>Passes, but the PV margin is 10.7 times, and wood swells and wears with moisture.</td></tr>
+  </tbody>
+</table>
+<p><strong>Selected: porous bronze</strong> (oil-impregnated sintered bronze) for both shafts.</p>
+<table>
+  <thead>
+    <tr><th></th><th>Pinion shaft</th><th>Gear shaft</th><th>Porous bronze limit</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pressure P</td><td>14.6 psi</td><td>7.28 psi</td><td>4500 psi</td></tr>
+    <tr><td>Velocity V</td><td>96 ft/min</td><td>72 ft/min</td><td>1500 ft/min</td></tr>
+    <tr><td>PV</td><td>1398</td><td>524</td><td>50,000</td></tr>
+    <tr><td>Temperature</td><td colspan="2">room temperature</td><td>160&deg;F</td></tr>
+  </tbody>
+</table>
+<p>The PV margins are 35.8 times (pinion shaft) and 95 times (gear shaft), with large margins on pressure and speed as well.</p>
+
+<h3>2b. Thickness of the Journal Bearing</h3>
+<p>I modeled the bearing as a thin-walled sleeve loaded by the bearing pressure on its bore. The allowable stress is the porous bronze load capacity from Table 6, &sigma;<sub>allow</sub> = 4500 psi, and the loading is the pressure from 2a.</p>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: P<sub>1</sub> = 14.6 psi, P<sub>2</sub> = 7.28 psi, D<sub>1</sub> = 0.125 in, D<sub>2</sub> = 0.25 in, L<sub>b</sub> = 0.25 in, &sigma;<sub>allow</sub> = 4500 psi. Unknowns: hoop stress &sigma;<sub>h</sub> and minimum wall thickness t<sub>min</sub>.</p>
+<p><strong>ii. Free body diagram.</strong> The ring is cut along a diameter and the top half is the free body. The bore pressure pushes the half up with a resultant F<sub>P</sub> = P(2r)L<sub>b</sub>, acting over the projected width 2r. Each of the two cut faces carries the hoop stress force &sigma;<sub>h</sub>&middot;t&middot;L<sub>b</sub> downward, where t L<sub>b</sub> is the area of the cut.</p>
+<p><strong>iii. Model and algebraic solution.</strong> ΣF<sub>y</sub> = 0 gives 2&sigma;<sub>h</sub>&middot;t&middot;L<sub>b</sub> &minus; P(2r)L<sub>b</sub> = 0. L<sub>b</sub> cancels, so <strong>&sigma;<sub>h</sub> = Pr/t</strong>. Setting &sigma;<sub>h</sub> = &sigma;<sub>allow</sub> and solving for the thickness gives <strong>t<sub>min</sub> = Pr/&sigma;<sub>allow</sub></strong>.</p>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th></th><th>Pinion bearing (r = 0.0625 in)</th><th>Gear bearing (r = 0.125 in)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>F<sub>P</sub> = P(2r)L<sub>b</sub></td><td>14.6(2(0.0625))(0.25) = 0.456 lb<sub>f</sub></td><td>7.28(2(0.125))(0.25) = 0.455 lb<sub>f</sub></td></tr>
+    <tr><td>Force per cut face = F<sub>P</sub>/2</td><td>0.228 lb<sub>f</sub></td><td>0.2275 lb<sub>f</sub></td></tr>
+    <tr><td>t<sub>min</sub> = Pr/&sigma;<sub>allow</sub></td><td>14.6(0.0625)/4500 = 2.03 &times; 10<sup>-4</sup> in</td><td>7.28(0.125)/4500 = 2.02 &times; 10<sup>-4</sup> in</td></tr>
+  </tbody>
+</table>
+<p>The minimum wall thickness required for strength is about 0.0002 in for both the pinion and gear bearings. The two values are nearly identical because Pr = F<sub>b</sub>/(2L<sub>b</sub>) is the same for both bearings. A wall this thin cannot be manufactured or handled, so the actual thickness is set by standard bearing sizes, and the strength requirement is satisfied by a very large margin.</p>
+<img src="{{ '/assignments/A08/handcalc-5-bearing-thickness.jpg' | relative_url }}" alt="Handwritten bearing wall thickness calculation with free body diagrams of the cut ring, pressure force, hoop stress, and minimum thickness of 2.03e-4 inches for the pinion bearing and 2.02e-4 inches for the gear bearing">
+<p>Bearing thickness: free body diagrams of the ring and the cut half, pressure force, hoop stress, and minimum thickness.</p>
+
+<h3>2c. Journal Bearings from McMaster-Carr</h3>
+<table>
+  <thead>
+    <tr><th></th><th>Pinion shaft bearing</th><th>Gear shaft bearing</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>McMaster-Carr part number</td><td>6391K111</td><td>6391K131</td></tr>
+    <tr><td>Component name</td><td>Oil-Embedded 841 Bronze Sleeve Bearing for 1/8&quot; Shaft Diameter and 1/4&quot; Housing ID, 1/4&quot; Long</td><td>Oil-Embedded 841 Bronze Sleeve Bearing for 1/4&quot; Shaft Diameter and 3/8&quot; Housing ID, 1/4&quot; Long</td></tr>
+    <tr><td>ID (shaft)</td><td>1/8 in (0.125 in)</td><td>1/4 in (0.250 in)</td></tr>
+    <tr><td>OD (housing bore)</td><td>1/4 in (0.250 in)</td><td>3/8 in (0.375 in)</td></tr>
+    <tr><td>Length</td><td>1/4 in (0.250 in)</td><td>1/4 in (0.250 in)</td></tr>
+    <tr><td>Wall thickness</td><td>1/16 in</td><td>1/16 in</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A08/catalog-6391K111-pinion-bearing.png' | relative_url }}" alt="McMaster-Carr listing: Oil-Embedded 841 Bronze Sleeve Bearing for 1/8 inch shaft diameter and 1/4 inch housing ID, 1/4 inch long">
+<img src="{{ '/assignments/A08/catalog-6391K131-gear-bearing.png' | relative_url }}" alt="McMaster-Carr listing: Oil-Embedded 841 Bronze Sleeve Bearing for 1/4 inch shaft diameter and 3/8 inch housing ID, 1/4 inch long">
+<p>The two McMaster-Carr listings: 6391K111 for the pinion shaft (left) and 6391K131 for the gear shaft (right).</p>
+<p>Both bearings are oil-embedded 841 bronze, the porous bronze selected from Table 6, with ample margin on pressure, speed, and PV. The ID of each bearing matches its shaft (1/8 in for the pinion shaft and 1/4 in for the gear shaft), and the 1/4 in length matches the L<sub>b</sub> used in the pressure and PV calculations. The 1/16 in wall is about 300 times the 0.0002 in minimum thickness from the strength calculation, so the strength requirement is met by a large margin. McMaster lists the bearing OD as the housing ID, so the housing bores are 0.250 in (pinion bearing) and 0.375 in (gear bearing).</p>
+
+<h2>3. Gearbox Housing</h2>
+<p>The housing is two square plates that hold the bearings, with the gears in the gap between them. Each plate has a bearing hole for each shaft, sized to its bearing, and the shaft centers are CD = (0.375 + 1.000)/2 = 0.6875 in apart, the center distance of the meshed pair.</p>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Plates</td><td>2.000 in square, 0.250 in thick (equal to the bearing length, so each bearing is pressed in flush with the plate)</td></tr>
+    <tr><td>Pinion bearing hole</td><td>&Oslash;0.250 in</td></tr>
+    <tr><td>Gear bearing hole</td><td>&Oslash;0.375 in</td></tr>
+    <tr><td>Hole spacing</td><td>0.6875 in center to center, on the horizontal axis of the plate</td></tr>
+    <tr><td>Screw holes</td><td>4, one in each corner, 0.2 in from each edge</td></tr>
+    <tr><td>Plate A (through-hole plate)</td><td>&Oslash;0.116 in clearance holes with an 82&deg; countersink to about &Oslash;0.23 in</td></tr>
+    <tr><td>Plate B (tapped plate)</td><td>#4-40 tapped holes, tap drill &Oslash;0.089 in (#43), through</td></tr>
+  </tbody>
+</table>
+<p><strong>How the two components fit together.</strong> Plate A is secured to plate B by four #4-40 flat head screws, passing through plate A (countersunk) and a spacer at each corner into tapped holes in plate B. The spacers hold the plates 0.500 in apart, which is the gap for the gears (0.25 in bearing + 0.50 in gap + 0.25 in bearing = the 1 in shaft length). I chose screws into tapped holes so no nuts are needed, the countersunk heads sit flush so both outer faces stay flat, and the screws can be removed and replaced repeatedly, which a snap fit would not allow. Washers on the shafts next to the gears hold the gears in position axially so the teeth stay aligned.</p>
+<p><strong>Clearance.</strong> The gear has a 1.042 in outside diameter, so its teeth reach 0.865 in from the plate center toward the gear side, 0.135 in short of the plate edge. The gear center is 0.921 in from a corner screw, which leaves 0.275 in between the gear teeth and a 0.25 in diameter spacer (0.921 &minus; 0.521 &minus; 0.125). The hub radii (0.140 in for the pinion and 0.315 in for the gear) sum to 0.455 in, less than the 0.6875 in center distance, so the hubs do not touch.</p>
+<img src="{{ '/assignments/A08/sketch-plates.jpg' | relative_url }}" alt="Hand sketches of plate A with countersunk screw holes and plate B with tapped holes, both showing the bearing hole positions and dimensions">
+<p>Sketch of the two plates: plate A (through holes with countersinks) and plate B (tapped holes), with the bearing holes and dimensions.</p>
+<img src="{{ '/assignments/A08/sketch-section-exploded.jpg' | relative_url }}" alt="Hand sketches of the section view through both shafts and the exploded assembly with the item list">
+<p>Section view through both shafts and exploded view with the item list.</p>
+
+<h2>4. CAD Model</h2>
+
+<h3>4a. Parametric Features</h3>
+<p>The critical features are driven by equations in SolidWorks. Both plates read the same global variables from one external file (equations.txt), so changing a value updates both parts, and the dimensions of each plate are linked to those variables.</p>
+<table>
+  <thead>
+    <tr><th>Variable</th><th>Value or equation</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>N_pinion, N_gear</td><td>18, 48</td><td>number of teeth</td></tr>
+    <tr><td>DP</td><td>48</td><td>diametral pitch</td></tr>
+    <tr><td>d_pinion, d_gear</td><td>N_pinion/DP = 0.375 in, N_gear/DP = 1.000 in</td><td>pitch diameters</td></tr>
+    <tr><td>CD</td><td>(d_pinion + d_gear)/2 = 0.6875 in</td><td>shaft center distance</td></tr>
+    <tr><td>bearing_L</td><td>0.25</td><td>bearing length</td></tr>
+    <tr><td>plate_t</td><td>bearing_L</td><td>plate thickness</td></tr>
+    <tr><td>shaft_L</td><td>1</td><td>shaft length</td></tr>
+    <tr><td>cavity</td><td>shaft_L &minus; 2 plate_t = 0.500 in</td><td>gap between the plates</td></tr>
+    <tr><td>plate_w</td><td>2</td><td>plate side</td></tr>
+    <tr><td>screw_off</td><td>0.2</td><td>screw distance from the plate edge</td></tr>
+    <tr><td>bore_pinion, bore_gear</td><td>0.25, 0.375</td><td>bearing outside diameters (housing bores)</td></tr>
+    <tr><td>D_shaft_pinion</td><td>0.125</td><td>pinion shaft diameter</td></tr>
+  </tbody>
+</table>
+<p>The plate dimensions are tied to the variables with equations: the plate side and thickness are plate_w and plate_t, the two bearing holes use bore_pinion and bore_gear and sit at &plusmn;CD/2 from the center, and the four screw holes sit at &plusmn;(plate_w/2 &minus; screw_off) = &plusmn;0.8 in. The values are displayed rounded (for example CD/2 shows as 0.34 in) but the model holds the exact 0.34375 in.</p>
+<img src="{{ '/assignments/A08/PLATEAEQUATIONS.png' | relative_url }}" alt="SolidWorks equations, global variables, and dimensions window for plate A, linked to an external equations file">
+<p>Plate A equations: the global variables and the equations that drive the sketch dimensions.</p>
+<img src="{{ '/assignments/A08/PLATEBEQUATIONS.png' | relative_url }}" alt="SolidWorks equations, global variables, and dimensions window for plate B, linked to the same external equations file">
+<p>Plate B equations: the same global variables from the same file. The screw hole sketch is Sketch3 on plate B and Sketch5 on plate A, so the dimension names differ between the two parts.</p>
+
+<h3>4b. Parts Downloaded from McMaster-Carr</h3>
+<table>
+  <thead>
+    <tr><th>Part number</th><th>McMaster-Carr name</th><th>Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>7880K19</td><td>Metal Gear - 20 Degree Pressure Angle (18 teeth, 48 pitch)</td><td>pinion on the input shaft</td></tr>
+    <tr><td>7880K24</td><td>Metal Gear - 20 Degree Pressure Angle (48 teeth, 48 pitch)</td><td>gear on the output shaft</td></tr>
+    <tr><td>6391K111</td><td>Oil-Embedded 841 Bronze Sleeve Bearing</td><td>pinion shaft bearings</td></tr>
+    <tr><td>6391K131</td><td>Oil-Embedded 841 Bronze Sleeve Bearing</td><td>gear shaft bearings</td></tr>
+    <tr><td>91253A115</td><td>Black-Oxide Alloy Steel Hex Drive Flat Head Screw</td><td>four corner screws</td></tr>
+    <tr><td>92510A425</td><td>Aluminum Unthreaded Spacer</td><td>four corner spacers between the plates</td></tr>
+    <tr><td>93785A930</td><td>PEEK Plastic Washer</td><td>axial spacing on the shafts</td></tr>
+    <tr><td>7421K107</td><td>Ultra-Low-Friction Oil-Embedded Thrust Bearing</td><td>axial thrust surface on the shafts</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A08/photo-7880K19-pinion.png' | relative_url }}" alt="McMaster-Carr product image of the pinion 7880K19">
+<p>Pinion 7880K19.</p>
+<img src="{{ '/assignments/A08/photo-7880K24-gear.png' | relative_url }}" alt="McMaster-Carr product image of the gear 7880K24">
+<p>Gear 7880K24.</p>
+<img src="{{ '/assignments/A08/photo-6391K111-bearing.png' | relative_url }}" alt="McMaster-Carr product image of the sleeve bearing 6391K111">
+<p>Sleeve bearing 6391K111.</p>
+<img src="{{ '/assignments/A08/photo-6391K131-bearing.png' | relative_url }}" alt="McMaster-Carr product image of the sleeve bearing 6391K131">
+<p>Sleeve bearing 6391K131.</p>
+<img src="{{ '/assignments/A08/photo-91253A115-screw.png' | relative_url }}" alt="McMaster-Carr product image of the flat head screw 91253A115">
+<p>Flat head screw 91253A115.</p>
+<img src="{{ '/assignments/A08/photo-92510A425-spacer.png' | relative_url }}" alt="McMaster-Carr product image of the aluminum spacer 92510A425">
+<p>Spacer 92510A425.</p>
+
+<h3>4c. The Solid Model</h3>
+<p>I modeled the two plates and the two shafts and brought the McMaster-Carr parts into an assembly. The shafts are plain cylinders (no snap ring grooves), 1 in long, 0.125 in and 0.25 in in diameter.</p>
+<img src="{{ '/assignments/A08/PLATEACAD.png' | relative_url }}" alt="CAD model of plate A showing two bearing holes and four countersunk screw holes">
+<p>Plate A: two bearing holes (the larger one for the gear bearing) and four countersunk screw holes.</p>
+<img src="{{ '/assignments/A08/PLATEBCAD.png' | relative_url }}" alt="CAD model of plate B with the pinion shaft and gear shaft and four tapped holes">
+<p>Plate B with the two shafts and the four tapped holes.</p>
+<img src="{{ '/assignments/A08/Assemblyfinal.png' | relative_url }}" alt="Isometric view of the assembled gearbox: two plates held apart by four spacers with four flat head screws, and two shafts protruding from the top plate">
+<p>The assembled gearbox. Removing the four screws releases the top plate, so the gearbox can be taken apart and reassembled.</p>
+<img src="{{ '/assignments/A08/Assembly front.png' | relative_url }}" alt="Front view of the assembled gearbox showing the meshed gears between the two plates and the four spacers">
+<p>Front view: the meshed gears in the gap between the plates, with the spacers at the corners.</p>
+
+<h2>5. Lessons Learned</h2>
+<ul>
+  <li><strong>Speed up means torque down.</strong> The pinion turns 2.67 times faster than the gear and carries 0.375 times the torque, and the power is the same on both shafts. Computing the power from both sides was a quick check on the speed and torque conversions.</li>
+  <li><strong>Units decide the formula.</strong> The Handbook equations are in horsepower, inches, and rpm, so I had to convert torque and speed to horsepower with 1 hp = 6600 in&middot;lb<sub>f</sub>/s (P = TN/63025) before using them.</li>
+  <li><strong>The Handbook shaft equations hide a stress limit.</strong> Substituting T = 63025P/N into Eq. 4a and Eq. 6a, the diameter cancels and leaves a fixed allowable shear stress, about 4012 psi for a main power-transmitting shaft and 8447 psi for a short shaft. That is why the short-shaft equation is less conservative, and it let me check the Handbook result against the torsion formula.</li>
+  <li><strong>The shafts were already over-sized.</strong> The input shaft had a safety factor of 3.3 and the output shaft 20.7, so the 1 in long shafts at these diameters were not the limiting part of the design.</li>
+  <li><strong>Bearing size comes from the stack-up.</strong> The bearing inside diameter is set by the shaft, and the length is limited by the 1 in shaft: bearing + gap + bearing has to equal the shaft length.</li>
+  <li><strong>The lecture bearing load uses only the radial force.</strong> The tangential force (2.500 lb<sub>f</sub>) is larger than the radial force (0.910 lb<sub>f</sub>), so the real load on the bearings is closer to the resultant tooth force of 2.66 lb<sub>f</sub>. Porous bronze still passes with a wide margin, but a plastic with a PV limit near 3000 would have little room to spare.</li>
+  <li><strong>Strength was not what set the bearing wall.</strong> The strength minimum was about 0.0002 in, far below anything that can be made, so the wall comes from standard sizes, and McMaster lists the bearing OD as the housing ID, which sets the bore.</li>
+  <li><strong>Check each sketch against its own labels.</strong> My plate sketches labeled the bearing holes at (&plusmn;0.344, 0), side by side, but I had drawn them stacked vertically. The CAD uses the side-by-side layout from the coordinates, and both plates are viewed from the same side so the holes line up.</li>
+  <li><strong>The spacer length comes from the stack-up, not from the shaft length.</strong> My first item list had 1 in spacers. The spacers set the 0.500 in gap between the plates (the cavity variable), not the 1 in shaft length.</li>
+  <li><strong>No room for snap rings.</strong> I first sketched snap ring grooves on the shafts. The two plates and the gap already use the full 1 in shaft length (0.25 + 0.50 + 0.25), so there is no length left for external rings. The shafts are plain, and washers hold the gears in position axially.</li>
+  <li><strong>Every washer needs a location and an ID.</strong> A list of washers by thickness alone does not say which shaft or which side of the gear each one goes on, and the ID has to clear that shaft.</li>
+  <li><strong>One equations file keeps the parts in sync.</strong> Linking both plates to the same external file meant the center distance, plate size, and hole positions stay consistent, and a change in one place updates both plates.</li>
+  <li><strong>Use the exact value, not the displayed one.</strong> The equations window shows CD/2 as 0.34 in and bore_gear as 0.38 in because of rounding, but the model holds 0.34375 in and 0.375 in. The sketch value of 0.344 is only a rounded label.</li>
+  <li><strong>Dimension names differ between parts.</strong> The screw hole sketch is Sketch5 on plate A and Sketch3 on plate B, so the equation names have to be picked from each part instead of copied from one to the other.</li>
+  <li><strong>Handwriting has to be read by someone else.</strong> A handwritten 3 in N<sub>1</sub> reads like a 9 in the scan, so I added a note under the scan.</li>
+</ul>
+
+<h2>Mistakes</h2>
+<ul>
+  <li><strong>Hand calculations:</strong> none; every result matched the check values.</li>
+  <li><strong>Hole layout.</strong> The plate sketches drew the bearing holes stacked vertically while the labeled coordinates put them side by side. The CAD uses the side-by-side layout.</li>
+  <li><strong>Spacer length.</strong> The item list gave the spacers as 1 in long. They need to be 0.500 in to leave the correct gap between the plates, and the CAD uses the cavity variable.</li>
+  <li><strong>Snap ring grooves.</strong> The shaft sketches called for grooves for snap rings, which do not fit because the plates and the gap already use the full 1 in shaft length. They were left out of the CAD.</li>
+  <li><strong>Washer list.</strong> The washers were listed by thickness only, without their location and inside diameter on each shaft.</li>
+</ul>
+
+<h2>Time Log</h2>
+<table>
+  <thead>
+    <tr><th>Step</th><th>Time</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Gear train setup</td><td>15 min</td></tr>
+    <tr><td>1a. Input shaft</td><td>35 min</td></tr>
+    <tr><td>1b. Output shaft</td><td>45 min</td></tr>
+    <tr><td>2a. Bearing size, pressure, velocity, PV, and material</td><td>60 min</td></tr>
+    <tr><td>2b. Bearing thickness</td><td>60 min</td></tr>
+    <tr><td>2c. McMaster-Carr bearing selection</td><td>30 min</td></tr>
+    <tr><td>3. Housing sketches</td><td>90 min</td></tr>
+    <tr><td><strong>Total through the housing sketches</strong></td><td><strong>335 min (5 h 35 min)</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>Downloadable Files</h2>
+<p>Download all of the files into the same folder before opening Assembly.SLDASM, so that SolidWorks can find every part.</p>
+<ul>
+  <li><a href="{{ '/assignments/A08/Assembly.SLDASM' | relative_url }}" download>Assembly.SLDASM</a></li>
+  <li><a href="{{ '/assignments/A08/PlateA.SLDPRT' | relative_url }}" download>PlateA.SLDPRT</a></li>
+  <li><a href="{{ '/assignments/A08/PlateB.SLDPRT' | relative_url }}" download>PlateB.SLDPRT</a></li>
+  <li><a href="{{ '/assignments/A08/7880K19_Metal%20Gear%20-%2020%20Degree%20Pressure%20Angle.SLDPRT' | relative_url }}" download>7880K19 Metal Gear - 20 Degree Pressure Angle (pinion)</a></li>
+  <li><a href="{{ '/assignments/A08/7880K24_Metal%20Gear%20-%2020%20Degree%20Pressure%20Angle.SLDPRT' | relative_url }}" download>7880K24 Metal Gear - 20 Degree Pressure Angle (gear)</a></li>
+  <li><a href="{{ '/assignments/A08/6391K111_Oil-Embedded%20841%20Bronze%20Sleeve%20Bearing.SLDPRT' | relative_url }}" download>6391K111 Oil-Embedded 841 Bronze Sleeve Bearing</a></li>
+  <li><a href="{{ '/assignments/A08/6391K131_Oil-Embedded%20841%20Bronze%20Sleeve%20Bearing.SLDPRT' | relative_url }}" download>6391K131 Oil-Embedded 841 Bronze Sleeve Bearing</a></li>
+  <li><a href="{{ '/assignments/A08/91253A115_Black-Oxide%20Alloy%20Steel%20Hex%20Drive%20Flat%20Head%20Screw.SLDPRT' | relative_url }}" download>91253A115 Black-Oxide Alloy Steel Hex Drive Flat Head Screw</a></li>
+  <li><a href="{{ '/assignments/A08/92510A425_Aluminum%20Unthreaded%20Spacer.SLDPRT' | relative_url }}" download>92510A425 Aluminum Unthreaded Spacer</a></li>
+  <li><a href="{{ '/assignments/A08/93785A930_PEEK%20Plastic%20Washer.SLDPRT' | relative_url }}" download>93785A930 PEEK Plastic Washer</a></li>
+  <li><a href="{{ '/assignments/A08/7421K107_Ultra-Low-Friction%20Oil-Embedded%20Thrust%20Bearing.SLDPRT' | relative_url }}" download>7421K107 Ultra-Low-Friction Oil-Embedded Thrust Bearing</a></li>
+</ul>
