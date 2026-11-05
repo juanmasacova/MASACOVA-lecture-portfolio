@@ -168,3 +168,55 @@ title: "A9 – Pulleys"
 <img src="{{ '/assignments/A09/handcalc-2-shaft.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the shaft and its cross section, and the work: allowable shear stress 20,833 psi, minimum diameter 0.155 inches, shear stress 4,987 psi and safety factor 12.5 for a 1/4 inch shaft">
 <p>Knowns and unknowns, free body diagrams, and calculations for the shaft.</p>
 <p>One slip in the handwriting: the line S<sub>y</sub> = kS<sub>ut</sub> reads 0.5(260). It should be 0.5(250), which is what gives the 125 ksi written next to it and used in every step after.</p>
+
+<h2>3. Journal Bearing for the Shaft</h2>
+<p>The shaft from section 2 turns in two journal bearings, one on each side of the pulley. This section finds the pressure, sliding velocity, and PV value on one bearing and checks them against the limits of the sintered metal and non-metallic bearing materials in Machinery's Handbook, Table 4, p. 2440.</p>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: D = 0.25 in (the section 2 shaft), N = 2000 rpm, T<sub>1</sub> = 12.32 lb<sub>f</sub> and T<sub>2</sub> = 2.12 lb<sub>f</sub> (section 1), and a bearing length L<sub>b</sub> = 0.25 in, which is the standard stocked length and the same length I used in A08. There are two identical bearings. Unknowns: shaft load R, bearing load F<sub>b</sub>, pressure P, velocity V, PV, and the bearing material.</p>
+<p><strong>ii. Free body diagram.</strong> Two sketches. In the side view of the shaft, the belt load R acts downward on the pulley, and each bearing pushes up with R/2. This assumes the pulley sits midway between the bearings, so the two supports share the load equally. In the bearing sketch, the shaft pushes on the bearing with F<sub>b</sub> = R/2, and the bearing carries it as a pressure over the projected area D&middot;L<sub>b</sub>.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li>Shaft equilibrium: <strong>R = T<sub>1</sub> + T<sub>2</sub></strong> and, by symmetry, <strong>F<sub>b</sub> = R/2</strong>.</li>
+  <li>Pressure on the projected area: <strong>P = F<sub>b</sub>/(D&middot;L<sub>b</sub>)</strong>.</li>
+  <li>Sliding velocity at the shaft surface: <strong>V = &pi;DN/12</strong> in ft/min, with D in inches and N in rpm.</li>
+  <li><strong>PV = P&middot;V</strong>, compared with the limit of each material.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>R</td><td>12.32 + 2.12</td><td>14.44 lb<sub>f</sub></td></tr>
+    <tr><td>F<sub>b</sub></td><td>14.44/2</td><td>7.22 lb<sub>f</sub></td></tr>
+    <tr><td>P</td><td>7.22/(0.25(0.25))</td><td>115.5 psi</td></tr>
+    <tr><td>V</td><td>&pi;(0.25)(2000)/12</td><td>130.9 ft/min</td></tr>
+    <tr><td>PV</td><td>115.5(130.9)</td><td>15,120 psi&middot;ft/min</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A09/handcalc-3-bearing.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the shaft with two bearings and of one bearing, and the work: R = 14.44 pounds, F_b = 7.22 pounds, P = 115.5 psi, V = 130.9 feet per minute, PV = 15,120">
+<p>Knowns and unknowns, free body diagrams, and calculations for the journal bearing.</p>
+<p><strong>v. Material selection.</strong> I compared the three values against every material in the Table 4 limits, using the same table as A08. The shaft turns 2000 rpm on a 1/4 in diameter, so PV is about ten times higher than in A08.</p>
+<table>
+  <thead>
+    <tr><th>Material</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Acetal, nylon, polycarbonate</td><td>Fail: PV limit of about 3,000 is below 15,120.</td></tr>
+    <tr><td>Virgin Teflon (TFE)</td><td>Fail: speed limit of 50 ft/min is below 130.9, and PV limit of 1,000 is below 15,120.</td></tr>
+    <tr><td>Reinforced Teflon</td><td>Fail: PV limit of 10,000 to 15,000 is below or equal to 15,120.</td></tr>
+    <tr><td>Graphite (dry), phenolics, wood</td><td>PV limit of 15,000 equals the load, so there is no margin.</td></tr>
+    <tr><td>Porous iron</td><td>Passes, but the speed margin is only 6.1 times (800 against 130.9 ft/min).</td></tr>
+    <tr><td><strong>Porous bronze</strong></td><td><strong>Passes with the largest margins. Selected.</strong></td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr><th></th><th>This design</th><th>Porous bronze limit</th><th>Margin</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pressure P</td><td>115.5 psi</td><td>4,500 psi</td><td>39 times</td></tr>
+    <tr><td>Velocity V</td><td>130.9 ft/min</td><td>1,500 ft/min</td><td>11.5 times</td></tr>
+    <tr><td>PV</td><td>15,120</td><td>50,000</td><td>3.3 times</td></tr>
+  </tbody>
+</table>
+<p><strong>Selected: porous bronze</strong> (oil-embedded 841 bronze), the same part family as A08, McMaster-Carr 6391K131 (1/4 in shaft, 3/8 in housing, 1/4 in long). The PV margin of 3.3 times is the thinnest of the three, because the shaft turns fast. A 1/2 in long bearing would halve P and PV and give a margin of 6.6 times, but the 3.3 times margin already meets the limit, so I kept the stocked 1/4 in length.</p>
