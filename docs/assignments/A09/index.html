@@ -69,7 +69,6 @@ title: "A9 – Pulleys"
 <p><strong>v. Answer.</strong> The belt must be at least <strong>0.311 in</strong> in diameter, and it carries <strong>15.30 in&middot;lb<sub>f</sub></strong> of torque from the driver to the driven pulley.</p>
 <img src="{{ '/assignments/A09/handcalc-1-belt.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the belt drive, the driver pulley, and a belt element, followed by the symbolic work and numbers: E = 12.345, minimum area 0.0761 square inches, minimum diameter 0.311 inches, torque 15.3 inch-pounds, and belt lengths for the 5/16 and 3/8 inch belts">
 <p>Knowns and unknowns, free body diagrams, and calculations for the belt.</p>
-<p>The handwriting has four slips; every calculation on this page uses the correct values. (1) In the force balance on the driver pulley, the middle step reads R &minus; (T<sub>1</sub> &minus; T<sub>2</sub>) = 0. It should read R &minus; (T<sub>1</sub> + T<sub>2</sub>) = 0, and the result R = T<sub>1</sub> + T<sub>2</sub> is correct. (2) The static tension sum lists (T<sub>2</sub> &minus; T<sub>c</sub>) twice. It should be (T<sub>1</sub> &minus; T<sub>c</sub>) + (T<sub>2</sub> &minus; T<sub>c</sub>) = 2T<sub>0</sub>. (3) The first line for T<sub>1</sub> &minus; T<sub>c</sub> divides by 12.345. It should divide by E + 1 = 13.345, which gives the 11.1 lb<sub>f</sub> that is written. (4) In the last two lines the strains and free lengths are swapped between the two belts. The 5/16 in belt (A = 0.0767 in<sup>2</sup>) has &epsilon;<sub>0</sub> = 3.3% and L<sub>free</sub> = 20.41/1.033 = 19.75 in, and the 3/8 in belt (A = 0.1104 in<sup>2</sup>) has &epsilon;<sub>0</sub> = 2.3% and L<sub>free</sub> = 20.60/1.023 = 20.14 in. The page also uses C = 5 in as a starting value; the final center distance is set in Circumference and Center Distance.</p>
 
 <h3>Belt Selection</h3>
 <p>The belt has to be at least 0.311 in thick, so I checked the standard round belt diameters at and above that size. A thicker belt is heavier, so its centrifugal tension grows with its area. For each candidate I recomputed the safety factor with SF = S<sub>y</sub>/(T<sub>1</sub>&prime;/A + &sigma;<sub>c</sub>), where T<sub>1</sub>&prime; = T<sub>1</sub> &minus; T<sub>c</sub> = 11.10 lb<sub>f</sub>. I also checked an upper bound that holds for any friction coefficient. T<sub>2</sub> &minus; T<sub>c</sub> cannot go below zero, so T<sub>1</sub> can never exceed 2T<sub>0</sub> + T<sub>c</sub>.</p>
@@ -167,7 +166,6 @@ title: "A9 – Pulleys"
 <p><strong>v. Answer.</strong> The minimum shaft diameter is <strong>0.155 in</strong>. I chose a <strong>1/4 in</strong> shaft, the standard size that also matches the 1/4 in bore of the pulley, which gives a shear stress of 4,987 psi and a safety factor of 12.5, well above the required 3. A 3/16 in shaft would also pass (safety factor 5.3), but it leaves less margin for the bending that the bearing section adds. If the yield ratio were as high as k = 0.9, d<sub>min</sub> would be 0.128 in, so the 1/4 in shaft is safe over the whole plausible range of the assumption.</p>
 <img src="{{ '/assignments/A09/handcalc-2-shaft.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the shaft and its cross section, and the work: allowable shear stress 20,833 psi, minimum diameter 0.155 inches, shear stress 4,987 psi and safety factor 12.5 for a 1/4 inch shaft">
 <p>Knowns and unknowns, free body diagrams, and calculations for the shaft.</p>
-<p>One slip in the handwriting: the line S<sub>y</sub> = kS<sub>ut</sub> reads 0.5(260). It should be 0.5(250), which is what gives the 125 ksi written next to it and used in every step after.</p>
 
 <h2>3. Journal Bearing for the Shaft</h2>
 <p>The shaft from section 2 turns in two journal bearings, one on each side of the pulley. This section finds the pressure, sliding velocity, and PV value on one bearing and checks them against the limits of the sintered metal and non-metallic bearing materials in Machinery's Handbook, Table 4, p. 2440.</p>
@@ -248,13 +246,51 @@ title: "A9 – Pulleys"
 </table>
 <img src="{{ '/assignments/A09/handcalc-4-frame.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the link plate and its net section, and the work: allowable stress 13,333 psi, net section stress 138.6 psi, bearing stress 77 psi, buckling load 5,288 pounds">
 <p>Knowns and unknowns, free body diagrams, and calculations for the frame plate.</p>
-<p>Two things are missing from the handwriting: E = 10 &times; 10<sup>6</sup> psi is not listed under the knowns, and the safety factors in the table above are not written out. The values come from the same numbers as the handwritten work.</p>
 <p><strong>v. Answer.</strong> Every safety factor is far above the required 3, so strength does not set the plate size. The dimensions come from three practical limits. The thickness of 1/4 in matches the 1/4 in bearing length, so the bearing is fully seated in the hole. The width of 1.00 in leaves 0.31 in of material beside each hole. The plate is 5.93 in long (C + w) with full-radius ends.</p>
 
 <h3>CAD Model of the Frame</h3>
-<p>The CAD model uses the dimensions from the analysis above. Each plate is 5.93 in long, 1.00 in wide and 0.25 in thick, with full-radius ends, two 0.375 in bearing bores 4.93 in apart, and two 0.150 in holes for the spacer screws. Two plates sit 0.875 in apart, which leaves room for the 5/8 in wide pulley between them. Two 3/8 in diameter spacers hold the plates apart. I placed the spacers on the centerline between the pulleys, where they are outside both 3 in pulleys (more than 1.5 in from each shaft) and clear of the belt strands, which run 1.5 in above and below the centerline.</p>
-<img src="{{ '/assignments/A09/plate-drawing.png' | relative_url }}" alt="Dimensioned drawing of the frame plate: 5.93 inch overall length, 4.93 inch hole spacing, 1.00 inch width, two 0.375 inch bearing bores and two 0.150 inch spacer screw holes">
-<p>Dimensioned drawing of the frame plate.</p>
-<img src="{{ '/assignments/A09/frame-iso.png' | relative_url }}" alt="Isometric view of the frame assembly: two aluminum plates held apart by two spacers">
-<p>Frame assembly: two plates and two spacers.</p>
-<p>The model was written as a short CadQuery script, <a href="{{ '/assignments/A09/frame_cad.py' | relative_url }}">frame_cad.py</a>, so changing C, w or t regenerates the files. The plate and the assembly are available as STEP files (<a href="{{ '/assignments/A09/A09_frame_plate.step' | relative_url }}">plate</a>, <a href="{{ '/assignments/A09/A09_frame_assembly.step' | relative_url }}">assembly</a>) and an <a href="{{ '/assignments/A09/A09_frame_assembly.stl' | relative_url }}">STL</a>.</p>
+<p>I modeled the frame plate in SolidWorks with the dimensions from the analysis: 5.93 in long, 1.00 in wide and 0.25 in thick, with full-radius ends and two bearing holes 4.93 in apart. The frame is two identical plates, one on each side of the pulleys, so this one part is made twice.</p>
+<img src="{{ '/assignments/A09/plate-cad.png' | relative_url }}" alt="SolidWorks model of the frame plate: a flat aluminum plate with full-radius ends and two bearing holes">
+<p>SolidWorks model of the frame plate. The part file is under Downloadable Files.</p>
+
+<h2>5. Lessons Learned</h2>
+<ul>
+  <li><strong>Centrifugal tension matters at 2000 rpm.</strong> The belt moves at 314 in/s, which adds &sigma;<sub>c</sub> = 11.08 psi, 7% of the 157 psi allowable stress. Leaving it out gives a minimum diameter of 0.300 in instead of 0.311 in. That 0.011 in decided the belt choice: the 5/16 in belt passed SF = 3 by less than 1% and dropped below 3 at the top of the center distance range, so I selected the 3/8 in belt.</li>
+  <li><strong>Center distance sets the belt tension.</strong> The stocked 20 in belt is a fixed length, so the center distance decides how much it stretches. At C = 5 in the stretched belt would carry about 7.8 lb<sub>f</sub> of static tension, above the 6 lb<sub>f</sub> limit, so I reduced C to 4.93 in. A 0.07 in change in C moved the tension by about 1.8 lb<sub>f</sub>, so the drive has to be sized around the belt and not the other way around.</li>
+  <li><strong>The pulley material changes the torque.</strong> With &mu; = 0.8 on aluminum, E = e<sup>&mu;&theta;</sup> = 12.35. With &mu; = 0.7 (polyurethane on steel) it would be 9.02, and the torque at the same static tension drops from 15.30 to 14.40 in&middot;lb<sub>f</sub>, about 6%. The friction coefficient had to come from a source for the exact material pair, not a general value.</li>
+  <li><strong>The shaft is not strength-limited; the standard size is.</strong> The minimum diameter is 0.155 in and the 1/4 in shaft gives SF = 12.5. I chose 1/4 in because it matches the pulley bore and the stocked bearing. I could not find a yield strength for this exact hardened 1060, so I assumed S<sub>y</sub> = 0.5S<sub>ut</sub>. A ratio of 0.9 only changes the minimum to 0.128 in, so the result does not depend on that assumption.</li>
+  <li><strong>Speed drives the bearing, not load.</strong> The bearing load is only 7.22 lb<sub>f</sub>, but at 2000 rpm PV is 15,120, about 11 times the 1,398 in A08. That eliminated acetal, nylon, Teflon, graphite, phenolics, and wood, and left only porous bronze and porous iron. The PV margin for bronze is 3.3 times, and a 1/2 in bearing would double it because P and PV scale with 1/L<sub>b</sub>.</li>
+  <li><strong>The direction of the load decides the failure mode.</strong> The belt pulls the two pulleys toward each other, so the frame plate is in compression and not tension. That is why I checked buckling (P<sub>cr</sub> = 5,288 lb<sub>f</sub>, SF = 732) as well as the net-section stress (SF = 289). The frame is far stronger than it needs to be, so the plate size came from the 1/4 in bearing length (t = 0.25 in) and the 0.31 in of material beside each hole.</li>
+  <li><strong>Calculate first, then shop.</strong> I had started looking at stocked belts before calculating the minimum diameter and the forces. Doing the calculation first gave the size window (0.311 in minimum, with the 5/16 and 3/8 in belts as candidates), so the stock list could be checked against it in one pass.</li>
+</ul>
+
+<h2>Mistakes</h2>
+<ul>
+  <li>I started to select a belt from the stock listings before calculating the forces and minimum diameter. The assignment order is forces, then diameter, then circumference, then selection, so I went back and did the calculation first.</li>
+  <li>The first pulley I found was UHMW polyethylene, which is not one of the three allowed pulley materials, and its friction coefficient is not the one used in the analysis. I used it only as a geometry template (groove size and depth) and sized an aluminum pulley instead.</li>
+  <li>I first used C = 5 in for the center distance. With the 20 in belt it stretched to about 7.8 lb<sub>f</sub> of static tension, above the 6 lb<sub>f</sub> limit, so I refined it to 4.93 in.</li>
+  <li>I did not find a yield strength for hardened 1060 steel in MatWeb or McMaster, so I used a sourced tensile strength and an assumed yield ratio, and checked how sensitive the shaft size is to it.</li>
+</ul>
+
+<h2>Time Log</h2>
+<table>
+  <thead>
+    <tr><th>Part</th><th>Time</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1. Belt (handwritten work)</td><td>1 h</td></tr>
+    <tr><td>2. Shaft (handwritten work)</td><td>1 h</td></tr>
+    <tr><td>3. Journal bearing (handwritten work)</td><td>45 min</td></tr>
+    <tr><td>4. Frame (handwritten work)</td><td>30 min</td></tr>
+    <tr><td>Frame CAD in SolidWorks</td><td>15 min</td></tr>
+    <tr><td><strong>Timed work total</strong></td><td><strong>3 h 30 min</strong></td></tr>
+    <tr><td>Reading the assignment, sourcing values, McMaster searches, and writing the page</td><td>about 2 h 10 min</td></tr>
+    <tr><td><strong>Start to finish</strong></td><td><strong>about 5 h 40 min (about 5:35 PM to 11:15 PM)</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>Downloadable Files</h2>
+<ul>
+  <li><a href="{{ '/assignments/A09/plate-cad.SLDPRT' | relative_url }}">plate-cad.SLDPRT</a>: SolidWorks part file of the frame plate</li>
+  <li><a href="{{ '/assignments/A09/plate-cad.png' | relative_url }}">plate-cad.png</a>: screenshot of the plate</li>
+</ul>
