@@ -4,9 +4,135 @@ title: "A9 – Pulleys"
 <h1>A9 – Pulleys</h1>
 
 <h2>Objective</h2>
+<p>The objective is to design a belt-and-pulley drive that transfers power between two parallel shafts 4&ndash;6 in apart. Both pulleys are 3 in in diameter, the speed is 1000&ndash;2000 rpm, the static belt tension is 4&ndash;6 lb<sub>f</sub>, and the minimum safety factor is 3. The belt is polyurethane rubber with a yield strength of 3.25 MPa (471 psi) at 20% strain. The work has four parts: select a round belt from the forces on its tight and slack sides, size the shafts for torsion in hardened 1060 steel, design the journal bearings from pressure, velocity, and PV rating, and design a frame that holds the pulley system. The pulley comes last in the chain of decisions: I calculated which belt I need, selected a standard size that keeps the safety factor above 3 with margin, and then sized the pulley groove to that belt.</p>
 
-<h2>Analyze</h2>
+<h2>Given Data and Assumptions</h2>
+<p>The values below are either given by the assignment or chosen inside the range it allows. Every load that follows (belt tension, shaft torque, bearing load, frame force) grows with the static tension and the speed, so I chose the top of both ranges. That way the finished design holds anywhere in the allowed window.</p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Value</th><th>Source or reason</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pulley diameter D</td><td>3 in (r = 1.5 in)</td><td>Given</td></tr>
+    <tr><td>Center distance C</td><td>4.93 in</td><td>Chosen inside the 4&ndash;6 in range; set by the stocked belt (see Circumference and Center Distance)</td></tr>
+    <tr><td>Speed N</td><td>2000 rpm</td><td>Top of the 1000&ndash;2000 rpm range</td></tr>
+    <tr><td>Static belt tension T<sub>0</sub></td><td>6 lb<sub>f</sub></td><td>Top of the 4&ndash;6 lb<sub>f</sub> range</td></tr>
+    <tr><td>Safety factor n</td><td>3</td><td>Given (minimum)</td></tr>
+    <tr><td>Belt yield strength S<sub>y</sub></td><td>471 psi (3.25 MPa at 20% strain)</td><td>Given</td></tr>
+    <tr><td>Pulley material</td><td>Aluminum</td><td>One of the three allowed materials, and it has the higher friction with polyurethane</td></tr>
+    <tr><td>Friction coefficient &mu;</td><td>0.8 (static)</td><td>Polyurethane on aluminum, <a href="https://unitech.com.ua/image/catalogs/remni/polyurethane-coating-catalogue-elatech.pdf">Elatech polyurethane coating catalogue</a>, p. 149. The same page lists 0.7 for polyurethane on steel.</td></tr>
+    <tr><td>Belt density &rho;</td><td>1.20 g/cm<sup>3</sup> = 0.04335 lb<sub>m</sub>/in<sup>3</sup></td><td>Typical polyurethane, <a href="https://www.lubrizol.com/-/media/Lubrizol/Engineered-Polymers/Documents/Engineered-Polymer-TDS/ESTANE-S180A.pdf">Lubrizol Estane S180A datasheet</a>. I did not find a density listed for the McMaster-Carr belt.</td></tr>
+    <tr><td>Gravitational constant g</td><td>386.1 in/s<sup>2</sup></td><td>Converts lb<sub>m</sub> to lb<sub>f</sub> in the centrifugal term</td></tr>
+  </tbody>
+</table>
+<ul>
+  <li>There is no slippage. The belt is evaluated at the impending-slip limit, where friction is fully used, which gives the largest tight-side tension the belt will ever carry for a given static tension.</li>
+  <li>The groove is rounded and matches the belt, so the plain friction coefficient applies with no wedging effect.</li>
+  <li>The two pulleys are equal and the belt is open, so the wrap angle is &theta; = &pi; on both pulleys whatever the center distance is.</li>
+  <li>The belt stress is uniform normal stress, &sigma; = T<sub>1</sub>/A.</li>
+  <li>The belt centerline rides at the 3 in diameter. The groove geometry in the pulley section shows this is about 1.2% high.</li>
+  <li>The belt length stays constant, so the average of the two tensions, with the centrifugal tension removed, stays at the static tension. This is the standard belt-drive relation, from <a href="https://eis.hu.edu.jo/ACUploads/10526/CH%2017.pdf">Hijazi's Chapter 17 notes</a> (p. 3 for the tension relation, p. 4 for the belting equation).</li>
+</ul>
 
-<h2>Decide</h2>
+<h2>1. Selecting the Belt</h2>
 
-<h2>Communicate</h2>
+<h3>Forces on the Tight and Slack Sides, Belt Area, and Diameter</h3>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: D = 3 in, r = 1.5 in, C = 5 in (a starting value, refined below), N = 2000 rpm, T<sub>0</sub> = 6 lb<sub>f</sub>, n = 3, S<sub>y</sub> = 471 psi, &mu; = 0.8, &theta; = &pi;, &rho; = 0.04335 lb<sub>m</sub>/in<sup>3</sup>, g = 386.1 in/s<sup>2</sup>. From these: &omega; = 2&pi;N/60 = 209.44 rad/s, v = &omega;r = 314.16 in/s, and &sigma;<sub>allow</sub> = S<sub>y</sub>/n = 157 psi. Unknowns: tight-side tension T<sub>1</sub>, slack-side tension T<sub>2</sub>, centrifugal tension T<sub>c</sub>, transmitted torque T, shaft reaction R, belt area A, belt diameter d<sub>b</sub>, and belt outer circumference L<sub>out</sub>.</p>
+<p><strong>ii. Free body diagram.</strong> Three sketches. In the belt drive, both pulleys turn counterclockwise. The top strand runs into the driver pulley, so it carries the tight-side tension T<sub>1</sub>, and the bottom strand carries T<sub>2</sub>. On the driver pulley alone, T<sub>1</sub> and T<sub>2</sub> pull toward the driven pulley at radius r, the input torque T turns the pulley, and the shaft pushes back with the reaction R. On a small belt element of angle d&phi;, the tensions T and T + dT act along the two ends, the pulley pushes outward with the normal force dN, the friction force &mu;dN acts along the belt toward the lower-tension side, and the centrifugal force T<sub>c</sub>d&phi; acts outward.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li>Driver pulley: <strong>T = r(T<sub>1</sub> &minus; T<sub>2</sub>)</strong> from the moments about the shaft, and <strong>R = T<sub>1</sub> + T<sub>2</sub></strong> from the forces.</li>
+  <li>Belt element, radial: dN + T<sub>c</sub>d&phi; = T d&phi;, so dN = (T &minus; T<sub>c</sub>)d&phi;. Tangential: dT = &mu;dN. Combining them gives dT/(T &minus; T<sub>c</sub>) = &mu;d&phi;, and integrating from T<sub>2</sub> to T<sub>1</sub> over the wrap angle gives <strong>(T<sub>1</sub> &minus; T<sub>c</sub>)/(T<sub>2</sub> &minus; T<sub>c</sub>) = e<sup>&mu;&theta;</sup> = E</strong>.</li>
+  <li>Static tension: <strong>(T<sub>1</sub> &minus; T<sub>c</sub>) + (T<sub>2</sub> &minus; T<sub>c</sub>) = 2T<sub>0</sub></strong>. Solving with the belting equation gives <strong>T<sub>1</sub> &minus; T<sub>c</sub> = 2T<sub>0</sub>E/(E + 1)</strong> and <strong>T<sub>2</sub> &minus; T<sub>c</sub> = 2T<sub>0</sub>/(E + 1)</strong>.</li>
+  <li>Centrifugal tension: <strong>&sigma;<sub>c</sub> = &rho;v<sup>2</sup>/g</strong> and T<sub>c</sub> = &sigma;<sub>c</sub>A, since the mass per length is &rho;A.</li>
+  <li>Normal stress and yield: at the minimum size, T<sub>1</sub> = &sigma;<sub>allow</sub>A. Writing T<sub>1</sub> = (T<sub>1</sub> &minus; T<sub>c</sub>) + &sigma;<sub>c</sub>A gives <strong>A<sub>min</sub> = [2T<sub>0</sub>E/(E + 1)] / (&sigma;<sub>allow</sub> &minus; &sigma;<sub>c</sub>)</strong> and <strong>d<sub>min</sub> = &radic;(4A<sub>min</sub>/&pi;)</strong>.</li>
+  <li>Torque: <strong>T = r(T<sub>1</sub> &minus; T<sub>2</sub>) = 2T<sub>0</sub>r(E &minus; 1)/(E + 1)</strong>. The centrifugal tension cancels in the difference.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>&omega;</td><td>2&pi;(2000)/60</td><td>209.44 rad/s</td></tr>
+    <tr><td>v</td><td>(209.44)(1.5)</td><td>314.16 in/s</td></tr>
+    <tr><td>&sigma;<sub>allow</sub></td><td>471/3</td><td>157 psi</td></tr>
+    <tr><td>&sigma;<sub>c</sub></td><td>(0.04335)(314.16)<sup>2</sup>/386.1</td><td>11.08 psi</td></tr>
+    <tr><td>E</td><td>e<sup>0.8&pi;</sup></td><td>12.345</td></tr>
+    <tr><td>T<sub>1</sub> &minus; T<sub>c</sub></td><td>2(6)(12.345)/(13.345)</td><td>11.10 lb<sub>f</sub></td></tr>
+    <tr><td>T<sub>2</sub> &minus; T<sub>c</sub></td><td>2(6)/(13.345)</td><td>0.899 lb<sub>f</sub></td></tr>
+    <tr><td>A<sub>min</sub></td><td>11.10/(157 &minus; 11.08)</td><td>0.0761 in<sup>2</sup></td></tr>
+    <tr><td>d<sub>min</sub></td><td>&radic;(4(0.0761)/&pi;)</td><td>0.311 in</td></tr>
+    <tr><td>T</td><td>1.5(11.10 &minus; 0.899)</td><td>15.30 in&middot;lb<sub>f</sub></td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> The belt must be at least <strong>0.311 in</strong> in diameter, and it carries <strong>15.30 in&middot;lb<sub>f</sub></strong> of torque from the driver to the driven pulley.</p>
+<img src="{{ '/assignments/A09/handcalc-1-belt.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the belt drive, the driver pulley, and a belt element, followed by the symbolic work and numbers: E = 12.345, minimum area 0.0761 square inches, minimum diameter 0.311 inches, torque 15.3 inch-pounds, and belt lengths for the 5/16 and 3/8 inch belts">
+<p>Knowns and unknowns, free body diagrams, and calculations for the belt.</p>
+<p>The handwriting has four slips; every calculation on this page uses the correct values. (1) In the force balance on the driver pulley, the middle step reads R &minus; (T<sub>1</sub> &minus; T<sub>2</sub>) = 0. It should read R &minus; (T<sub>1</sub> + T<sub>2</sub>) = 0, and the result R = T<sub>1</sub> + T<sub>2</sub> is correct. (2) The static tension sum lists (T<sub>2</sub> &minus; T<sub>c</sub>) twice. It should be (T<sub>1</sub> &minus; T<sub>c</sub>) + (T<sub>2</sub> &minus; T<sub>c</sub>) = 2T<sub>0</sub>. (3) The first line for T<sub>1</sub> &minus; T<sub>c</sub> divides by 12.345. It should divide by E + 1 = 13.345, which gives the 11.1 lb<sub>f</sub> that is written. (4) In the last two lines the strains and free lengths are swapped between the two belts. The 5/16 in belt (A = 0.0767 in<sup>2</sup>) has &epsilon;<sub>0</sub> = 3.3% and L<sub>free</sub> = 20.41/1.033 = 19.75 in, and the 3/8 in belt (A = 0.1104 in<sup>2</sup>) has &epsilon;<sub>0</sub> = 2.3% and L<sub>free</sub> = 20.60/1.023 = 20.14 in. The page also uses C = 5 in as a starting value; the final center distance is set in Circumference and Center Distance.</p>
+
+<h3>Belt Selection</h3>
+<p>The belt has to be at least 0.311 in thick, so I checked the standard round belt diameters at and above that size. A thicker belt is heavier, so its centrifugal tension grows with its area. For each candidate I recomputed the safety factor with SF = S<sub>y</sub>/(T<sub>1</sub>&prime;/A + &sigma;<sub>c</sub>), where T<sub>1</sub>&prime; = T<sub>1</sub> &minus; T<sub>c</sub> = 11.10 lb<sub>f</sub>. I also checked an upper bound that holds for any friction coefficient. T<sub>2</sub> &minus; T<sub>c</sub> cannot go below zero, so T<sub>1</sub> can never exceed 2T<sub>0</sub> + T<sub>c</sub>.</p>
+<table>
+  <thead>
+    <tr><th>Belt diameter</th><th>A (in<sup>2</sup>)</th><th>T<sub>c</sub> (lb<sub>f</sub>)</th><th>T<sub>1</sub> (lb<sub>f</sub>)</th><th>&sigma; = T<sub>1</sub>/A (psi)</th><th>SF</th><th>SF at the T<sub>1</sub> upper bound</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>5/16 in</td><td>0.0767</td><td>0.850</td><td>11.95</td><td>155.8</td><td>3.02</td><td>2.81</td></tr>
+    <tr><td>3/8 in</td><td>0.1104</td><td>1.224</td><td>12.32</td><td>111.6</td><td>4.22</td><td>3.93</td></tr>
+    <tr><td>1/2 in</td><td>0.1963</td><td>2.176</td><td>13.28</td><td>67.6</td><td>6.97</td><td>6.52</td></tr>
+  </tbody>
+</table>
+<p>The smallest size that reaches SF = 3 is 5/16 in, but it passes by less than 1% and falls below 3 at the upper bound, so a modest error in &mu; or &rho; would break it. The 3/8 in belt passes both checks with room to spare, and the 1/2 in belt would be heavier than the design needs. I selected the 3/8 in belt: <a href="https://www.mcmaster.com/3044K608/">McMaster-Carr 3044K608</a>, a clear polyurethane rubber round belt, 3/8 in in diameter and 20 in in outer circumference, rated for &minus;10&deg;F to 150&deg;F.</p>
+<img src="{{ '/assignments/A09/mcmaster-belt-3044K608.png' | relative_url }}" alt="McMaster-Carr listing for round belt 3044K608: 3/8 inch diameter, 20 inch outer circumference, polyurethane rubber, temperature range -10 to 150 degrees Fahrenheit">
+<p>McMaster-Carr round belt 3044K608.</p>
+<p>The selected belt gives these loads for the shaft, bearing, and frame work that follows:</p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Centrifugal tension T<sub>c</sub></td><td>1.224 lb<sub>f</sub></td></tr>
+    <tr><td>Tight side T<sub>1</sub></td><td>12.32 lb<sub>f</sub></td></tr>
+    <tr><td>Slack side T<sub>2</sub></td><td>2.12 lb<sub>f</sub></td></tr>
+    <tr><td>Shaft reaction R = T<sub>1</sub> + T<sub>2</sub></td><td>14.45 lb<sub>f</sub></td></tr>
+    <tr><td>Torque T</td><td>15.30 in&middot;lb<sub>f</sub></td></tr>
+    <tr><td>Safety factor on the belt</td><td>4.22</td></tr>
+  </tbody>
+</table>
+
+<h3>Circumference and Center Distance</h3>
+<p>For an open belt on two equal pulleys, the two straight spans are each C long and the wraps add up to &pi;D. The outer surface of the loop is longer than the centerline by &pi;d<sub>b</sub>, because the belt turns through a total of 2&pi;. So <strong>L<sub>out</sub> = 2C + &pi;D + &pi;d<sub>b</sub></strong>. With C = 5 in and the 3/8 in belt this is 10 + 9.42 + 1.18 = 20.60 in.</p>
+<p>The stocked belt is 20 in around, so it is shorter than the loop and stretches to produce the static tension. The belt stiffness is not given, so I estimated it from the yield data as a secant modulus, E<sub>s</sub> = S<sub>y</sub>/&epsilon;<sub>y</sub> = 471/0.20 = 2355 psi. The strain that gives T<sub>0</sub> = 6 lb<sub>f</sub> is &epsilon;<sub>0</sub> = (T<sub>0</sub>/A)/E<sub>s</sub> = (6/0.1104)/2355 = 2.31%, so the installed loop must be 20(1.0231) = 20.46 in around.</p>
+<ul>
+  <li>Solving the circumference equation for the center distance: <strong>C = (L<sub>out</sub> &minus; &pi;D &minus; &pi;d<sub>b</sub>)/2 = (20.46 &minus; 9.425 &minus; 1.178)/2 = 4.93 in</strong>, which is inside the allowed 4&ndash;6 in.</li>
+  <li>Keeping C = 5 in would stretch the belt 3.0% and give T<sub>0</sub> = A E<sub>s</sub> &epsilon; = 7.8 lb<sub>f</sub>, above the allowed 4&ndash;6 lb<sub>f</sub>. With C = 4.93 in the strain is 2.31% and T<sub>0</sub> = 6.0 lb<sub>f</sub>.</li>
+  <li>The wrap angle stays &pi;, so none of the belt forces above change with C. The 4.93 in only sets the frame length.</li>
+  <li>The secant modulus is an estimate, so the 6 lb<sub>f</sub> is approximate. A real belt would be tensioned by measuring it.</li>
+</ul>
+
+<h3>Pulley Sized to the Belt</h3>
+<p>McMaster-Carr sells a pulley for a 3/8 in round belt with a 3 in outside diameter, and I used its groove geometry as the starting point for the pulley.</p>
+<table>
+  <thead>
+    <tr><th>Dimension</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Outside diameter</td><td>3.00 in (given)</td></tr>
+    <tr><td>Groove for belt diameter</td><td>3/8 in</td></tr>
+    <tr><td>Groove depth</td><td>0.205 in</td></tr>
+    <tr><td>Diameter at the groove bottom (pitch diameter)</td><td>2.59 in</td></tr>
+    <tr><td>Overall width</td><td>5/8 in</td></tr>
+    <tr><td>Bore</td><td>Equal to the shaft diameter, set in the shaft section (McMaster's reference pulley has a 1/4 in bore)</td></tr>
+    <tr><td>Material</td><td>Aluminum</td></tr>
+  </tbody>
+</table>
+<ul>
+  <li><strong>Material.</strong> McMaster's pulley is UHMW polyethylene. The assignment allows aluminum, ABS, or steel for the pulleys, and UHMW is also a low-friction plastic, so the &mu; = 0.8 used above, which is for polyurethane on aluminum, would not apply to it. I kept the geometry and specified the pulley in machined aluminum.</li>
+  <li><strong>Groove depth.</strong> The groove is 0.205 in deep and the belt radius is 0.1875 in, so the belt sits fully inside the groove, which keeps it from walking off the pulley.</li>
+  <li><strong>Belt radius.</strong> The belt centerline sits at 2.59/2 + 0.375/2 = 1.4825 in from the shaft, 1.2% below the 1.5 in used for the torque. Using 1.5 in gives 15.30 in&middot;lb<sub>f</sub> instead of 15.12 in&middot;lb<sub>f</sub>, so the shaft is designed for a slightly larger torque.</li>
+</ul>
+<img src="{{ '/assignments/A09/mcmaster-pulley-specs.png' | relative_url }}" alt="McMaster-Carr specifications for a pulley for 3/8 inch round belt: 3 inch outside diameter, 2.59 inch diameter, 5/8 inch width, 0.205 inch groove depth, 1/4 inch bore, UHMW polyethylene">
+<p>McMaster-Carr specifications for the reference pulley for a 3/8 in round belt.</p>
+<img src="{{ '/assignments/A09/mcmaster-pulley-drawing.png' | relative_url }}" alt="McMaster-Carr drawing of the pulley: 3 inch outside diameter, 2.59 inch pitch diameter, 1/4 inch bore, 5/8 inch width, 3/8 inch groove, 0.205 inch groove depth">
+<p>McMaster-Carr drawing of the reference pulley.</p>
