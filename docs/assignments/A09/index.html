@@ -220,3 +220,33 @@ title: "A9 – Pulleys"
   </tbody>
 </table>
 <p><strong>Selected: porous bronze</strong> (oil-embedded 841 bronze), the same part family as A08, McMaster-Carr 6391K131 (1/4 in shaft, 3/8 in housing, 1/4 in long). The PV margin of 3.3 times is the thinnest of the three, because the shaft turns fast. A 1/2 in long bearing would halve P and PV and give a margin of 6.6 times, but the 3.3 times margin already meets the limit, so I kept the stocked 1/4 in length.</p>
+
+<h2>4. Frame</h2>
+<p>The frame holds the two shafts 4.93 in apart. I modeled it as two identical flat link plates, one on each side of the pulleys, each with two bearing holes. The belt pulls the two pulleys toward each other, so each plate is squeezed between its two holes. This section checks the plate for strength at the holes and for buckling.</p>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: C = 4.93 in, F = R/2 = 7.22 lb<sub>f</sub> at each hole (each plate carries half of the belt load R = 14.44 lb<sub>f</sub>), hole diameter d = 0.375 in (the housing bore of the McMaster-Carr bearing from section 3), plate width w = 1.00 in, thickness t = 0.25 in, aluminum 6061-T6 with S<sub>y</sub> = 40 ksi and E = 10 &times; 10<sup>6</sup> psi, n = 3, and a stress concentration factor K<sub>t</sub> = 3 at the hole. Unknowns: &sigma;<sub>allow</sub>, net-section stress &sigma;, bearing stress &sigma;<sub>b</sub>, buckling load P<sub>cr</sub>, and the safety factors.</p>
+<p><strong>ii. Free body diagram.</strong> Front view: the plate with a load F at each hole pointing toward the other hole, so the section between the holes is in compression. Cut view: a section through a hole, where the force F acts on the net area (w &minus; d)t, and the bearing presses on the hole over the area d&middot;t.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li><strong>&sigma;<sub>allow</sub> = S<sub>y</sub>/n</strong></li>
+  <li>Net section at the hole: <strong>&sigma; = K<sub>t</sub>F/((w &minus; d)t)</strong>.</li>
+  <li>Bearing stress on the hole wall: <strong>&sigma;<sub>b</sub> = F/(d&middot;t)</strong>.</li>
+  <li>Buckling of the strut between the holes, with pinned ends: <strong>P<sub>cr</sub> = &pi;<sup>2</sup>EI/C<sup>2</sup></strong>, with <strong>I = wt<sup>3</sup>/12</strong> about the weak axis.</li>
+  <li>Safety factors: S<sub>y</sub>/&sigma;, S<sub>y</sub>/&sigma;<sub>b</sub>, and P<sub>cr</sub>/F.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th><th>Safety factor</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>&sigma;<sub>allow</sub></td><td>40,000/3</td><td>13,333 psi</td><td></td></tr>
+    <tr><td>&sigma; (net section)</td><td>3(7.22)/((1.00 &minus; 0.375)(0.25))</td><td>138.6 psi</td><td>289</td></tr>
+    <tr><td>&sigma;<sub>b</sub></td><td>7.22/(0.375(0.25))</td><td>77.0 psi</td><td>519</td></tr>
+    <tr><td>I</td><td>1.00(0.25)<sup>3</sup>/12</td><td>1.302 &times; 10<sup>-3</sup> in<sup>4</sup></td><td></td></tr>
+    <tr><td>P<sub>cr</sub></td><td>&pi;<sup>2</sup>(10 &times; 10<sup>6</sup>)(1.302 &times; 10<sup>-3</sup>)/(4.93)<sup>2</sup></td><td>5,288 lb<sub>f</sub></td><td>732</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A09/handcalc-4-frame.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagrams of the link plate and its net section, and the work: allowable stress 13,333 psi, net section stress 138.6 psi, bearing stress 77 psi, buckling load 5,288 pounds">
+<p>Knowns and unknowns, free body diagrams, and calculations for the frame plate.</p>
+<p>Two things are missing from the handwriting: E = 10 &times; 10<sup>6</sup> psi is not listed under the knowns, and the safety factors in the table above are not written out. The values come from the same numbers as the handwritten work.</p>
+<p><strong>v. Answer.</strong> Every safety factor is far above the required 3, so strength does not set the plate size. The dimensions come from three practical limits. The thickness of 1/4 in matches the 1/4 in bearing length, so the bearing is fully seated in the hole. The width of 1.00 in leaves 0.31 in of material beside each hole. The plate is 5.93 in long (C + w) with full-radius ends.</p>
