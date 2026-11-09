@@ -4,10 +4,154 @@ title: "A10 – Lead Screw Translating System"
 <h1>A10 – Lead Screw Translating System</h1>
 
 <h2>Objective</h2>
+<p>This is part one of a two-part team assignment with Ethan King: the conceptual design of a purely mechanical tensile tester. The machine pulls a specimen with up to 2 kN of axial tension while a crosshead moves at a controllable 1&ndash;50 mm/min, and it has no electronics and no software. Two identical lead screws, one on each side of the frame, move the crosshead, and the design safety factor is 4. Part one has six pieces of work: size the lead screws (diameter, rotational speed, and torque) and select them, select a bronze nut and flange, design the crosshead for strength and for a maximum deflection of 0.1 mm, tabulate the cost of purchased materials, and assemble the machine in CAD with the frame, screws, nuts, and crosshead.</p>
 
-<h2>Analyze</h2>
+<h2>Team and Contributions</h2>
+<table>
+  <thead>
+    <tr><th>Section</th><th>Contributor</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1. Minimum Leadscrew Diameter</td><td>Ethan King</td></tr>
+    <tr><td>2. Range of Rotational Speed</td><td>Ethan King</td></tr>
+    <tr><td>3. Maximum Torque</td><td>Ethan King</td></tr>
+    <tr><td>4. Leadscrew Selection</td><td>Ethan King</td></tr>
+    <tr><td>5. Nut and Flange</td><td>Ethan King</td></tr>
+    <tr><td>6. Crosshead</td><td>Juan</td></tr>
+    <tr><td>7. Cost Table</td><td>Ethan King</td></tr>
+    <tr><td>8. Parametric Modeling (CAD)</td><td>Juan</td></tr>
+    <tr><td>9. Lessons Learned</td><td>Juan</td></tr>
+  </tbody>
+</table>
 
-<h2>Decide</h2>
-<p><em>Reference your concept selection (Pugh matrix) here. How does this design follow from that decision?</em></p>
+<h2>Given Data and Assumptions</h2>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Value</th><th>Source or reason</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Total tensile load F</td><td>2 kN (450 lb<sub>f</sub>)</td><td>Given</td></tr>
+    <tr><td>Load per leadscrew F<sub>s</sub></td><td>1 kN (225 lb<sub>f</sub>)</td><td>Two identical screws share the load equally</td></tr>
+    <tr><td>Safety factor n</td><td>4</td><td>Given</td></tr>
+    <tr><td>Screw material</td><td>1018 low-carbon steel, S<sub>y</sub> = 250 MPa</td><td>Material of the selected McMaster-Carr screw. The 250 MPa is an assumed value (see the note below).</td></tr>
+    <tr><td>Crosshead speed v</td><td>1&ndash;50 mm/min</td><td>Given</td></tr>
+    <tr><td>Static friction coefficient &mu;</td><td>0.15</td><td>Assumed for a steel screw in a bronze nut</td></tr>
+    <tr><td>Leadscrew length</td><td>36 in (3 ft)</td><td>Chosen; the assignment minimum is 18 in</td></tr>
+  </tbody>
+</table>
+<p>The 250 MPa yield strength sits between two published values for 1018 steel: 240 MPa for <a href="https://www.makeitfrom.com/material-properties/Hot-Rolled-1018-Carbon-Steel">hot rolled 1018 (MakeItFrom)</a> and 370 MPa for cold drawn 1018 in the <a href="https://www.mwcomponents.com/uploads/Resource-Center/Elgin-Material-Sheets/Carbon-Steel-Grade-1018-Data-Sheet_Elgin.pdf">Elgin data sheet</a>. That data sheet lists Brinell 126, the same hardness McMaster-Carr lists for the selected screw. The minimum diameter in section 1 would be 4.61 mm at 240 MPa, so the choice of value does not change the screw selection.</p>
 
-<h2>Communicate</h2>
+<h2>1. Minimum Leadscrew Diameter: Ethan King</h2>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: F = 2 kN = 450 lb<sub>f</sub>, n = 4, S<sub>y</sub> = 250 MPa, two screws. Unknowns: load per screw F<sub>s</sub>, allowable stress &sigma;<sub>allow</sub>, minimum area A<sub>min</sub>, and minimum diameter d<sub>min</sub>.</p>
+<p><strong>ii. Free body diagram.</strong> One leadscrew, loaded in axial tension by F<sub>s</sub> = F/2 through the nut, with the frame bearing supplying the equal and opposite reaction.</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li>Load per screw: <strong>F<sub>s</sub> = F/2</strong>.</li>
+  <li>Allowable stress: <strong>&sigma;<sub>allow</sub> = S<sub>y</sub>/n</strong>.</li>
+  <li>Axial stress on a round bar, &sigma; = F<sub>s</sub>/A with A = &pi;d<sup>2</sup>/4. At the minimum size &sigma; = &sigma;<sub>allow</sub>, so <strong>A<sub>min</sub> = F<sub>s</sub>/&sigma;<sub>allow</sub></strong> and <strong>d<sub>min</sub> = &radic;(4F<sub>s</sub>/(&pi;&sigma;<sub>allow</sub>))</strong>.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>F<sub>s</sub></td><td>450/2</td><td>225 lb<sub>f</sub> = 1001 N</td></tr>
+    <tr><td>&sigma;<sub>allow</sub></td><td>250/4</td><td>62.5 MPa</td></tr>
+    <tr><td>A<sub>min</sub></td><td>1001/62.5 &times; 10<sup>6</sup></td><td>16.0 mm<sup>2</sup></td></tr>
+    <tr><td>d<sub>min</sub></td><td>&radic;(4(16.0)/&pi;)</td><td>4.52 mm = 0.178 in</td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> Each leadscrew must be at least <strong>4.52 mm (0.178 in)</strong> in diameter.</p>
+<img src="{{ '/assignments/A10/handcalc-1-leadscrew-diameter.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagram, and work for the leadscrew diameter: F = 2 kN, safety factor 4, load per screw 225 pounds, allowable stress 62.5 MPa, minimum diameter 4.52 mm">
+<p>Knowns and unknowns, free body diagram, and calculations for the minimum leadscrew diameter.</p>
+
+<h2>2. Range of Rotational Speed: Ethan King</h2>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: crosshead speed v = 1 to 50 mm/min and lead L = 0.25 in = 6.35 mm per revolution. Unknowns: rotational speed N at each end of the range.</p>
+<p><strong>ii. Free body diagram.</strong> This is a motion problem and no force enters it, so the sketch is kinematic: the screw turns at N and the nut and crosshead advance at v.</p>
+<p><strong>iii. Model and algebraic solution.</strong> The nut advances one lead per revolution, so <strong>v = N&middot;L</strong> and <strong>N = v/L</strong>. The lead is the travel per turn, which is the number of thread starts times the pitch. The selected screw has two starts at a pitch of 0.125 in, so its lead is 0.25 in.</p>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>N<sub>min</sub></td><td>1/6.35</td><td>0.157 rpm</td></tr>
+    <tr><td>N<sub>max</sub></td><td>50/6.35</td><td>7.87 rpm</td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> Both screws turn at the same speed, from <strong>0.157 rpm to 7.87 rpm</strong> (crosshead speed 0.0394 to 1.969 in/min).</p>
+<img src="{{ '/assignments/A10/handcalc-2-rotational-speed.jpg' | relative_url }}" alt="Handwritten knowns and unknowns and work for the rotational speed: lead 0.25 inch = 6.35 mm, N = V/L, minimum 0.1575 rpm and maximum 7.874 rpm">
+<p>Knowns and unknowns and calculations for the rotational speed range.</p>
+
+<h2>3. Maximum Torque: Ethan King</h2>
+<!-- CONFIRM WITH ETHAN before publishing: his handwritten torque page and summary list T = 2.93 N·m, but the numbers on that page (d_m = 4.6 mm, F = 1000 N) give 1.45 N·m. Replace this section with his corrected page when he redoes it; the handwritten image is intentionally not embedded yet. -->
+<p><strong>i. Knowns and unknowns.</strong> Knowns: F<sub>s</sub> = 1000 N per screw, lead L = 6.35 mm, &mu; = 0.15, and a mean thread diameter d<sub>m</sub>. Unknown: the torque T that one screw needs to raise the load. The mean diameter depends on the screw that is selected, so this section gives a first pass with the 4.6 mm minimum diameter from section 1, and section 4 repeats the calculation for the selected screw.</p>
+<p><strong>ii. Free body diagram.</strong> One screw with the axial load F<sub>s</sub> acting on the thread at the mean radius d<sub>m</sub>/2, the thread friction force &mu;N opposing the motion, and the driving torque T about the screw axis.</p>
+<p><strong>iii. Model and algebraic solution.</strong> Torque to raise the load on a power screw: <strong>T = (F<sub>s</sub>d<sub>m</sub>/2) &middot; (L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</strong>.</p>
+<p><strong>iv. Numerical solution (first pass, d<sub>m</sub> = 4.6 mm).</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>F<sub>s</sub>d<sub>m</sub>/2</td><td>1000(0.0046)/2</td><td>2.30 N&middot;m</td></tr>
+    <tr><td>(L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</td><td>(0.00635 + &pi;(0.15)(0.0046))/(&pi;(0.0046) &minus; 0.15(0.00635))</td><td>0.631</td></tr>
+    <tr><td>T</td><td>2.30(0.631)</td><td>1.45 N&middot;m</td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> This is a lower bound: 4.6 mm is the smallest rod that carries the load, and a real screw has a larger mean diameter and therefore needs more torque. The design torque comes from the selected screw in section 4.</p>
+
+<h2>4. Leadscrew Selection: Ethan King</h2>
+<p>The selected screw is <a href="https://www.mcmaster.com/99030A073/">McMaster-Carr 99030A073</a>: a 1018 carbon steel precision Acme lead screw, fast-travel, right-hand, 3/4 in&ndash;8 thread, 3 ft long, 2:1 speed ratio, with two thread starts and 0.25 in of travel per turn. It costs $51.44 each and two are needed. Both screws are identical.</p>
+<table>
+  <thead>
+    <tr><th>Requirement</th><th>Needed</th><th>Selected screw</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Diameter</td><td>at least 4.52 mm (0.178 in)</td><td>3/4 in = 19.05 mm, 4.2 times the minimum</td></tr>
+    <tr><td>Lead</td><td>6.35 mm (0.25 in), as used in section 2</td><td>0.25 in per turn</td></tr>
+    <tr><td>Length</td><td>at least 18 in</td><td>36 in</td></tr>
+    <tr><td>Material</td><td>1018 low-carbon steel, as assumed</td><td>1018 low-carbon steel, Brinell 126</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A10/mcmaster-leadscrew-99030A073.png' | relative_url }}" alt="McMaster-Carr listing for lead screw 99030A073: 1018 carbon steel precision Acme, 3/4 inch-8 thread, 3 feet long, 2 thread starts, 0.25 inch travel per turn, $51.44 each">
+<p>McMaster-Carr lead screw 99030A073.</p>
+<h3>Torque for the Selected Screw</h3>
+<p>For a 3/4 in&ndash;8 Acme thread the mean (pitch) diameter is d<sub>m</sub> = d &minus; p/2 = 0.75 &minus; 0.125/2 = 0.6875 in = 17.46 mm, using the basic Acme thread form. With the same formula as in section 3:</p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>F<sub>s</sub>d<sub>m</sub>/2</td><td>1000(0.017463)/2</td><td>8.73 N&middot;m</td></tr>
+    <tr><td>(L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</td><td>(6.35 + &pi;(0.15)(17.46))/(&pi;(17.46) &minus; 0.15(6.35))</td><td>0.2705</td></tr>
+    <tr><td>T (square-thread formula)</td><td>8.73(0.2705)</td><td>2.36 N&middot;m</td></tr>
+    <tr><td>T (Acme, &mu;&prime; = &mu;/cos 14.5&deg; = 0.155)</td><td>8.73(0.2756)</td><td>2.41 N&middot;m</td></tr>
+  </tbody>
+</table>
+<p>The Acme thread has a 29&deg; included angle, so each flank sits 14.5&deg; from the plane perpendicular to the screw axis, which raises the effective friction coefficient to &mu;/cos 14.5&deg;. The design torque is <strong>2.41 N&middot;m per screw (1.78 lb<sub>f</sub>&middot;ft)</strong>, about 4.8 N&middot;m for both screws. This counts thread friction only; friction in the thrust bearing at the end of each screw adds to it.</p>
+
+<h2>5. Nut and Flange: Ethan King</h2>
+<!-- PENDING: Ethan's nut and flange selection and thread bending-stress check -->
+
+<h2>6. Crosshead: Juan</h2>
+<!-- PENDING: strength analysis, deflection analysis (0.1 mm limit), multiview sketch -->
+
+<h2>7. Cost Table: Ethan King</h2>
+<!-- PENDING: HTML table (not an image) with working purchase links; leadscrews are 2 x $51.44 = $102.88 so far -->
+
+<h2>8. Parametric Modeling (CAD): Juan</h2>
+<!-- PENDING: SolidWorks assembly with crosshead (designed), leadscrew, nut/flange, and frame (downloaded parts) -->
+
+<h2>9. Lessons Learned: Juan</h2>
+<!-- PENDING -->
+
+<h2>Mistakes</h2>
+<!-- PENDING -->
+
+<h2>Time Log</h2>
+<!-- PENDING -->
+
+<h2>Downloadable Files</h2>
+<!-- PENDING: links to every CAD file (missing CAD links cost 50% of the final grade) -->
