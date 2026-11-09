@@ -65,6 +65,7 @@ title: "A10 – Lead Screw Translating System"
 <p><strong>v. Answer.</strong> Each leadscrew must be at least <strong>4.52 mm (0.178 in)</strong> in diameter.</p>
 <img src="{{ '/assignments/A10/handcalc-1-leadscrew-diameter.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagram, and work for the leadscrew diameter: F = 2 kN, safety factor 4, load per screw 225 pounds, allowable stress 62.5 MPa, minimum diameter 4.52 mm">
 <p>Knowns and unknowns, free body diagram, and calculations for the minimum leadscrew diameter.</p>
+<p><strong>Note.</strong> The result above, 4.52 mm, is correct. Ethan's summary lists it as 0.19777 in, which is a typo; the fixed value is 0.178 in (see Ethan's Summary of Results).</p>
 
 <h2>2. Range of Rotational Speed: Ethan King</h2>
 <p><strong>i. Knowns and unknowns.</strong> Knowns: crosshead speed v = 1 to 50 mm/min and lead L = 0.25 in = 6.35 mm per revolution. Unknowns: rotational speed N at each end of the range.</p>
@@ -85,22 +86,26 @@ title: "A10 – Lead Screw Translating System"
 <p>Knowns and unknowns and calculations for the rotational speed range.</p>
 
 <h2>3. Maximum Torque: Ethan King</h2>
-<!-- CONFIRM WITH ETHAN before publishing: his handwritten torque page and summary list T = 2.93 N·m, but the numbers on that page (d_m = 4.6 mm, F = 1000 N) give 1.45 N·m. Replace this section with his corrected page when he redoes it; the handwritten image is intentionally not embedded yet. -->
-<p><strong>i. Knowns and unknowns.</strong> Knowns: F<sub>s</sub> = 1000 N per screw, lead L = 6.35 mm, &mu; = 0.15, and a mean thread diameter d<sub>m</sub>. Unknown: the torque T that one screw needs to raise the load. The mean diameter depends on the screw that is selected, so this section gives a first pass with the 4.6 mm minimum diameter from section 1, and section 4 repeats the calculation for the selected screw.</p>
-<p><strong>ii. Free body diagram.</strong> One screw with the axial load F<sub>s</sub> acting on the thread at the mean radius d<sub>m</sub>/2, the thread friction force &mu;N opposing the motion, and the driving torque T about the screw axis.</p>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: F<sub>s</sub> = 1000 N per screw, lead L = 6.35 mm, &mu; = 0.15, and the mean thread diameter d<sub>m</sub> of the screw. Unknown: the torque T that one screw needs to raise the load.</p>
+<p><strong>ii. Free body diagram.</strong> One screw with the axial load F<sub>s</sub> acting on the thread at the mean radius d<sub>m</sub>/2, the thread friction force opposing the motion, and the driving torque T about the screw axis.</p>
 <p><strong>iii. Model and algebraic solution.</strong> Torque to raise the load on a power screw: <strong>T = (F<sub>s</sub>d<sub>m</sub>/2) &middot; (L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</strong>.</p>
-<p><strong>iv. Numerical solution (first pass, d<sub>m</sub> = 4.6 mm).</strong></p>
+<img src="{{ '/assignments/A10/handcalc-3-max-torque.jpg' | relative_url }}" alt="Handwritten free body diagram, knowns and unknowns, and the torque formula with numbers substituted, ending in T = 2.93 N&middot;m">
+<p>Ethan's handwritten work for the maximum torque.</p>
+<h3>Correction to the torque above</h3>
+<p><strong>What is wrong.</strong> The page substitutes d<sub>m</sub> = 4.6 mm, which is the minimum rod diameter from section 1, not the diameter of the screw that was selected. That substitution (F = 1000 N, d<sub>m</sub> = 4.6 mm, L = 6.35 mm, &mu; = 0.15) works out to 1.45 N&middot;m, so the 2.93 N&middot;m written on the page does not follow from its own numbers; it is about double, which is what the full 2 kN on a single screw would give. The mean diameter must come from the selected screw, section 4.</p>
+<p><strong>Fixed version.</strong> The selected screw is a 3/4 in&ndash;8 Acme thread, so d<sub>m</sub> = d &minus; p/2 = 0.75 &minus; 0.125/2 = 0.6875 in = 17.46 mm.</p>
 <table>
   <thead>
     <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
   </thead>
   <tbody>
-    <tr><td>F<sub>s</sub>d<sub>m</sub>/2</td><td>1000(0.0046)/2</td><td>2.30 N&middot;m</td></tr>
-    <tr><td>(L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</td><td>(0.00635 + &pi;(0.15)(0.0046))/(&pi;(0.0046) &minus; 0.15(0.00635))</td><td>0.631</td></tr>
-    <tr><td>T</td><td>2.30(0.631)</td><td>1.45 N&middot;m</td></tr>
+    <tr><td>F<sub>s</sub>d<sub>m</sub>/2</td><td>1000(0.017463)/2</td><td>8.73 N&middot;m</td></tr>
+    <tr><td>(L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</td><td>(6.35 + &pi;(0.15)(17.46))/(&pi;(17.46) &minus; 0.15(6.35))</td><td>0.2705</td></tr>
+    <tr><td>T (formula as written)</td><td>8.73(0.2705)</td><td>2.36 N&middot;m</td></tr>
+    <tr><td>T (Acme, &mu;&prime; = &mu;/cos 14.5&deg; = 0.155)</td><td>8.73(0.2756)</td><td>2.41 N&middot;m</td></tr>
   </tbody>
 </table>
-<p><strong>v. Answer.</strong> This is a lower bound: 4.6 mm is the smallest rod that carries the load, and a real screw has a larger mean diameter and therefore needs more torque. The design torque comes from the selected screw in section 4.</p>
+<p>The Acme thread has a 29&deg; included angle, so each flank sits 14.5&deg; from the plane perpendicular to the screw axis, which raises the effective friction coefficient to &mu;/cos 14.5&deg;. <strong>Maximum torque: 2.41 N&middot;m per screw (1.78 lb<sub>f</sub>&middot;ft), about 4.8 N&middot;m for both screws.</strong> This counts thread friction only; friction in the thrust bearing at the end of each screw adds to it.</p>
 
 <h2>4. Leadscrew Selection: Ethan King</h2>
 <p>The selected screw is <a href="https://www.mcmaster.com/99030A073/">McMaster-Carr 99030A073</a>: a 1018 carbon steel precision Acme lead screw, fast-travel, right-hand, 3/4 in&ndash;8 thread, 3 ft long, 2:1 speed ratio, with two thread starts and 0.25 in of travel per turn. It costs $51.44 each and two are needed. Both screws are identical.</p>
@@ -117,20 +122,13 @@ title: "A10 – Lead Screw Translating System"
 </table>
 <img src="{{ '/assignments/A10/mcmaster-leadscrew-99030A073.png' | relative_url }}" alt="McMaster-Carr listing for lead screw 99030A073: 1018 carbon steel precision Acme, 3/4 inch-8 thread, 3 feet long, 2 thread starts, 0.25 inch travel per turn, $51.44 each">
 <p>McMaster-Carr lead screw 99030A073.</p>
-<h3>Torque for the Selected Screw</h3>
-<p>For a 3/4 in&ndash;8 Acme thread the mean (pitch) diameter is d<sub>m</sub> = d &minus; p/2 = 0.75 &minus; 0.125/2 = 0.6875 in = 17.46 mm, using the basic Acme thread form. With the same formula as in section 3:</p>
-<table>
-  <thead>
-    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>F<sub>s</sub>d<sub>m</sub>/2</td><td>1000(0.017463)/2</td><td>8.73 N&middot;m</td></tr>
-    <tr><td>(L + &pi;&mu;d<sub>m</sub>)/(&pi;d<sub>m</sub> &minus; &mu;L)</td><td>(6.35 + &pi;(0.15)(17.46))/(&pi;(17.46) &minus; 0.15(6.35))</td><td>0.2705</td></tr>
-    <tr><td>T (square-thread formula)</td><td>8.73(0.2705)</td><td>2.36 N&middot;m</td></tr>
-    <tr><td>T (Acme, &mu;&prime; = &mu;/cos 14.5&deg; = 0.155)</td><td>8.73(0.2756)</td><td>2.41 N&middot;m</td></tr>
-  </tbody>
-</table>
-<p>The Acme thread has a 29&deg; included angle, so each flank sits 14.5&deg; from the plane perpendicular to the screw axis, which raises the effective friction coefficient to &mu;/cos 14.5&deg;. The design torque is <strong>2.41 N&middot;m per screw (1.78 lb<sub>f</sub>&middot;ft)</strong>, about 4.8 N&middot;m for both screws. This counts thread friction only; friction in the thrust bearing at the end of each screw adds to it.</p>
+<p>The torque for this screw is worked out in the correction under section 3: 2.41 N&middot;m per screw.</p>
+
+<h3>Ethan's Summary of Results</h3>
+<img src="{{ '/assignments/A10/ethan-summary-of-results.png' | relative_url }}" alt="Summary list of results: total max load 2 kN, split load 1 kN per screw, safety factor 4, height 36 inches, crosshead speed 0.03937 to 1.9685 inches per minute, friction coefficient 0.15, minimum diameter 0.19777 inches, rotational speed 0.1575 to 7.874 rpm, maximum torque 2.93 N&middot;m = 2.161 lb-ft">
+<p>Ethan's summary of the leadscrew results, as he sent it.</p>
+<p><strong>What is wrong.</strong> Two entries do not match the calculations. The minimum diameter is listed as 0.19777 in, but 4.52 mm (section 1) is 0.178 in; 0.19777 in would be 5.02 mm. The maximum torque of 2.93 N&middot;m (2.161 lb<sub>f</sub>&middot;ft) is the value corrected in section 3. The other entries (load split, safety factor, height, crosshead speed, friction coefficient, and rotational speed) are correct.</p>
+<p><strong>Fixed version.</strong> Minimum diameter: <strong>0.178 in (4.52 mm)</strong>. Maximum torque: <strong>2.41 N&middot;m = 1.78 lb<sub>f</sub>&middot;ft per screw</strong>.</p>
 
 <h2>5. Nut and Flange: Ethan King</h2>
 <!-- PENDING: Ethan's nut and flange selection and thread bending-stress check -->
