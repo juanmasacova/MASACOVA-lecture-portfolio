@@ -175,21 +175,36 @@ title: "A10 – Lead Screw Translating System"
 <p><strong>v. Answer.</strong> &sigma;<sub>bend</sub> = 538.8 psi is far below the allowable 12,250 psi, so the nut is safe. Even if only one thread carried the whole load, the stress would be 5,388 psi, still under half of the allowable stress with the safety factor of 4 applied.</p>
 <img src="{{ '/assignments/A10/handcalc-4-nut-bending.png' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagram of the nut and screw threads, symbolic and algebraic work: pitch 0.125 inches, 10 engaged threads, minimum minor diameter 0.6375 inches, allowable stress 12,250 psi, bending stress 538.8 psi, safe even with one thread engaged">
 <p>Ethan's knowns and unknowns, free body diagram, and calculations for the thread bending stress of the nut.</p>
-<p><strong>Check of these numbers.</strong> The arithmetic is correct. Two notes: (1) d<sub>min</sub> is the smallest diameter of the nut's threads, so it makes the stress slightly higher than a root diameter would, which is conservative. (2) The 49,000 psi yield strength is the one input I could not trace to a published source. Published C67300 manganese bronze values are lower, 40 ksi up to 1 in and 35 ksi from 1 to 3 in, according to <a href="https://concast.com/c67300.php">Concast</a> and <a href="https://nationalbronze.com/C67300_SAEJ463_Manganese_Bronze.php">National Bronze</a>. The conclusion does not change: at 35 ksi the allowable stress is 8,750 psi, still above the 5,388 psi one-thread case.</p>
+<p><strong>Check of these numbers.</strong> The arithmetic is correct. Two notes: (1) d<sub>min</sub> is the smallest diameter of the nut's threads, so it makes the stress slightly higher than a root diameter would, which is conservative. (2) Published C67300 manganese bronze yield strengths are lower than the 49,000 psi used, 40 ksi up to 1 in and 35 ksi from 1 to 3 in, according to <a href="https://concast.com/c67300.php">Concast</a> and <a href="https://nationalbronze.com/C67300_SAEJ463_Manganese_Bronze.php">National Bronze</a>. The conclusion does not change: at 35 ksi the allowable stress is 8,750 psi, still above the 5,388 psi one-thread case.</p>
 
 <h3>Flange</h3>
 <p>The flange threads onto the nut's 1 in&ndash;18 external thread. McMaster-Carr offers two flanges for it with the same dimensions. They differ in material and price.</p>
 <table>
   <thead>
-    <tr><th>Flange</th><th>Part number</th><th>Price</th><th>Flange diameter</th><th>Thickness</th><th>Bolt circle diameter</th><th>Hardness</th><th>Note</th></tr>
+    <tr><th>Flange</th><th>Part number</th><th>Price</th><th>Hardness</th><th>Note</th></tr>
   </thead>
   <tbody>
-    <tr><td>1215 carbon steel</td><td><a href="https://www.mcmaster.com/95082A643/">95082A643</a></td><td>$38.35</td><td>2 5/8 in</td><td>17/32 in</td><td>2 3/32 in</td><td>Not rated</td><td>Good machinability; rusts when exposed to moisture</td></tr>
-    <tr><td>303 stainless steel</td><td><a href="https://www.mcmaster.com/1329K13/">1329K13</a></td><td>$94.44</td><td>2 5/8 in</td><td>17/32 in</td><td>2 3/32 in</td><td>Brinell 140</td><td>Good corrosion resistance; 2.5 times the price</td></tr>
+    <tr><td><strong>1215 carbon steel (selected)</strong></td><td><a href="https://www.mcmaster.com/95082A643/">95082A643</a></td><td>$38.35</td><td>Not rated</td><td>Good machinability; rusts when exposed to moisture</td></tr>
+    <tr><td>303 stainless steel</td><td><a href="https://www.mcmaster.com/1329K13/">1329K13</a></td><td>$94.44</td><td>Brinell 140</td><td>Good corrosion resistance; 2.5 times the price</td></tr>
   </tbody>
 </table>
-<p>Both flanges are 2.625 in across, so the crosshead has to be at least that wide at the nut, and the bolt circle of 2.094 in sets where the mounting holes go.</p>
-<!-- PENDING from Ethan: (1) which flange is selected and why; (2) nut part number and price; (3) flange bolt hole count and diameter; (4) source for the 49,000 psi yield strength -->
+<p><strong>Selected: the 1215 carbon steel flange, 95082A643.</strong> This is an instructional bench-top tester, and the carbon steel flange costs $56.09 less than the stainless one for the same geometry. Its drawback is that it rusts if it gets wet, so if the machine were used where moisture is likely, the stainless flange would be the better long-term choice.</p>
+<table>
+  <thead>
+    <tr><th>Selected flange dimension</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Flange thread</td><td>1 in&ndash;18 UNS</td></tr>
+    <tr><td>Flange diameter</td><td>2 5/8 in (2.625 in)</td></tr>
+    <tr><td>Flange thickness</td><td>17/32 in (0.531 in)</td></tr>
+    <tr><td>Bolt circle diameter</td><td>2 3/32 in (2.094 in)</td></tr>
+    <tr><td>Mounting holes</td><td>4 holes, 17/64 in (0.266 in) diameter, which is the clearance size for 1/4 in bolts</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A10/mcmaster-flange-95082A643.png' | relative_url }}" alt="McMaster-Carr listing for precision Acme flange 95082A643: 1215 carbon steel, 1 inch-18 thread, 2 5/8 inch diameter, 17/32 inch thick, 2 3/32 inch bolt circle, 4 mounting holes of 17/64 inch diameter, $38.35 each">
+<p>McMaster-Carr flange 95082A643.</p>
+<p>The flange is 2.625 in across, so the crosshead has to be at least that wide at each nut. With four holes spaced 90&deg; apart on the 2.094 in bolt circle, adjacent holes are 1.48 in apart (2.094 &times; sin 45&deg;), which gives the mounting pattern for the crosshead.</p>
+<!-- PENDING from Ethan: nut part number and price (the 673 bronze, 2-start nut; see the note to Juan about the 360 brass nut screenshot) -->
 
 <h2>6. Crosshead: Juan</h2>
 <!-- PENDING: strength analysis, deflection analysis (0.1 mm limit), multiview sketch -->
