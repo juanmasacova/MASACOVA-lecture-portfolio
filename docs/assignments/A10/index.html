@@ -39,7 +39,7 @@ title: "A10 – Lead Screw Translating System"
     <tr><td>Leadscrew length</td><td>36 in (3 ft)</td><td>Chosen; the assignment minimum is 18 in</td></tr>
   </tbody>
 </table>
-<p>The 250 MPa yield strength sits between two published values for 1018 steel: 240 MPa for <a href="https://www.makeitfrom.com/material-properties/Hot-Rolled-1018-Carbon-Steel">hot rolled 1018 (MakeItFrom)</a> and 370 MPa for cold drawn 1018 in the <a href="https://www.mwcomponents.com/uploads/Resource-Center/Elgin-Material-Sheets/Carbon-Steel-Grade-1018-Data-Sheet_Elgin.pdf">Elgin data sheet</a>. That data sheet lists Brinell 126, the same hardness McMaster-Carr lists for the selected screw. The minimum diameter in section 1 would be 4.61 mm at 240 MPa, so the choice of value does not change the screw selection.</p>
+<p>The 250 MPa yield strength sits between two published values for 1018 steel: 240 MPa for <a href="https://www.makeitfrom.com/material-properties/Hot-Rolled-1018-Carbon-Steel">hot rolled 1018 (MakeItFrom)</a> and 370 MPa for cold drawn 1018 in the <a href="https://www.mwcomponents.com/uploads/Resource-Center/Elgin-Material-Sheets/Carbon-Steel-Grade-1018-Data-Sheet_Elgin.pdf">Elgin data sheet</a>. That data sheet lists Brinell 126, the same hardness McMaster-Carr lists for the selected screw, and McMaster-Carr also lists a tensile strength of 64,000 psi (441 MPa) for it, in line with the cold drawn value. The minimum diameter in section 1 would be 4.61 mm at 240 MPa, so the choice of value does not change the screw selection.</p>
 
 <h2>1. Minimum Leadscrew Diameter: Ethan King</h2>
 <p><strong>i. Knowns and unknowns.</strong> Knowns: F = 2 kN = 450 lb<sub>f</sub>, n = 4, S<sub>y</sub> = 250 MPa, two screws. Unknowns: load per screw F<sub>s</sub>, allowable stress &sigma;<sub>allow</sub>, minimum area A<sub>min</sub>, and minimum diameter d<sub>min</sub>.</p>
@@ -120,7 +120,7 @@ title: "A10 – Lead Screw Translating System"
     <tr><td>Material</td><td>1018 low-carbon steel, as assumed</td><td>1018 low-carbon steel, Brinell 126</td></tr>
   </tbody>
 </table>
-<img src="{{ '/assignments/A10/mcmaster-leadscrew-99030A073.png' | relative_url }}" alt="McMaster-Carr listing for lead screw 99030A073: 1018 carbon steel precision Acme, 3/4 inch-8 thread, 3 feet long, 2 thread starts, 0.25 inch travel per turn, $51.44 each">
+<img src="{{ '/assignments/A10/mcmaster-leadscrew-99030A073.png' | relative_url }}" alt="McMaster-Carr listing for lead screw 99030A073: 1018 carbon steel precision Acme, 3/4 inch-8 thread, 3 feet long, 2 thread starts, 0.25 inch travel per turn, Acme Class 2C, Brinell 126, tensile strength 64,000 psi, $51.44 each, with thread direction, size, type, starts, and fit highlighted">
 <p>McMaster-Carr lead screw 99030A073.</p>
 <p>The torque for this screw is worked out in the correction under section 3: 2.41 N&middot;m per screw.</p>
 
@@ -131,7 +131,65 @@ title: "A10 – Lead Screw Translating System"
 <p><strong>Fixed version.</strong> Minimum diameter: <strong>0.178 in (4.52 mm)</strong>. Maximum torque: <strong>2.41 N&middot;m = 1.78 lb<sub>f</sub>&middot;ft per screw</strong>.</p>
 
 <h2>5. Nut and Flange: Ethan King</h2>
-<!-- PENDING: Ethan's nut and flange selection and thread bending-stress check -->
+<p>This section checks that the internal threads of a bronze nut carry the load, using the thread bending stress analysis from lecture, and then picks a flange. Because this lead screw has a two-start Acme thread, McMaster-Carr sells exactly one nut that fits it, so the nut was not a choice. The nut is 673 bronze and threads into a separate flange through its external thread.</p>
+<table>
+  <thead>
+    <tr><th>Nut (McMaster-Carr)</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Material</td><td>673 bronze</td></tr>
+    <tr><td>Internal thread</td><td>3/4 in&ndash;8 Acme, Class 2C, 2 starts, 0.25 in travel per turn, right hand</td></tr>
+    <tr><td>Length</td><td>1 1/4 in</td></tr>
+    <tr><td>Outside diameter</td><td>1.125 in</td></tr>
+    <tr><td>External thread (for the flange)</td><td>1 in&ndash;18, 1/2 in long</td></tr>
+  </tbody>
+</table>
+<img src="{{ '/assignments/A10/mcmaster-nut-and-flanges.png' | relative_url }}" alt="McMaster-Carr listing for fast-travel precision Acme lead screw nuts and flanges: the 673 bronze nut for 3/4 inch-8 thread, 1 1/4 inch long, 1.125 inch diameter, 1 inch-18 external thread, and two flanges, 1215 carbon steel part 95082A643 at $38.35 and 303 stainless steel part 1329K13 at $94.44, each 2 5/8 inch diameter, 17/32 inch thick, with a 2 3/32 inch bolt circle">
+<p>McMaster-Carr nut and flange listing for the 3/4 in&ndash;8 Acme screw. The highlighted text is the flange material comparison.</p>
+
+<h3>Thread Bending Stress in the Nut</h3>
+<p><strong>i. Knowns and unknowns.</strong> Knowns: load per screw F = 1 kN = 224.8 lb<sub>f</sub>, lead = 0.25 in with 2 starts, 8 threads per inch, nominal diameter D = 0.75 in, nut length L<sub>e</sub> = 1.25 in (fully screwed on), S<sub>y</sub> = 49,000 psi for 673 bronze, n = 4. Unknowns: pitch p, number of engaged threads n<sub>t</sub>, minimum minor diameter d<sub>min</sub>, allowable stress &sigma;<sub>max</sub>, and calculated bending stress &sigma;<sub>bend</sub>.</p>
+<p><strong>ii. Free body diagram.</strong> A section through the engaged threads, with the load acting on the thread flanks at the mean diameter d<sub>m</sub> and the thread thickness p/2 marked at the root (Ethan's sketch, below).</p>
+<p><strong>iii. Model and algebraic solution.</strong></p>
+<ul>
+  <li>Pitch: <strong>p = lead/2</strong> for two starts, checked with <strong>p = 1/TPI</strong>.</li>
+  <li>Engaged threads: <strong>n<sub>t</sub> = L<sub>e</sub>/p</strong>.</li>
+  <li>Minimum minor diameter of a Class 2C internal thread, from the Machinery's Handbook formula (formula 11): <strong>d<sub>min</sub> = D &minus; 0.9p</strong>.</li>
+  <li>Allowable stress: <strong>&sigma;<sub>max</sub> = S<sub>y</sub>/n</strong>.</li>
+  <li>Thread bending stress: <strong>&sigma;<sub>bend</sub> = 6F/(&pi;n<sub>t</sub>d<sub>min</sub>p)</strong>.</li>
+</ul>
+<p><strong>iv. Numerical solution.</strong></p>
+<table>
+  <thead>
+    <tr><th>Quantity</th><th>Calculation</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>p</td><td>0.25/2 = 1/8</td><td>0.125 in</td></tr>
+    <tr><td>n<sub>t</sub></td><td>1.25/0.125</td><td>10</td></tr>
+    <tr><td>d<sub>min</sub></td><td>0.75 &minus; 0.9(0.125)</td><td>0.6375 in</td></tr>
+    <tr><td>&sigma;<sub>max</sub></td><td>49,000/4</td><td>12,250 psi</td></tr>
+    <tr><td>&sigma;<sub>bend</sub></td><td>6(224.8)/(&pi;(10)(0.6375)(0.125))</td><td>538.8 psi</td></tr>
+    <tr><td>&sigma;<sub>bend</sub> with only one thread engaged</td><td>6(224.8)/(&pi;(1)(0.6375)(0.125))</td><td>5,388 psi (44% of &sigma;<sub>max</sub>)</td></tr>
+  </tbody>
+</table>
+<p><strong>v. Answer.</strong> &sigma;<sub>bend</sub> = 538.8 psi is far below the allowable 12,250 psi, so the nut is safe. Even if only one thread carried the whole load, the stress would be 5,388 psi, still under half of the allowable stress with the safety factor of 4 applied.</p>
+<img src="{{ '/assignments/A10/handcalc-4-nut-bending.png' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagram of the nut and screw threads, symbolic and algebraic work: pitch 0.125 inches, 10 engaged threads, minimum minor diameter 0.6375 inches, allowable stress 12,250 psi, bending stress 538.8 psi, safe even with one thread engaged">
+<p>Ethan's knowns and unknowns, free body diagram, and calculations for the thread bending stress of the nut.</p>
+<p><strong>Check of these numbers.</strong> The arithmetic is correct. Two notes: (1) d<sub>min</sub> is the smallest diameter of the nut's threads, so it makes the stress slightly higher than a root diameter would, which is conservative. (2) The 49,000 psi yield strength is the one input I could not trace to a published source. Published C67300 manganese bronze values are lower, 40 ksi up to 1 in and 35 ksi from 1 to 3 in, according to <a href="https://concast.com/c67300.php">Concast</a> and <a href="https://nationalbronze.com/C67300_SAEJ463_Manganese_Bronze.php">National Bronze</a>. The conclusion does not change: at 35 ksi the allowable stress is 8,750 psi, still above the 5,388 psi one-thread case.</p>
+
+<h3>Flange</h3>
+<p>The flange threads onto the nut's 1 in&ndash;18 external thread. McMaster-Carr offers two flanges for it with the same dimensions. They differ in material and price.</p>
+<table>
+  <thead>
+    <tr><th>Flange</th><th>Part number</th><th>Price</th><th>Flange diameter</th><th>Thickness</th><th>Bolt circle diameter</th><th>Hardness</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1215 carbon steel</td><td><a href="https://www.mcmaster.com/95082A643/">95082A643</a></td><td>$38.35</td><td>2 5/8 in</td><td>17/32 in</td><td>2 3/32 in</td><td>Not rated</td><td>Good machinability; rusts when exposed to moisture</td></tr>
+    <tr><td>303 stainless steel</td><td><a href="https://www.mcmaster.com/1329K13/">1329K13</a></td><td>$94.44</td><td>2 5/8 in</td><td>17/32 in</td><td>2 3/32 in</td><td>Brinell 140</td><td>Good corrosion resistance; 2.5 times the price</td></tr>
+  </tbody>
+</table>
+<p>Both flanges are 2.625 in across, so the crosshead has to be at least that wide at the nut, and the bolt circle of 2.094 in sets where the mounting holes go.</p>
+<!-- PENDING from Ethan: (1) which flange is selected and why; (2) nut part number and price; (3) flange bolt hole count and diameter; (4) source for the 49,000 psi yield strength -->
 
 <h2>6. Crosshead: Juan</h2>
 <!-- PENDING: strength analysis, deflection analysis (0.1 mm limit), multiview sketch -->
