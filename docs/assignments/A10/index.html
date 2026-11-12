@@ -191,11 +191,11 @@ title: "A10 – Lead Screw Translating System"
     <tr><th>Flange</th><th>Part number</th><th>Price</th><th>Hardness</th><th>Note</th></tr>
   </thead>
   <tbody>
-    <tr><td><strong>1215 carbon steel (selected)</strong></td><td><a href="https://www.mcmaster.com/95082A643/">95082A643</a></td><td>$38.35</td><td>Not rated</td><td>Good machinability; rusts when exposed to moisture</td></tr>
-    <tr><td>303 stainless steel</td><td><a href="https://www.mcmaster.com/1329K13/">1329K13</a></td><td>$94.44</td><td>Brinell 140</td><td>Good corrosion resistance; 2.5 times the price</td></tr>
+    <tr><td>1215 carbon steel</td><td><a href="https://www.mcmaster.com/95082A643/">95082A643</a></td><td>$38.35</td><td>Not rated</td><td>Good machinability; rusts when exposed to moisture</td></tr>
+    <tr><td><strong>303 stainless steel (selected)</strong></td><td><a href="https://www.mcmaster.com/1329K13/">1329K13</a></td><td>$94.44</td><td>Brinell 140</td><td>Good corrosion resistance; 2.5 times the price</td></tr>
   </tbody>
 </table>
-<p><strong>Selected: the 1215 carbon steel flange, 95082A643.</strong> This is an instructional bench-top tester, and the carbon steel flange costs $56.09 less than the stainless one for the same geometry. Its drawback is that it rusts if it gets wet, so if the machine were used where moisture is likely, the stainless flange would be the better long-term choice.</p>
+<p><strong>Selected: the 303 stainless steel flange, 1329K13.</strong> It resists corrosion, so it will not rust if the machine gets wet, and it is the flange used in the CAD model. It costs $56.09 more per flange than the carbon steel flange (95082A643, $38.35), which has the same dimensions.</p>
 <table>
   <thead>
     <tr><th>Selected flange dimension</th><th>Value</th></tr>
@@ -208,8 +208,8 @@ title: "A10 – Lead Screw Translating System"
     <tr><td>Mounting holes</td><td>4 holes, 17/64 in (0.266 in) diameter, which is the clearance size for 1/4 in bolts</td></tr>
   </tbody>
 </table>
-<img src="{{ '/assignments/A10/mcmaster-flange-95082A643.png' | relative_url }}" alt="McMaster-Carr listing for precision Acme flange 95082A643: 1215 carbon steel, 1 inch-18 thread, 2 5/8 inch diameter, 17/32 inch thick, 2 3/32 inch bolt circle, 4 mounting holes of 17/64 inch diameter, $38.35 each">
-<p>McMaster-Carr flange 95082A643.</p>
+<img src="{{ '/assignments/A10/mcmaster-flange-1329K13.png' | relative_url }}" alt="McMaster-Carr listing for precision Acme flange 1329K13: 303 stainless steel, 1 inch-18 thread, 2 5/8 inch diameter, 17/32 inch thick, 2 3/32 inch bolt circle, Brinell 140, 4 mounting holes of 17/64 inch diameter, $94.44 each, with the McMaster-Carr drawing">
+<p>McMaster-Carr flange 1329K13.</p>
 <p>The flange is 2.625 in across, so the crosshead has to be at least that wide at each nut. With four holes spaced 90&deg; apart on the 2.094 in bolt circle, adjacent holes are 1.48 in apart (2.094 &times; sin 45&deg;), which gives the mounting pattern for the crosshead.</p>
 
 <h2>6. Crosshead: Juan</h2>
@@ -252,7 +252,7 @@ title: "A10 – Lead Screw Translating System"
 <h3>Multiview Sketch (item 4)</h3>
 <img src="{{ '/assignments/A10/sketch-crosshead-multiview.jpg' | relative_url }}" alt="Hand-drawn isometric, front, side, and top views of the 6061-T6 aluminum crosshead, 13 1/8 inches long, 3 inches wide, and 1 1/4 inches thick, with two 10-inch-spaced mounting positions each with a counterbore, a through hole, and four bolt holes">
 <p>Multiview sketch of the crosshead in 6061-T6 aluminum: isometric, front, side, and top views.</p>
-<p><strong>Correction.</strong> The isometric callout for the bolt holes reads &ldquo;4&times; &Oslash;17/16 in, THRU&rdquo;. That is larger than the 13/16 in screw hole next to it. The mounting holes of flange 95082A643 are <strong>4&times; &Oslash;17/64 in (0.266 in), THRU</strong>.</p>
+<p><strong>Correction.</strong> The isometric callout for the bolt holes reads &ldquo;4&times; &Oslash;17/16 in, THRU&rdquo;. That is larger than the 13/16 in screw hole next to it. The mounting holes of flange 1329K13 are <strong>4&times; &Oslash;17/64 in (0.266 in), THRU</strong>.</p>
 <p><strong>Dimensions the top view needs.</strong> The top view shows the holes but not where they are. The mounting dimensions are:</p>
 <table>
   <thead>
@@ -279,9 +279,9 @@ title: "A10 – Lead Screw Translating System"
   <tbody>
     <tr><td>1</td><td>2</td><td>1018 carbon steel precision Acme lead screw, 3/4 in&ndash;8, 3 ft (99030A073)</td><td>$51.44</td><td>$102.88</td><td><a href="https://www.mcmaster.com/99030A073/">www.mcmaster.com/99030A073</a></td></tr>
     <tr><td>2</td><td>2</td><td>673 bronze precision Acme externally threaded nut, 3/4 in&ndash;8, 2 starts (95072A331)</td><td>$61.99</td><td>$123.98</td><td><a href="https://www.mcmaster.com/95072A331/">www.mcmaster.com/95072A331</a></td></tr>
-    <tr><td>3</td><td>2</td><td>1215 carbon steel precision Acme flange, 1 in&ndash;18 (95082A643)</td><td>$38.35</td><td>$76.70</td><td><a href="https://www.mcmaster.com/95082A643/">www.mcmaster.com/95082A643</a></td></tr>
-    <!-- PENDING: frame parts (side and top/bottom extrusions) and fasteners: part numbers, quantities, prices, links -->
-    <tr><td colspan="4"><strong>Subtotal, screws, nuts, and flanges</strong></td><td><strong>$303.56</strong></td><td></td></tr>
+    <tr><td>3</td><td>2</td><td>303 stainless steel precision Acme flange, 1 in&ndash;18 (1329K13)</td><td>$94.44</td><td>$188.88</td><td><a href="https://www.mcmaster.com/1329K13/">www.mcmaster.com/1329K13</a></td></tr>
+    <!-- PENDING: aluminum extrusion for the frame (2 side columns, top and bottom trusses) and fasteners: supplier part numbers, quantities, prices, links -->
+    <tr><td colspan="4"><strong>Subtotal, screws, nuts, and flanges</strong></td><td><strong>$415.74</strong></td><td></td></tr>
   </tbody>
 </table>
 
@@ -295,8 +295,9 @@ title: "A10 – Lead Screw Translating System"
     <tr><td>Crosshead</td><td>Designed (section 6)</td><td>bar.SLDPRT</td></tr>
     <tr><td>Lead screw (2)</td><td>Downloaded: McMaster-Carr 99030A073</td><td>99030A073 lead screw file</td></tr>
     <tr><td>Nut (2)</td><td>Downloaded: McMaster-Carr 95072A331</td><td>95072A331 nut file</td></tr>
-    <tr><td>Flange (2)</td><td>Downloaded: McMaster-Carr 1329K13 model</td><td>1329K13 flange file</td></tr>
-    <tr><td>Frame</td><td>Downloaded parts</td><td>side.SLDPRT, topnbottom.SLDPRT</td></tr>
+    <tr><td>Flange (2)</td><td>Downloaded: McMaster-Carr 1329K13</td><td>1329K13 flange file</td></tr>
+    <tr><td>Frame side columns (2)</td><td>Downloaded: aluminum extrusion</td><td>side.SLDPRT</td></tr>
+    <tr><td>Frame top and bottom trusses</td><td>Downloaded: aluminum extrusion</td><td>topnbottom.SLDPRT</td></tr>
   </tbody>
 </table>
 
@@ -330,13 +331,34 @@ title: "A10 – Lead Screw Translating System"
 <p>The full assembly: frame, two lead screws, nuts and flanges, and the crosshead.</p>
 
 <h2>9. Lessons Learned: Juan</h2>
-<!-- PENDING -->
+<p><strong>Stiffness sized the crosshead, not strength.</strong> The bending stress calculation needed a thickness of only 12.2 mm, while the 0.1 mm deflection limit needed 25.0 mm, so deflection set the size. The 1 1/4 in bar I chose carries 9.9 MPa against an allowable 67.5 MPa, an actual safety factor of 27, because it was sized to be stiff. I learned to run both checks, strength with the safety factor of 4 and deflection at the full load, and to size the part by whichever one gives the larger thickness.</p>
+<p><strong>Span and thickness both enter the deflection formula as cubes.</strong> For a simply supported beam with a center load, &delta; = FL<sup>3</sup>/(4Ebh<sup>3</sup>). With the same 1 1/4 in bar, a 10 in span deflects 0.049 mm and Instron's 16.5 in column spacing would deflect 0.219 mm, 4.5 times as much. Going from a 1 in bar to a 1 1/4 in bar cuts the deflection from 0.095 mm to 0.049 mm. Choosing the span from research on real machines, and then the thickness, gave a design that met the limit with margin.</p>
+<p><strong>The catalog data of a purchased part sets the design of the part around it.</strong> The 2.625 in flange diameter set the minimum crosshead width. The nut's 1.125 in body, 3/4 in long, set the 1 3/16 in by 3/4 in counterbore. The 2.094 in bolt circle and the 17/64 in holes set the flange mounting holes. I also learned to check edge distance: holes at 12, 3, 6, and 9 o'clock leave 0.32 in of material to the bar edge, and rotating the pattern 45&deg; leaves 0.63 in, so the CAD uses the 45&deg; pattern.</p>
+<p><strong>Equations tie dimensions to design intent.</strong> I defined the bar length as Span + FlangeDia + 2 &times; EndMargin and the end distance as (Length &minus; Span)/2, so changing the span changes the bar length and the hole spacing together instead of requiring me to edit each dimension. I also added EdgeDist = Width/2 &minus; BoltCircle/2 &minus; BoltHoleDia/2 as a check value that is not used by any feature.</p>
+<p><strong>The torque formula uses the mean thread diameter of the selected screw.</strong> The first torque calculation used the 4.6 mm minimum rod diameter from the stress check and gave 1.45 N&middot;m. For the 3/4 in&ndash;8 Acme screw the mean diameter is 17.46 mm, which gives 2.36 N&middot;m, and 2.41 N&middot;m with the thread-angle correction &mu;/cos 14.5&deg;. I learned to carry the dimensions of the part actually selected into each later calculation, and to check the units of every result, such as writing a moment in N&middot;mm instead of N/mm.</p>
+<p><strong>A nut has to match the screw's lead, not only its diameter.</strong> A 3/4 in&ndash;8 nut with 1 thread start travels 0.125 in per turn and cannot thread onto the screw's 2 starts and 0.25 in per turn. Checking the thread starts and the travel per turn in the catalog before ordering avoids that mismatch. The correct nut is also rated for 2,800 lb<sub>f</sub> of dynamic thrust against 225 lb<sub>f</sub> per nut, which confirmed the thread bending check.</p>
+<p>Time spent: see the Time Log.</p>
 
 <h2>Mistakes</h2>
-<!-- PENDING -->
+<ul>
+  <li><strong>Max torque used the wrong diameter.</strong> The handwritten page substituted the 4.6 mm minimum rod diameter instead of the selected screw's mean thread diameter, so its numbers give 1.45 N&middot;m, not the 2.93 N&middot;m written. Corrected to 2.41 N&middot;m per screw in section 3.</li>
+  <li><strong>Summary table typo.</strong> The minimum diameter was listed as 0.19777 in; 4.52 mm is 0.178 in. Corrected under the summary in section 3.</li>
+  <li><strong>Moment units.</strong> The crosshead strength page wrote the bending moment as N/mm and N/m instead of N&middot;mm and N&middot;m. Corrected in section 6.</li>
+  <li><strong>Bolt hole callout.</strong> The crosshead sketch read 4&times; &Oslash;17/16 in, larger than the screw hole beside it; the flange holes are 17/64 in. The top view also had no locating dimensions. Corrected and added in section 6.</li>
+  <li><strong>Wrong nut.</strong> The first nut pulled from the catalog (95072A351) was 360 brass with 1 thread start and 0.125 in of travel per turn, which does not fit the 2-start screw. It was replaced with 95072A331, a 673 bronze 2-start nut.</li>
+  <li><strong>CAD files in the wrong folder.</strong> The files were first uploaded to the A11 folder of the portfolio and were moved to A10.</li>
+</ul>
 
 <h2>Time Log</h2>
-<!-- PENDING -->
+<table>
+  <thead>
+    <tr><th>Team member</th><th>Work</th><th>Time</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Juan</td><td>Crosshead analysis and sketch, CAD assembly, and portfolio page</td><td>3 hours</td></tr>
+    <!-- PENDING: Ethan's time for the leadscrew, nut, flange, and cost sections -->
+  </tbody>
+</table>
 
 <h2>Downloadable Files</h2>
 <p>Put all of the files in the same folder before opening an assembly so SolidWorks can find every part.</p>
@@ -344,9 +366,9 @@ title: "A10 – Lead Screw Translating System"
   <li><a href="{{ '/assignments/A10/fullassm.SLDASM' | relative_url }}">Full tensile tester assembly (fullassm.SLDASM)</a></li>
   <li><a href="{{ '/assignments/A10/barassm.SLDASM' | relative_url }}">Crosshead assembly (barassm.SLDASM)</a></li>
   <li><a href="{{ '/assignments/A10/bar.SLDPRT' | relative_url }}">Crosshead, designed part (bar.SLDPRT)</a></li>
-  <li><a href="{{ '/assignments/A10/side.SLDPRT' | relative_url }}">Frame side (side.SLDPRT)</a></li>
-  <li><a href="{{ '/assignments/A10/topnbottom.SLDPRT' | relative_url }}">Frame top and bottom (topnbottom.SLDPRT)</a></li>
+  <li><a href="{{ '/assignments/A10/side.SLDPRT' | relative_url }}">Frame side columns (side.SLDPRT)</a></li>
+  <li><a href="{{ '/assignments/A10/topnbottom.SLDPRT' | relative_url }}">Frame top and bottom trusses (topnbottom.SLDPRT)</a></li>
   <li><a href="{{ '/assignments/A10/99030A073_1018%20Carbon%20Steel%20Precision%20Acme%20Lead%20Screw.SLDPRT' | relative_url }}">Lead screw, McMaster-Carr 99030A073</a></li>
   <li><a href="{{ '/assignments/A10/95072A331_Precision%20Acme%20Externally%20Threaded%20Nut.SLDPRT' | relative_url }}">Nut, McMaster-Carr 95072A331</a></li>
-  <li><a href="{{ '/assignments/A10/1329K13_Precision%20Acme%20Flange.SLDPRT' | relative_url }}">Flange, McMaster-Carr 1329K13 model</a></li>
+  <li><a href="{{ '/assignments/A10/1329K13_Precision%20Acme%20Flange.SLDPRT' | relative_url }}">Flange, McMaster-Carr 1329K13</a></li>
 </ul>
