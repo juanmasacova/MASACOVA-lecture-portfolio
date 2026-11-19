@@ -4,10 +4,114 @@ title: "A11 – Motor Selection"
 <h1>A11 – Motor Selection</h1>
 
 <h2>Objective</h2>
+<p>This is part two of the team assignment with Ethan King and Josef Chelala: the motorized drive and structural integration of the 2 kN purely mechanical tensile tester from A10. Part two covers selecting a motor, designing the motor mount, selecting a coupler, designing a frame that supports the crosshead and the tensile load, designing the clamp, a complete CAD model, and a bill of materials with engineering cost. The constraints are a 2 kN load, a 1&ndash;50 mm/min speed range, an 18 in minimum leadscrew length, and a safety factor of 4.</p>
 
-<h2>Analyze</h2>
+<h2>Team and Contributions</h2>
+<table>
+  <thead><tr><th>Section</th><th>Contributor</th></tr></thead>
+  <tbody>
+    <tr><td>1. Motor Selection</td><td>Ethan King</td></tr>
+    <tr><td>2. Motor Mount Bracket</td><td>Ethan King</td></tr>
+    <tr><td>3. Coupler</td><td>Ethan King</td></tr>
+    <tr><td>4. Frame Analysis and Design</td><td>Josef Chelala</td></tr>
+    <tr><td>5. Clamp Analysis and Design</td><td>Juan</td></tr>
+    <tr><td>6. CAD Model</td><td>Juan</td></tr>
+    <tr><td>7. Bill of Materials and Engineering Cost</td><td>Juan</td></tr>
+    <tr><td>8. Lessons Learned, Mistakes, and Time Log</td><td>Everyone</td></tr>
+  </tbody>
+</table>
 
-<h2>Decide</h2>
-<p><em>Reference your concept selection (Pugh matrix) here. How does this design follow from that decision?</em></p>
+<h2>1. Motor Selection: Ethan King</h2>
+<p>The motor was selected from the torque and speed requirements of the leadscrew design and checked at the maximum axial load of 2 kN across the whole 1&ndash;50 mm/min range.</p>
+<p><strong>Selected motor:</strong> <a href="https://www.mcmaster.com/6627T117/">McMaster-Carr 6627T117</a>, a stepper motor with driver (48 V DC, 4.3 A, 1/10 stepping).</p>
+<p><strong>Torque verification.</strong> The maximum required torque is <strong>2.93 N&middot;m (2.161 lb<sub>f</sub>-ft)</strong>. The motor's torque at low speed is 637 ozf-in, which is 3.318 lb<sub>f</sub>-ft, so the motor is well above what is needed.</p>
+<img src="{{ '/assignments/A11/motor-unit-conversion.jpg' | relative_url }}" alt="Conversion of 637 ounce-force inches to 3.318 pound-force feet">
+<p>The speed range of 1&ndash;50 mm/min needs only a few rpm at the leadscrew, where the motor torque is highest, so it provides the required torque across the whole range.</p>
+<img src="{{ '/assignments/A11/motor-speed-torque-curve.jpg' | relative_url }}" alt="McMaster-Carr torque-speed chart for the 6627T117 stepper motor">
+<p>Speed-torque curve of the selected motor.</p>
+<p><em>Motor specification screenshots are on Ethan's page: <a href="https://ethanking13.github.io/ethanking---megr2156-portfolio/assignments/a11/">Ethan King's A11</a>.</em></p>
 
-<h2>Communicate</h2>
+<h2>2. Motor Mount Bracket: Ethan King</h2>
+<p>The bracket attaches the motor to the top of the frame using the motor's own mounting-hole pattern and a four-hole pattern into the frame. It keeps the motor aligned with the leadscrew, leaves room for assembly and maintenance, and carries the operating torque and reaction forces. The final bracket was modeled in CAD with the calculated thickness and hole locations.</p>
+
+<h2>3. Coupler: Ethan King</h2>
+<p><strong>Selected coupling:</strong> <a href="https://www.mcmaster.com/6412K14/">McMaster-Carr 6412K14</a>. It connects the motor shaft to the leadscrew, and torsional shear stress analysis was used to confirm that it carries the maximum torque of 2.93 N&middot;m.</p>
+
+<h2>4. Frame Analysis and Design: Josef Chelala</h2>
+<h3>Reaction forces</h3>
+<p>Seen from the top, only the motor torques act on the top frame. The reactions sit at the ends, so the length of the top frame resists the torque and the transverse force on each vertical frame is only <strong>1.525 lb<sub>f</sub></strong>. Each leadscrew also pulls down 1 kN, so the top frame pushes 1 kN of compression into each vertical frame.</p>
+
+<h3>Bracket selection</h3>
+<p>With the A10 beams, the top frame limits the bracket to under 38.1 mm wide and 41.275 mm long, for an 8.128 mm slot.</p>
+<img src="{{ '/assignments/A11/bracket-limits.jpg' | relative_url }}" alt="Measurements of the frame profile limiting the bracket size">
+<p>Two brackets fit. The gusseted bracket costs more and handles more bending, but the loads are small, so we use the cheaper <a href="https://www.grainger.com/product/80-20-Inside-Corner-Bracket-Inside-5JRP7">5JRP7 aluminum inside-corner bracket without a gusset</a> ($6.84 against $9.99).</p>
+<img src="{{ '/assignments/A11/bracket-choice.jpg' | relative_url }}" alt="Catalog comparison of the plain and gusseted 40 series inside corner brackets">
+<h3>Top frame FEA (17 in, 40 series)</h3>
+<p><strong>Setup.</strong> The faces in contact with the vertical frames and brackets were split and fixed. The vertical frame contacts only have vertical fixtures. The motor torque is 2.16 lb<sub>f</sub>-ft (25.932 lb<sub>f</sub>-in) and a 1 kN vertical force is applied at each leadscrew hole. The mesh is the center setting.</p>
+<img src="{{ '/assignments/A11/top-fixtures-frame.jpg' | relative_url }}" alt="Fixtures on the top frame where it meets the vertical frames">
+<img src="{{ '/assignments/A11/top-fixtures-bracket.jpg' | relative_url }}" alt="Fixtures on the top frame where it meets the bracket">
+<img src="{{ '/assignments/A11/top-torque.jpg' | relative_url }}" alt="Torque applied at the leadscrew hole">
+<img src="{{ '/assignments/A11/top-force.jpg' | relative_url }}" alt="1 kN vertical force applied at the leadscrew hole">
+<img src="{{ '/assignments/A11/top-final-setup.jpg' | relative_url }}" alt="Final top frame simulation setup">
+<p>Final simulation setup.</p>
+<p><strong>Von Mises stress.</strong> The maximum is <strong>20.159 ksi</strong> around the leadscrew holes, against a yield strength of about 27.992 ksi. This is probably overstated, because the model does not include support from the leadscrew itself and the fixtures are idealized. With a safety factor of 4 the allowable stress is 6.998 ksi, and only small areas near the hole and along the bracket line exceed it. The load path runs into the screw holes, as if the frame were being punched there.</p>
+<img src="{{ '/assignments/A11/top-vonmises.jpg' | relative_url }}" alt="Von Mises stress on the top frame">
+<img src="{{ '/assignments/A11/top-vonmises-detail.jpg' | relative_url }}" alt="Von Mises stress near the leadscrew holes">
+<img src="{{ '/assignments/A11/top-stress-limited.jpg' | relative_url }}" alt="Von Mises stress limited to the allowable stress">
+<p><strong>Deflection.</strong> The maximum deflection is <strong>0.001616 in</strong>, at one screw hole where the 1 kN force and the torque combine. That is half the thickness of a human hair (0.003 in). The exaggerated plot looks like a four-point bend test, with little movement at the supports and no visible twisting.</p>
+<img src="{{ '/assignments/A11/top-deflection.jpg' | relative_url }}" alt="Deflection of the top frame">
+<img src="{{ '/assignments/A11/top-deflection-detail.jpg' | relative_url }}" alt="Maximum deflection at a leadscrew hole">
+<img src="{{ '/assignments/A11/top-deflection-limited.jpg' | relative_url }}" alt="Deflection limited to the hair-thickness range">
+<p><strong>Factor of safety.</strong> The smallest factor of safety is <strong>1.386</strong>, in a tiny region. Plotting only the areas below 4 shows that only small spots are affected.</p>
+<img src="{{ '/assignments/A11/top-fos.jpg' | relative_url }}" alt="Factor of safety of the top frame">
+<img src="{{ '/assignments/A11/top-fos-below-4.jpg' | relative_url }}" alt="Regions of the top frame below a factor of safety of 4">
+<img src="{{ '/assignments/A11/top-fos-min-locations.jpg' | relative_url }}" alt="Locations of the lowest factor of safety">
+<p><strong>Optimization.</strong> Some of the low spots are at indents in the extrusion near the screw hole. Welding those gaps acts as a retainer and removes the stresses below the factor of safety of 4. The next-lowest area moves to another indent, so custom top frames with fewer indents would be stronger. Deflection rose slightly but stayed in the same area.</p>
+<img src="{{ '/assignments/A11/top-optimization.jpg' | relative_url }}" alt="Indent near the screw hole that was welded in the optimization">
+<h3>Vertical frame FEA</h3>
+<p><strong>Setup.</strong> The whole bottom face is fixed because it sits on the base beam. The 1.525 lb<sub>f</sub> transverse force is applied where the bracket touches the frame and the 1 kN compression where the top frame touches it.</p>
+<img src="{{ '/assignments/A11/side-fixture.jpg' | relative_url }}" alt="Fixture on the bottom of the vertical frame">
+<img src="{{ '/assignments/A11/side-split-bracket.jpg' | relative_url }}" alt="Split face where the bracket contacts the vertical frame">
+<img src="{{ '/assignments/A11/side-split-top.jpg' | relative_url }}" alt="Split face where the top frame contacts the vertical frame">
+<img src="{{ '/assignments/A11/side-loads.jpg' | relative_url }}" alt="Forces applied to the vertical frame">
+<p><strong>Results.</strong> The maximum stress is <strong>2.516 ksi</strong>, at the center of the top-frame contact, far below yield. The maximum deflection is <strong>0.0003796 in</strong> at the point where the top frame, side frame, and bracket meet. The minimum factor of safety is <strong>11.124</strong>, almost three times the target of 4, and there is no visible twisting.</p>
+<img src="{{ '/assignments/A11/side-vonmises.jpg' | relative_url }}" alt="Von Mises stress on the vertical frame">
+<img src="{{ '/assignments/A11/side-deflection.jpg' | relative_url }}" alt="Deflection of the vertical frame">
+<img src="{{ '/assignments/A11/side-fos.jpg' | relative_url }}" alt="Factor of safety of the vertical frame">
+<p><strong>Optimization to cut cost.</strong> Because the stress and deflection were so low, a beam with half the width was tested with the same forces and fixtures. The minimum factor of safety went up, not down, and the deflection rose to 0.00176 in, about the same as the top frame. The original side beams had their highest stresses in their curved sections, so the original beams were overbuilt and costing money for nothing.</p>
+<img src="{{ '/assignments/A11/side-narrow-fos.jpg' | relative_url }}" alt="Factor of safety of the narrower vertical frame">
+<img src="{{ '/assignments/A11/side-narrow-deflection.jpg' | relative_url }}" alt="Deflection of the narrower vertical frame">
+<p><a href="https://drive.google.com/file/d/1w2mBpridV1HRKfM6ORor5Sbgo4-X5EOg/view?usp=sharing">Frame simulation files (Google Drive)</a></p>
+
+<h2>5. Clamp Analysis and Design: Juan</h2>
+<!-- TODO Juan: clamp analysis and design -->
+
+<h2>6. CAD Model: Juan</h2>
+<!-- TODO Juan: CAD model and download links -->
+
+<h2>7. Bill of Materials and Engineering Cost: Juan</h2>
+<!-- TODO Juan: BOM and cost -->
+
+<h2>8. Lessons Learned</h2>
+<p><strong>Josef Chelala.</strong> I learned to calculate the reaction forces from the motors and leadscrews and to use them to pick brackets and set up an FEA. Small changes in geometry changed the stresses a lot: the top frame barely moved, but stress concentrations at the leadscrew holes pushed its factor of safety below 4. On the vertical frames, reducing the width raised the minimum factor of safety, which showed me that more material is not always stronger, and that I should find where and why stress occurs before adding material and cost.</p>
+<p><strong>Ethan King.</strong> I learned to select a motor from torque and speed requirements, to design a motor mount bracket, and to size a coupler with bearing and torsional stress calculations, and that alignment, strength, and sizing all matter in an assembly.</p>
+<!-- TODO Juan: lessons learned -->
+
+<h2>Mistakes</h2>
+<!-- TODO: team mistakes -->
+
+<h2>Time Log</h2>
+<table>
+  <thead><tr><th>Team member</th><th>Work</th><th>Time</th></tr></thead>
+  <tbody>
+    <tr><td>Ethan King</td><td>Motor, mount bracket, coupler</td><td>8 hours</td></tr>
+    <tr><td>Josef Chelala</td><td>Frame analysis, bracket selection, and FEA (mostly trial and error in the FEA)</td><td>10 hours</td></tr>
+    <tr><td>Juan</td><td>Clamp, CAD, bill of materials, portfolio page</td><td>TBD</td></tr>
+  </tbody>
+</table>
+
+<h2>Downloadable Files</h2>
+<ul>
+  <li><a href="https://drive.google.com/file/d/1w2mBpridV1HRKfM6ORor5Sbgo4-X5EOg/view?usp=sharing">Frame simulation files (Google Drive)</a></li>
+  <!-- TODO: CAD download links -->
+</ul>
