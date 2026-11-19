@@ -85,27 +85,10 @@ title: "A11 – Motor Selection"
 <h2>7. Floating Bearing Mount: Juan</h2>
 <p>The motor and coupler hold the top end of each leadscrew. The bottom end needs a mount that lets the screw turn and carries only a small side load, because the 1 kN axial load goes through the nut and the top frame. The mount is a block bolted to the base beam with a bore for the screw end, sized with an RC3 (precision running) fit from ANSI B4.1.</p>
 
-<h3>Knowns and unknowns</h3>
-<ul>
-  <li><strong>Knowns:</strong> screw end journal 0.750 in (the 3/4 in&ndash;8 Acme screw from A10), load per screw 225 lb<sub>f</sub> (axial, carried at the top), RC3 fit, 40 series base beam (40 mm = 1.575 in wide), 6061-T6 aluminum block.</li>
-  <li><strong>Unknowns:</strong> bore and journal limits, bearing length, block width and height, bolt hole size, hole spacing and edge distance.</li>
-</ul>
-
-<h3>Free body diagram</h3>
-<img src="{{ '/assignments/A11/bearing-mount-fbd.png' | relative_url }}" alt="Free body diagram of the floating bearing block: 22.5 lbf side load at the bore, 11.25 lbf shear reaction at each bolt, and a 6.4 lbf up and down couple at the bolts">
-<p>The side load F<sub>r</sub> acts at the bore, 0.5 in above the base. The two bolts carry it in shear (V = F<sub>r</sub>/2) and resist the overturning moment with a 6.4 lb<sub>f</sub> couple over the 1.75 in bolt spacing.</p>
-
-<h3>RC3 fit for a 0.750 in journal</h3>
-<p>For the 0.71&ndash;1.19 in size range, ANSI B4.1 gives class RC3 a hole tolerance of +0.8 / &minus;0 thousandths of an inch, a minimum clearance of 0.8 thousandths, and a shaft tolerance of &minus;0.8 / &minus;1.3 thousandths (<a href="https://fac.ksu.edu.sa/sites/default/files/fits_us_tables_ansi_b4.1-1967_r1987.pdf">ANSI B4.1 tables</a>). Check these against the RC3 row in your copy of Machinery's Handbook before submitting.</p>
-<table>
-  <thead><tr><th>Feature</th><th>Limits</th><th>Calculation</th></tr></thead>
-  <tbody>
-    <tr><td>Bore (hole, H7)</td><td>0.7500 to 0.7508 in</td><td>0.750 + 0.0008 / &minus;0</td></tr>
-    <tr><td>Screw end journal (shaft, f6)</td><td>0.7487 to 0.7492 in</td><td>0.750 &minus; 0.0008 and 0.750 &minus; 0.0013</td></tr>
-    <tr><td>Minimum clearance</td><td>0.0008 in</td><td>0.7500 &minus; 0.7492</td></tr>
-    <tr><td>Maximum clearance</td><td>0.0021 in</td><td>0.7508 &minus; 0.7487</td></tr>
-  </tbody>
-</table>
+<h3>Hand calculations (items 7a&ndash;7b)</h3>
+<img src="{{ '/assignments/A11/bearing-mount-handcalc.jpg' | relative_url }}" alt="Handwritten knowns and unknowns, free body diagram of the floating bearing block, and work for the RC3 fit, bearing pressure, bolt shear, and bolt tension">
+<p>Knowns and unknowns, free body diagram, RC3 fit limits, bearing pressure, and bolt checks for the floating bearing block.</p>
+<p><strong>Corrections.</strong> The journal diameter in the knowns reads 6.75 in; it is <strong>0.75 in</strong>. The pressure line uses 225 lb<sub>f</sub>; it should use the 22.5 lb<sub>f</sub> side load, <strong>p = 22.5/(0.75 &times; 1) = 30 psi</strong>. The maximum clearance is 0.7508 &minus; 0.7487 = <strong>0.0021 in</strong>. In the free body diagram, the left bolt pulls the block down while the right bolt reaction pushes up.</p>
 
 <h3>Size and location dimensions (item 7a)</h3>
 <table>
@@ -209,6 +192,5 @@ title: "A11 – Motor Selection"
 <ul>
   <li><a href="https://drive.google.com/file/d/1w2mBpridV1HRKfM6ORor5Sbgo4-X5EOg/view?usp=sharing">Frame simulation files (Google Drive)</a></li>
   <li><a href="{{ '/assignments/A11/BEARINGBLOCK.SLDPRT' | relative_url }}">Floating bearing block, SolidWorks part (BEARINGBLOCK.SLDPRT)</a></li>
-  <li><a href="{{ '/assignments/A11/floating-bearing-block.step' | relative_url }}">Floating bearing block, STEP file (floating-bearing-block.step)</a></li>
 
 </ul>
