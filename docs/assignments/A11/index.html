@@ -14,10 +14,9 @@ title: "A11 – Motor Selection"
     <tr><td>2. Motor Mount Bracket</td><td>Ethan King</td></tr>
     <tr><td>3. Coupler</td><td>Ethan King</td></tr>
     <tr><td>4. Frame Analysis and Design</td><td>Josef Chelala</td></tr>
-    <tr><td>5. Clamp Analysis and Design</td><td>Juan</td></tr>
-    <tr><td>6. CAD Model</td><td>Juan</td></tr>
-    <tr><td>7. Bill of Materials and Engineering Cost</td><td>Juan</td></tr>
-    <tr><td>8. Lessons Learned, Mistakes, and Time Log</td><td>Everyone</td></tr>
+    <tr><td>7. Floating Bearing Mount</td><td>Juan</td></tr>
+    <tr><td>8. Bill of Materials and Labor Costs</td><td>Juan</td></tr>
+    <tr><td>9. Lessons Learned</td><td>Everyone</td></tr>
   </tbody>
 </table>
 
@@ -83,19 +82,86 @@ title: "A11 – Motor Selection"
 <img src="{{ '/assignments/A11/side-narrow-deflection.jpg' | relative_url }}" alt="Deflection of the narrower vertical frame">
 <p><a href="https://drive.google.com/file/d/1w2mBpridV1HRKfM6ORor5Sbgo4-X5EOg/view?usp=sharing">Frame simulation files (Google Drive)</a></p>
 
-<h2>5. Clamp Analysis and Design: Juan</h2>
-<!-- TODO Juan: clamp analysis and design -->
+<h2>5&ndash;6. Clamp and CAD Model: Juan</h2>
+<!-- TODO Juan: confirm whether the assignment asks for a clamp and a CAD model, then add them with download links -->
 
-<h2>6. CAD Model: Juan</h2>
-<!-- TODO Juan: CAD model and download links -->
+<h2>7. Floating Bearing Mount: Juan</h2>
+<p>The motor and coupler hold the top end of each leadscrew. The bottom end needs a mount that lets the screw turn and carries only a small side load, because the 1 kN axial load goes through the nut and the top frame. The mount is a block bolted to the base beam with a bore for the screw end, sized with an RC3 (precision running) fit from ANSI B4.1.</p>
 
-<h2>7. Bill of Materials and Engineering Cost: Juan</h2>
-<!-- TODO Juan: BOM and cost -->
+<h3>Knowns and unknowns</h3>
+<ul>
+  <li><strong>Knowns:</strong> screw end journal 0.750 in (the 3/4 in&ndash;8 Acme screw from A10), load per screw 225 lb<sub>f</sub> (axial, carried at the top), RC3 fit, 40 series base beam (40 mm = 1.575 in wide), 6061-T6 aluminum block.</li>
+  <li><strong>Unknowns:</strong> bore and journal limits, bearing length, block width and height, bolt hole size, hole spacing and edge distance.</li>
+</ul>
 
-<h2>8. Lessons Learned</h2>
+<h3>RC3 fit for a 0.750 in journal</h3>
+<p>For the 0.71&ndash;1.19 in size range, ANSI B4.1 gives class RC3 a hole tolerance of +0.8 / &minus;0 thousandths of an inch, a minimum clearance of 0.8 thousandths, and a shaft tolerance of &minus;0.8 / &minus;1.3 thousandths (<a href="https://fac.ksu.edu.sa/sites/default/files/fits_us_tables_ansi_b4.1-1967_r1987.pdf">ANSI B4.1 tables</a>). Check these against the RC3 row in your copy of Machinery's Handbook before submitting.</p>
+<table>
+  <thead><tr><th>Feature</th><th>Limits</th><th>Calculation</th></tr></thead>
+  <tbody>
+    <tr><td>Bore (hole, H7)</td><td>0.7500 to 0.7508 in</td><td>0.750 + 0.0008 / &minus;0</td></tr>
+    <tr><td>Screw end journal (shaft, f6)</td><td>0.7487 to 0.7492 in</td><td>0.750 &minus; 0.0008 and 0.750 &minus; 0.0013</td></tr>
+    <tr><td>Minimum clearance</td><td>0.0008 in</td><td>0.7500 &minus; 0.7492</td></tr>
+    <tr><td>Maximum clearance</td><td>0.0021 in</td><td>0.7508 &minus; 0.7487</td></tr>
+  </tbody>
+</table>
+
+<h3>Size and location dimensions (item 7a)</h3>
+<table>
+  <thead><tr><th>Dimension</th><th>Value</th><th>Justification</th></tr></thead>
+  <tbody>
+    <tr><td>Bearing length</td><td>1.00 in</td><td>About 1.3 times the journal diameter, long enough to keep the screw from tilting in the bore. With an assumed side load of 10% of the 225 lb<sub>f</sub> axial load (22.5 lb<sub>f</sub>), the bearing pressure is 22.5/(0.75 &times; 1.00) = 30 psi, far below what aluminum or bronze carries.</td></tr>
+    <tr><td>Block width</td><td>1.575 in (40 mm)</td><td>Matches the width of the 40 series base beam so the block sits flat on the beam and does not overhang.</td></tr>
+    <tr><td>Block length</td><td>3.00 in</td><td>Two bolts at 1.75 in spacing, with 0.625 in from each bolt center to the end of the block. That is about 1.8 times the 0.354 in hole diameter, so the block does not tear out at the bolt.</td></tr>
+    <tr><td>Bolts</td><td>2 &times; M8, hole &Oslash;9.0 mm (0.354 in)</td><td>M8 fits the 8 mm slot of the beam. The normal-fit clearance hole for M8 in Machinery's Handbook is 9.0 mm (close fit 8.4 mm); confirm in the handbook table. The normal fit absorbs the slot-to-hole position tolerance.</td></tr>
+    <tr><td>Bolt location</td><td>0.875 in each side of the bore center, on the beam centerline</td><td>Puts the bolts over the T-slot and keeps the screw centered over the beam.</td></tr>
+    <tr><td>Bore position</td><td>0.7875 in from each long edge, 1.50 in from each end</td><td>Centers the screw on the block, in line with the screw through the top motor mount.</td></tr>
+    <tr><td>Bore depth</td><td>Through (1.00 in)</td><td>A through bore lets the screw end move axially, so the bottom end floats and does not carry thrust.</td></tr>
+  </tbody>
+</table>
+
+<h3>Functional tolerances (item 7b)</h3>
+<table>
+  <thead><tr><th>Dimension</th><th>Tolerance</th><th>Function</th></tr></thead>
+  <tbody>
+    <tr><td>Bore diameter</td><td>0.7500 +0.0008 / &minus;0 in (H7)</td><td>Sets the RC3 clearance</td></tr>
+    <tr><td>Bore perpendicular to the mounting face</td><td>0.001 in</td><td>Keeps the screw vertical so it does not bind in the bore</td></tr>
+    <tr><td>Bore position to the screw axis at the top</td><td>&plusmn;0.005 in</td><td>Keeps the two bearing ends aligned</td></tr>
+    <tr><td>Bolt hole spacing</td><td>1.75 &plusmn; 0.005 in</td><td>Matches the slot spacing</td></tr>
+    <tr><td>Mounting face flatness</td><td>0.002 in</td><td>Seats the block on the beam without tilting the bore</td></tr>
+    <tr><td>Block length and width</td><td>&plusmn;0.010 in</td><td>Not functional</td></tr>
+  </tbody>
+</table>
+<!-- TODO Juan: confirm bolt size and slot spacing against the CAD base beam; add a sketch or CAD image of the block -->
+
+<h2>8. Bill of Materials and Labor Costs</h2>
+<p>All costs for both parts of the assignment (A10 and A11). Labor is at the entry-level mechanical engineering designer rate of $35/hour. <!-- TODO: reformat to the assignment's cost template --></p>
+<table>
+  <thead><tr><th>Item</th><th>Qty</th><th>Name</th><th>Cost/Item</th><th>Cost</th><th>Link</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>2</td><td>1018 steel precision Acme leadscrew, 3/4 in&ndash;8, 3 ft (99030A073)</td><td>$51.44</td><td>$102.88</td><td><a href="https://www.mcmaster.com/99030A073/">McMaster</a></td></tr>
+    <tr><td>2</td><td>2</td><td>Bronze precision Acme nut (95072A331)</td><td>$61.99</td><td>$123.98</td><td><a href="https://www.mcmaster.com/95072A331/">McMaster</a></td></tr>
+    <tr><td>3</td><td>2</td><td>Precision Acme flange (1329K13)</td><td>$94.44</td><td>$188.88</td><td><a href="https://www.mcmaster.com/1329K13/">McMaster</a></td></tr>
+    <tr><td>4</td><td>2</td><td>Stepper motor with driver (6627T117)</td><td>TBD</td><td>TBD</td><td><a href="https://www.mcmaster.com/6627T117/">McMaster</a></td></tr>
+    <tr><td>5</td><td>2</td><td>Shaft coupling (6412K14)</td><td>TBD</td><td>TBD</td><td><a href="https://www.mcmaster.com/6412K14/">McMaster</a></td></tr>
+    <tr><td>6</td><td>TBD</td><td>Inside corner bracket, 40 series, no gusset (5JRP7)</td><td>$6.84</td><td>TBD</td><td><a href="https://www.grainger.com/product/80-20-Inside-Corner-Bracket-Inside-5JRP7">Grainger</a></td></tr>
+    <tr><td>7</td><td>1 set</td><td>Aluminum extrusion frame and fasteners (A10 estimate)</td><td>$150.00</td><td>$150.00</td><td>Estimate</td></tr>
+    <tr><td>8</td><td>2</td><td>Floating bearing block, 6061-T6 aluminum, and M8 bolts</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>Team member</th><th>A10 hours</th><th>A11 hours</th><th>Total hours</th><th>Labor at $35/hour</th></tr></thead>
+  <tbody>
+    <tr><td>Ethan King</td><td>3</td><td>8</td><td>11</td><td>$385.00</td></tr>
+    <tr><td>Josef Chelala</td><td>TBD</td><td>10</td><td>TBD</td><td>TBD</td></tr>
+    <tr><td>Juan</td><td>3</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
+  </tbody>
+</table>
+
+<h2>9. Lessons Learned</h2>
 <p><strong>Josef Chelala.</strong> I learned to calculate the reaction forces from the motors and leadscrews and to use them to pick brackets and set up an FEA. Small changes in geometry changed the stresses a lot: the top frame barely moved, but stress concentrations at the leadscrew holes pushed its factor of safety below 4. On the vertical frames, reducing the width raised the minimum factor of safety, which showed me that more material is not always stronger, and that I should find where and why stress occurs before adding material and cost.</p>
 <p><strong>Ethan King.</strong> I learned to select a motor from torque and speed requirements, to design a motor mount bracket, and to size a coupler with bearing and torsional stress calculations, and that alignment, strength, and sizing all matter in an assembly.</p>
-<!-- TODO Juan: lessons learned -->
+<p><strong>Juan.</strong> I learned to read a fit class from ANSI B4.1 and turn it into limits for both parts. For a 0.750 in journal, RC3 gives a bore of 0.7500 to 0.7508 in and a shaft of 0.7487 to 0.7492 in, so the clearance can be anywhere from 0.0008 to 0.0021 in. I learned that the bore perpendicularity (0.001 in) matters more to the screw turning freely than the block's outer dimensions, which are not functional. I learned to size bolt holes from the handbook clearance values and to set the edge distance from the hole diameter (0.625 in is about 1.8 hole diameters) instead of choosing it by eye. I also learned to cost a design as purchased parts plus labor at $35/hour, because labor is a cost line next to the hardware.</p>
 
 <h2>Mistakes</h2>
 <!-- TODO: team mistakes -->
@@ -106,7 +172,7 @@ title: "A11 – Motor Selection"
   <tbody>
     <tr><td>Ethan King</td><td>Motor, mount bracket, coupler</td><td>8 hours</td></tr>
     <tr><td>Josef Chelala</td><td>Frame analysis, bracket selection, and FEA (mostly trial and error in the FEA)</td><td>10 hours</td></tr>
-    <tr><td>Juan</td><td>Clamp, CAD, bill of materials, portfolio page</td><td>TBD</td></tr>
+    <tr><td>Juan</td><td>Floating bearing mount, bill of materials, portfolio page</td><td>TBD</td></tr>
   </tbody>
 </table>
 
