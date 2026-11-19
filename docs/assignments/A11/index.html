@@ -176,8 +176,12 @@ title: "A11 – Motor Selection"
 
 <h2>Mistakes</h2>
 <ul>
-  <li><strong>Pressure calculation (Juan).</strong> The bearing pressure line used the 225 lb<sub>f</sub> axial load instead of the 22.5 lb<sub>f</sub> side load, which gives 300 psi instead of 30 psi. The bearing carries only the side load, because the axial load goes through the nut and the top frame.</li>
-  <li><strong>Free body diagram (Juan).</strong> Both bolt reactions were drawn upward. The side load tips the block, so one bolt pulls down and the other pushes up.</li>
+  <li><strong>Journal diameter (Juan).</strong> The knowns on the bearing block hand calculation read d = 6.75 in. The screw end journal is 0.75 in, and the later numbers use 0.75 in.</li>
+  <li><strong>Pressure load (Juan).</strong> The bearing pressure line divided the 225 lb<sub>f</sub> axial load by the bearing area, which gives 300 psi. The floating end carries only the 22.5 lb<sub>f</sub> side load, so the pressure is 22.5/(0.75 &times; 1.00) = 30 psi.</li>
+  <li><strong>RC3 clearance (Juan).</strong> I calculated only the minimum clearance of 0.0008 in. The maximum clearance, 0.7508 &minus; 0.7487 = 0.0021 in, is also needed to show the range of the fit.</li>
+  <li><strong>Bolt reaction directions (Juan).</strong> The free body diagram drew both bolt reactions upward. The side load tips the block, so one bolt pulls down and the other pushes up for the moment to balance.</li>
+  <li><strong>Equation display precision (Juan).</strong> The SolidWorks equation list shows two decimals, so BoreDia displays as 0.75 and BoreTol as 0.00. The values are stored correctly (0.7504 and 0.0008). The document precision needs to be set to four decimals to see them.</li>
+  <li><strong>Coupler bore (team).</strong> Checking the bill of materials, the 6412K14 coupling has a 1/2 in bore, while the leadscrew end is 3/4 in. The screw end has to be turned down to 1/2 in at the coupler, or a coupling with matching bores selected.</li>
   <li><strong>Fixture approximations (Josef).</strong> The top frame fixtures only approximate the real contact with the bracket and leadscrew, so the 20.159 ksi peak stress is probably overstated.</li>
 </ul>
 
