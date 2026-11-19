@@ -82,9 +82,6 @@ title: "A11 – Motor Selection"
 <img src="{{ '/assignments/A11/side-narrow-deflection.jpg' | relative_url }}" alt="Deflection of the narrower vertical frame">
 <p><a href="https://drive.google.com/file/d/1w2mBpridV1HRKfM6ORor5Sbgo4-X5EOg/view?usp=sharing">Frame simulation files (Google Drive)</a></p>
 
-<h2>5&ndash;6. Clamp and CAD Model: Juan</h2>
-<!-- TODO Juan: confirm whether the assignment asks for a clamp and a CAD model, then add them with download links -->
-
 <h2>7. Floating Bearing Mount: Juan</h2>
 <p>The motor and coupler hold the top end of each leadscrew. The bottom end needs a mount that lets the screw turn and carries only a small side load, because the 1 kN axial load goes through the nut and the top frame. The mount is a block bolted to the base beam with a bore for the screw end, sized with an RC3 (precision running) fit from ANSI B4.1.</p>
 
@@ -136,29 +133,53 @@ title: "A11 – Motor Selection"
     <tr><td>Block length and width</td><td>&plusmn;0.010 in</td><td>Not functional</td></tr>
   </tbody>
 </table>
-<!-- TODO Juan: confirm bolt size and slot spacing against the CAD base beam; add a sketch or CAD image of the block -->
+<h3>Parametric model</h3>
+<p>The block is modeled in SolidWorks with global variables and equations (Tools &rarr; Equations), like the A10 crosshead. Changing the bolt spacing changes the block length and both bolt positions together.</p>
+<table>
+  <thead><tr><th>Name</th><th>Value or equation</th><th>Evaluates to</th><th>Controls</th></tr></thead>
+  <tbody>
+    <tr><td>ScrewDia</td><td>0.75 in</td><td>0.75 in</td><td>Screw end journal diameter</td></tr>
+    <tr><td>BoreTol</td><td>0.0008 in</td><td>0.0008 in</td><td>H7 upper tolerance of the bore</td></tr>
+    <tr><td>BoreDia</td><td>ScrewDia + BoreTol/2</td><td>0.7504 in</td><td>Bore diameter, the middle of the 0.7500 to 0.7508 limits</td></tr>
+    <tr><td>BearingLen</td><td>1.0 in</td><td>1.0 in</td><td>Block height, equal to the bearing length</td></tr>
+    <tr><td>BeamWidth</td><td>1.575 in</td><td>1.575 in</td><td>Width of the 40 series base beam</td></tr>
+    <tr><td>Width</td><td>BeamWidth</td><td>1.575 in</td><td>Block width</td></tr>
+    <tr><td>BoltSpacing</td><td>1.75 in</td><td>1.75 in</td><td>Distance between the two bolt holes</td></tr>
+    <tr><td>BoltHoleDia</td><td>0.3543 in</td><td>0.3543 in</td><td>9.0 mm clearance hole for M8</td></tr>
+    <tr><td>EdgeDist</td><td>0.625 in</td><td>0.625 in</td><td>Bolt hole center to the end of the block</td></tr>
+    <tr><td>Length</td><td>BoltSpacing + 2 &times; EdgeDist</td><td>3.00 in</td><td>Block length</td></tr>
+    <tr><td>BoreX</td><td>Length/2</td><td>1.50 in</td><td>Bore center from the end</td></tr>
+    <tr><td>BoreY</td><td>Width/2</td><td>0.7875 in</td><td>Bore center from each long edge</td></tr>
+    <tr><td>BoltX1</td><td>BoreX &minus; BoltSpacing/2</td><td>0.625 in</td><td>First bolt hole from the end</td></tr>
+    <tr><td>BoltX2</td><td>BoreX + BoltSpacing/2</td><td>2.375 in</td><td>Second bolt hole from the end</td></tr>
+    <tr><td>EdgeRatio</td><td>EdgeDist/BoltHoleDia</td><td>1.76</td><td>Check value, not used by a feature; stays at or above 1.5</td></tr>
+  </tbody>
+</table>
 
 <h2>8. Bill of Materials and Labor Costs</h2>
-<p>All costs for both parts of the assignment (A10 and A11). Labor is at the entry-level mechanical engineering designer rate of $35/hour. <!-- TODO: reformat to the assignment's cost template --></p>
+<p>All purchased parts and labor for both parts of the assignment (A10 and A11). Labor is at the entry-level mechanical engineering designer rate of $35/hour. Prices for the A10 parts are from McMaster-Carr as recorded in A10, and the bracket price is from the Grainger listing used in the frame section.</p>
 <table>
   <thead><tr><th>Item</th><th>Qty</th><th>Name</th><th>Cost/Item</th><th>Cost</th><th>Link</th></tr></thead>
   <tbody>
     <tr><td>1</td><td>2</td><td>1018 steel precision Acme leadscrew, 3/4 in&ndash;8, 3 ft (99030A073)</td><td>$51.44</td><td>$102.88</td><td><a href="https://www.mcmaster.com/99030A073/">McMaster</a></td></tr>
-    <tr><td>2</td><td>2</td><td>Bronze precision Acme nut (95072A331)</td><td>$61.99</td><td>$123.98</td><td><a href="https://www.mcmaster.com/95072A331/">McMaster</a></td></tr>
-    <tr><td>3</td><td>2</td><td>Precision Acme flange (1329K13)</td><td>$94.44</td><td>$188.88</td><td><a href="https://www.mcmaster.com/1329K13/">McMaster</a></td></tr>
-    <tr><td>4</td><td>2</td><td>Stepper motor with driver (6627T117)</td><td>TBD</td><td>TBD</td><td><a href="https://www.mcmaster.com/6627T117/">McMaster</a></td></tr>
-    <tr><td>5</td><td>2</td><td>Shaft coupling (6412K14)</td><td>TBD</td><td>TBD</td><td><a href="https://www.mcmaster.com/6412K14/">McMaster</a></td></tr>
-    <tr><td>6</td><td>TBD</td><td>Inside corner bracket, 40 series, no gusset (5JRP7)</td><td>$6.84</td><td>TBD</td><td><a href="https://www.grainger.com/product/80-20-Inside-Corner-Bracket-Inside-5JRP7">Grainger</a></td></tr>
-    <tr><td>7</td><td>1 set</td><td>Aluminum extrusion frame and fasteners (A10 estimate)</td><td>$150.00</td><td>$150.00</td><td>Estimate</td></tr>
-    <tr><td>8</td><td>2</td><td>Floating bearing block, 6061-T6 aluminum, and M8 bolts</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
+    <tr><td>2</td><td>2</td><td>Bronze precision Acme nut, 3/4 in&ndash;8, 2 starts (95072A331)</td><td>$61.99</td><td>$123.98</td><td><a href="https://www.mcmaster.com/95072A331/">McMaster</a></td></tr>
+    <tr><td>3</td><td>2</td><td>Stainless precision Acme flange (1329K13)</td><td>$94.44</td><td>$188.88</td><td><a href="https://www.mcmaster.com/1329K13/">McMaster</a></td></tr>
+    <tr><td>4</td><td>1 set</td><td>Aluminum extrusion frame and fasteners (A10 estimate)</td><td>$150.00</td><td>$150.00</td><td>Estimate</td></tr>
+    <tr><td>5</td><td>2</td><td>Inside corner bracket, 40 series, aluminum, no gusset (5JRP7)</td><td>$6.84</td><td>$13.68</td><td><a href="https://www.grainger.com/product/80-20-Inside-Corner-Bracket-Inside-5JRP7">Grainger</a></td></tr>
+    <tr><td>6</td><td>2</td><td>Stepper motor with driver (6627T117)</td><td>see McMaster</td><td>see McMaster</td><td><a href="https://www.mcmaster.com/6627T117/">McMaster</a></td></tr>
+    <tr><td>7</td><td>2</td><td>Set screw shaft coupling (6412K14)</td><td>see McMaster</td><td>see McMaster</td><td><a href="https://www.mcmaster.com/6412K14/">McMaster</a></td></tr>
+    <tr><td>8</td><td>2</td><td>Floating bearing block, 6061-T6 aluminum, 3.00 &times; 1.575 &times; 1.00 in, with 2 M8 bolts each</td><td>see McMaster</td><td>see McMaster</td><td>Machined part</td></tr>
+    <tr><td colspan="4"><strong>Subtotal of items 1&ndash;5</strong></td><td><strong>$579.42</strong></td><td></td></tr>
   </tbody>
 </table>
+<p>The McMaster prices for items 6&ndash;8 are not filled in because the McMaster catalog pages do not show prices to a text lookup. Enter them from the McMaster cart.</p>
 <table>
   <thead><tr><th>Team member</th><th>A10 hours</th><th>A11 hours</th><th>Total hours</th><th>Labor at $35/hour</th></tr></thead>
   <tbody>
     <tr><td>Ethan King</td><td>3</td><td>8</td><td>11</td><td>$385.00</td></tr>
-    <tr><td>Josef Chelala</td><td>TBD</td><td>10</td><td>TBD</td><td>TBD</td></tr>
-    <tr><td>Juan</td><td>3</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
+    <tr><td>Josef Chelala</td><td>not logged</td><td>10</td><td>10 so far</td><td>$350.00 so far</td></tr>
+    <tr><td>Juan</td><td>3</td><td>to be entered</td><td>3 so far</td><td>$105.00 so far</td></tr>
+    <tr><td colspan="3"><strong>Labor logged so far</strong></td><td><strong>24</strong></td><td><strong>$840.00</strong></td></tr>
   </tbody>
 </table>
 
@@ -168,7 +189,11 @@ title: "A11 – Motor Selection"
 <p><strong>Juan.</strong> I learned to read a fit class from ANSI B4.1 and turn it into limits for both parts. For a 0.750 in journal, RC3 gives a bore of 0.7500 to 0.7508 in and a shaft of 0.7487 to 0.7492 in, so the clearance can be anywhere from 0.0008 to 0.0021 in. I learned that the bore perpendicularity (0.001 in) matters more to the screw turning freely than the block's outer dimensions, which are not functional. I learned to size bolt holes from the handbook clearance values and to set the edge distance from the hole diameter (0.625 in is about 1.8 hole diameters) instead of choosing it by eye. I also learned to cost a design as purchased parts plus labor at $35/hour, because labor is a cost line next to the hardware.</p>
 
 <h2>Mistakes</h2>
-<!-- TODO: team mistakes -->
+<ul>
+  <li><strong>Pressure calculation (Juan).</strong> The bearing pressure line used the 225 lb<sub>f</sub> axial load instead of the 22.5 lb<sub>f</sub> side load, which gives 300 psi instead of 30 psi. The bearing carries only the side load, because the axial load goes through the nut and the top frame.</li>
+  <li><strong>Free body diagram (Juan).</strong> Both bolt reactions were drawn upward. The side load tips the block, so one bolt pulls down and the other pushes up.</li>
+  <li><strong>Fixture approximations (Josef).</strong> The top frame fixtures only approximate the real contact with the bracket and leadscrew, so the 20.159 ksi peak stress is probably overstated.</li>
+</ul>
 
 <h2>Time Log</h2>
 <table>
@@ -183,6 +208,7 @@ title: "A11 – Motor Selection"
 <h2>Downloadable Files</h2>
 <ul>
   <li><a href="https://drive.google.com/file/d/1w2mBpridV1HRKfM6ORor5Sbgo4-X5EOg/view?usp=sharing">Frame simulation files (Google Drive)</a></li>
-  <li><a href="{{ '/assignments/A11/floating-bearing-block.step' | relative_url }}">Floating bearing block (floating-bearing-block.step)</a></li>
-  <!-- TODO: add the SolidWorks .SLDPRT and any other CAD files -->
+  <li><a href="{{ '/assignments/A11/BEARINGBLOCK.SLDPRT' | relative_url }}">Floating bearing block, SolidWorks part (BEARINGBLOCK.SLDPRT)</a></li>
+  <li><a href="{{ '/assignments/A11/floating-bearing-block.step' | relative_url }}">Floating bearing block, STEP file (floating-bearing-block.step)</a></li>
+
 </ul>
